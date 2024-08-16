@@ -2,7 +2,7 @@
 <div class="breadcrump">
     <router-link
         class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'dasboard.home' }">
+        :to="{ name: 'page.dashboard' }">
         Home
     </router-link>|
     <router-link

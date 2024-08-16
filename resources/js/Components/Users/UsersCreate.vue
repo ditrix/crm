@@ -2,7 +2,7 @@
 <div class="breadcrump">
     <router-link
         class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.home' }">
+        :to="{ name: 'page.dashboard' }">
         Home
     </router-link>|
     <router-link
@@ -104,7 +104,7 @@
                 <router-link
                     class="btn btn_lightgray ml-2 inline-flex items-center  font-semibold ml_2"
                     :to="{ name: 'users.index' }">
-                    Cancel
+                    Back
                 </router-link>
             </div>
     </form>
