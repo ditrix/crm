@@ -1,0 +1,430 @@
+deal
+Bilateral Transactions     двусторонняя сделка
+Multilateral Transactions  многосторонняя сделка
+--------------
+contracts
+Contracts    -   Договор купли-продажи
+Supply Contract  Контракт на поставку товаров
+Service Contract Контракт на оказание услуг
+------------------------------------------
+funnel_stage
+
+
+
+Конечно, я могу перевести эти термины на английский:
+
+* **Сделка** - **Deal** (более общий термин) или **Transaction** (когда речь идет о конкретной операции купли-продажи)
+* **Контракт** - **Contract**
+* **Воронка продаж** - **Sales funnel**
+
+**Примеры предложений:**
+
+* Мы заключили сделку с новым поставщиком. - We made a deal with a new supplier.
+* Эта транзакция была очень выгодной для нашей компании. - This transaction was very profitable for our company.
+* Мы подписали контракт на поставку оборудования. - We signed a contract for the supply of equipment.
+* Наша воронка продаж состоит из пяти этапов. - Our sales funnel consists of five stages.
+
+**Более подробные объяснения:**
+
+* **Deal:** Этот термин может использоваться в различных контекстах, включая бизнес, переговоры и повседневную жизнь. Он означает соглашение между двумя или более сторонами.
+* **Transaction:** Этот термин более конкретен и обычно используется для описания финансовой операции, такой как покупка, продажа или обмен.
+* **Contract:** Это юридически обязательное соглашение между двумя или более сторонами, которое определяет их права и обязанности.
+* **Sales funnel:** Это визуальное представление процесса продажи, которое показывает, как потенциальные клиенты превращаются в покупателей.
+
+**Хотите, чтобы я перевел какие-то другие термины или фразы?**
+
+
+show если стреляет  if (!id) { console.warn('ID is missing'); return  }
+проверяем
+    routes/index.js
+    {
+        path: '/some/:id/show',
+        component: SomeShow,
+        name: 'some.show',
+        props: true,  <<<<<<<<<<<
+    },
+
+    Some.vue
+    const props = defineProps({
+        id: {          <<<<<<<<<<<<<<
+            required: true,
+            type: String
+            }
+        }
+    );
+    onMounted( () => {
+        getSome(props.id); <<<<<< props.id
+    });
+
+//////////// авторизация (все в кучу)
+Для работы метода `checkAuth()` на стороне сервера вам нужно настроить маршруты и контроллеры, которые будут возвращать данные пользователя, если он аутентифицирован. Для этого можно использовать Laravel Sanctum.
+
+### Шаг 1: Установка и настройка Laravel Sanctum
+
+Установите Laravel Sanctum:
+
+```bash
+composer require laravel/sanctum
+```
+
+Опубликуйте конфигурационный файл Sanctum:
+
+```bash
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+```
+
+Запустите миграции:
+
+```bash
+php artisan migrate
+```
+
+Добавьте Sanctum middleware в `api` группу middleware в `app/Http/Kernel.php`:
+
+```php
+'api' => [
+    \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+    'throttle:api',
+    \Illuminate\Routing\Middleware\SubstituteBindings::class,
+],
+```
+
+### Шаг 2: Настройка аутентификации
+
+Убедитесь, что ваш `User` модель использует `HasApiTokens` трейт:
+
+```php
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens, Notifiable;
+}
+```
+
+### Шаг 3: Создание маршрутов и контроллеров
+
+Создайте контроллер аутентификации, если его еще нет:
+
+```bash
+php artisan make:controller AuthController
+```
+
+Добавьте маршруты для аутентификации в `routes/api.php`:
+
+```php
+use App\Http\Controllers\AuthController;
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+```
+
+Добавьте методы в `AuthController`:
+
+```php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AuthController extends Controller
+{
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return response()->json(['user' => Auth::user()]);
+        }
+
+        return response()->json(['message' => 'The provided credentials do not match our records.'], 401);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json(['message' => 'Logged out successfully']);
+    }
+}
+```
+
+### Шаг 4: Обновление Pinia Store
+
+Ваш Pinia store уже настроен правильно, но вот как он будет использоваться с созданными маршрутами и контроллерами:
+
+```javascript
+import { defineStore } from 'pinia'
+import axios from 'axios'
+
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    user: null,
+    isAuthenticated: false,
+  }),
+
+  actions: {
+    async login(credentials) {
+      try {
+        await axios.get('/sanctum/csrf-cookie')
+        const response = await axios.post('/login', credentials)
+        this.user = response.data.user
+        this.isAuthenticated = true
+      } catch (error) {
+        console.error('Login failed:', error)
+        this.isAuthenticated = false
+      }
+    },
+    async logout() {
+      try {
+        await axios.post('/logout')
+        this.user = null
+        this.isAuthenticated = false
+      } catch (error) {
+        console.error('Logout failed:', error)
+      }
+    },
+    async checkAuth() {
+      try {
+        const response = await axios.get('/api/user')
+        this.user = response.data
+        this.isAuthenticated = true
+      } catch (error) {
+        console.error('Failed to check authentication:', error)
+        this.isAuthenticated = false
+      }
+    }
+  }
+})
+```
+
+### Объяснение
+
+1. **checkAuth()**: Метод делает GET запрос к `/api/user`, который возвращает данные текущего аутентифицированного пользователя. Если запрос успешен, пользователь сохраняется в состоянии хранилища и устанавливается `isAuthenticated` в `true`.
+2. **login()**: Метод делает запрос к `/login` для аутентификации пользователя. При успешной аутентификации пользователь сохраняется в состоянии хранилища.
+3. **logout()**: Метод делает POST запрос к `/logout` для выхода пользователя из системы. После успешного выхода пользователь очищается из состояния хранилища.
+
+Теперь, когда пользователь загружает приложение, `checkAuth()` будет вызван для проверки аутентификации, и в зависимости от результата будут отображаться соответствующие компоненты и маршруты.
+
+
+Чтобы получить email аутентифицированного пользователя и вывести его в компоненте, нужно сначала убедиться, что email передается и хранится в вашем Pinia хранилище. Затем можно использовать это хранилище в компоненте для отображения email.
+
+### Шаг 1: Актуализация Pinia Store
+
+Убедитесь, что ваш Pinia store правильно сохраняет данные пользователя, включая email:
+
+```javascript
+import { defineStore } from 'pinia'
+import axios from 'axios'
+
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    user: null,
+    isAuthenticated: false,
+  }),
+
+  actions: {
+    async login(credentials) {
+      try {
+        await axios.get('/sanctum/csrf-cookie')
+        const response = await axios.post('/login', credentials)
+        this.user = response.data.user
+        this.isAuthenticated = true
+      } catch (error) {
+        console.error('Login failed:', error)
+        this.isAuthenticated = false
+      }
+    },
+    async logout() {
+      try {
+        await axios.post('/logout')
+        this.user = null
+        this.isAuthenticated = false
+      } catch (error) {
+        console.error('Logout failed:', error)
+      }
+    },
+    async checkAuth() {
+      try {
+        const response = await axios.get('/api/user')
+        this.user = response.data
+        this.isAuthenticated = true
+      } catch (error) {
+        console.error('Failed to check authentication:', error)
+        this.isAuthenticated = false
+      }
+    }
+  }
+})
+```
+
+### Шаг 2: Настройка контроллера
+
+Убедитесь, что ваш `/api/user` маршрут возвращает email аутентифицированного пользователя:
+
+```php
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return response()->json($request->user());
+});
+```
+
+### Шаг 3: Использование данных пользователя в компоненте
+
+Теперь вы можете использовать данные пользователя, хранящиеся в Pinia хранилище, в вашем Vue компоненте. Например, создадим компонент `UserProfile.vue` для отображения email пользователя:
+
+```vue
+<template>
+  <div>
+    <h1>User Profile</h1>
+    <p v-if="user">Email: {{ user.email }}</p>
+    <p v-else>Loading...</p>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import { useAuthStore } from '../Stores/AuthStore'
+
+const authStore = useAuthStore()
+const user = computed(() => authStore.user)
+</script>
+
+<style scoped>
+/* Стили для компонента профиля пользователя */
+</style>
+```
+
+### Шаг 4: Включение компонента в ваше приложение
+
+Включите `UserProfile.vue` компонент в ваше приложение, например, на главной странице или панели управления:
+
+```vue
+<template>
+  <div>
+    <Menu />
+    <UserProfile />
+    <router-view />
+  </div>
+</template>
+
+<script setup>
+import Menu from './Menu.vue'
+import UserProfile from './UserProfile.vue'
+</script>
+
+<style scoped>
+/* Стили для основного компонента */
+</style>
+```
+
+### Пояснения
+
+1. **Pinia Store**: Данные пользователя сохраняются в состоянии хранилища после успешного запроса на `/api/user`.
+2. **Контроллер**: Маршрут `/api/user` возвращает данные аутентифицированного пользователя, включая email.
+3. **Компонент UserProfile**: Использует данные из Pinia хранилища для отображения email пользователя.
+
+Таким образом, при успешной аутентификации и запросе на `/api/user`, email аутентифицированного пользователя будет отображаться в компоненте.
+
+
+////////////////////////////
+
+Для того чтобы компонент Vue обновлялся при изменении значения `isAuthenticated`, вы можете использовать реактивные свойства из Pinia. Вот пример, как это можно реализовать:
+
+1. **Создание Pinia Store:**
+
+   Вначале создайте Pinia store для управления состоянием аутентификации:
+
+   ```javascript
+   // stores/auth.js
+   import { defineStore } from 'pinia';
+
+   export const useAuthStore = defineStore('auth', {
+     state: () => ({
+       isAuthenticated: false,
+     }),
+     actions: {
+       login() {
+         this.isAuthenticated = true;
+       },
+       logout() {
+         this.isAuthenticated = false;
+       },
+     },
+   });
+   ```
+
+2. **Использование store в компоненте:**
+
+   Импортируйте и используйте ваш store в компоненте Vue:
+
+   ```vue
+   <template>
+     <nav v-if="authStore.isAuthenticated">
+       <ul>
+         <li><router-link to="/options">Options</router-link></li>
+         <li v-if="!authStore.isAuthenticated"><router-link to="/login">Login</router-link></li>
+         <li v-if="authStore.isAuthenticated"><a @click.prevent="logout">Logout</a></li>
+       </ul>
+     </nav>
+   </template>
+
+   <script>
+   import { useAuthStore } from '@/stores/auth';
+
+   export default {
+     setup() {
+       const authStore = useAuthStore();
+
+       const logout = () => {
+         authStore.logout();
+       };
+
+       return {
+         authStore,
+         logout,
+       };
+     },
+   };
+   </script>
+   ```
+
+3. **Вызов методов login и logout:**
+
+   Вы можете вызывать методы `login` и `logout` из вашего store в нужных местах вашего приложения:
+
+   ```javascript
+   // Пример вызова login
+   import { useAuthStore } from '@/stores/auth';
+
+   const authStore = useAuthStore();
+   authStore.login();
+   ```
+
+   Таким образом, при изменении значения `isAuthenticated` в Pinia store, ваш компонент будет автоматически обновляться и рендерить актуальное состояние навигации.
+
+///////////// ДЛЯ НЕСКОЛЬКИХ ТАБЛИЦ
+для связанных данных - оборачиваем в if
+<div class="dbg">
+        <div v-if="customer && customer.user">
+              {{ customer.user.name }}
+        </div>
+        <div v-else>loading</div>
+    </div>
+или создавать пустой объект еще на этапе отбора данных в
+<script>
+const customer = ref({user:{}});
+
+const getCustomer = async (id) => {
+    const response = await axios.get(`/api/customers/${id}`);
+    customer.value = response.data.data;
+}
+</script>
+------------

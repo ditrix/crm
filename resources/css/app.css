@@ -1,0 +1,14 @@
+@import "components/button.css";
+@import "components/greed.css";
+@import "components/helpers.css";
+@import "components/widgets.css";
+@import "components/forms.css";
+@import "components/blocks.css";
+@import "components/layout.css";
+@import "components/navbar.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+

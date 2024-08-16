@@ -1,0 +1,44 @@
+
+.btn {
+    border-radius: 5rem;
+    padding: 0.6rem 2rem;
+}
+
+.btn_blue {
+    background-color: blue;
+    color: white;
+}
+
+
+.btn_green {
+    background-color: green;
+    color: white;
+}
+
+.btn_red {
+    background-color: lightcoral;
+    color: white;
+}
+
+.btn-outline-danger {
+    color: red !important;
+}
+
+
+.btn_gray {
+    background-color: grey;
+    color: white;
+}
+
+
+.btn_lightgray {
+    background-color: lightgray;
+    color: black;
+}
+
+.deb_blue {
+    --color_blue: #3578E5;
+
+    --color_green: #00A400;
+    --fds-green-65: #51CE70;
+}

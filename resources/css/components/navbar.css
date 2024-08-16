@@ -1,0 +1,15 @@
+nav {
+    height: 100vh;
+    background-color: #f8f9fa;
+    padding: 1em;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+nav ul li {
+    margin-right: 1em;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px lightgray solid;
+}

@@ -1,0 +1,36 @@
+
+.grid_table {
+    width: 100%;
+}
+
+
+
+.greed_thead {
+    border: 1px lightgray solid; padding: 3rem;
+    background-color: beige;
+}
+
+.greed_tr {
+    border-bottom: 1px lightgray solid;
+    padding: 1rem auto;
+}
+
+
+.grid_table td {
+    font-size: 1rem;
+    color: black;
+    padding: 0.2rem;
+}
+
+.grid_table .tr-data:hover {
+    background-color:azure;
+}
+
+.table_actions {
+    display: flex;
+    justify-content: center;
+}
+
+.table_actions .btn {
+    margin: 0 0.2rem;
+}
