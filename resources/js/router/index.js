@@ -18,9 +18,9 @@ import UsersShow from '@/Components/Users/UsersShow.vue'
 import UsersCreate from '@/Components/Users/UsersCreate.vue'
 
 /* status patameters */
-import StatusParametersIndex from '@/Components/Parameters/StatusParametersIndex.vue'
-import StatusParameterShow from '@/Components/Parameters/StatusParameterShow.vue'
-import StatusParameterCreate from '@/Components/Parameters/StatusParameterCreate.vue'
+import ContractStatusIndex from '@/Components/Parameters/ContractStatusIndex.vue'
+import ContractStatusShow from '@/Components/Parameters/ContractStatusShow.vue'
+import ContractStatusCreate from '@/Components/Parameters/ContractStatusCreate.vue'
 
 /* contract's types*/
 import ContractTypeIndex from '@/Components/Parameters/ContractTypeIndex.vue'
@@ -70,20 +70,20 @@ const routes = [
         name: 'parameters.index'
     },
     {
-        path: '/status_parameters',
-        component: StatusParametersIndex,
-        name: 'status_parameters.index'
+        path: '/contract_statuses',
+        component: ContractStatusIndex,
+        name: 'contract_statuses.index'
     },
     {
-        path: '/status_parameters/:id/show',
-        component: StatusParameterShow,
-        name: 'status_parameters.show',
+        path: '/contract_statuses/:id/show',
+        component: ContractStatusShow,
+        name: 'contract_statuses.show',
         props: true,
     },
     {
-        path: '/status_parameters/create',
-        component: StatusParameterCreate,
-        name: 'status_parameters.create'
+        path: '/contract_statuses/create',
+        component: ContractStatusCreate,
+        name: 'contract_statuses.create'
     },
     {
         path: '/contract_types',

@@ -9,9 +9,9 @@
     </router-link>|
     <router-link
         class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'status_parameters.index' }">
-        parameters
-    </router-link>| <span class="text-xs px-2 py-2 font-semibold">Create status patameter</span>
+        :to="{ name: 'parameters.index' }">
+        parameters and options
+    </router-link>| <span class="text-xs px-2 py-2 font-semibold">Create contract status</span>
 </div>
      <!-- show errors block  -->
      <div v-if="errors">
@@ -22,27 +22,29 @@
         </div>
     </div>
 
-    <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="createStatusParameter">
+    <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="createContractStatus">
 
-        <div class="page_title text-xl mb-2">Status patameter</div>
+        <div class="page_title text-xl mb-2">Contract status</div>
 
         <div class="form-input_group">
-            <div class="form-item input-inline widget_30">
-                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                <div class="mt-1">
-                    <input type="text" name="name" id="name"
-                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            v-model="form.name">
+            <div class="form-input_group_inline">
+                <div class="form-item input-inline widget_30">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Status</label>
+                    <div class="mt-1">
+                        <input type="text" name="name" id="name"
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                v-model="form.name">
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="form-item input-inline widget_30">
-                <label for="name" class="block text-sm font-medium text-gray-700">Descriptipion</label>
-                <div class="mt-1">
-                    <input type="text" name="name" id="name"
-                            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            v-model="form.description">
+                <div class="form-item input-inline widget_30">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Descriptipion</label>
+                    <div class="mt-1">
+                        <input type="text" name="name" id="name"
+                                class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                v-model="form.description">
+                    </div>
                 </div>
             </div>
 
@@ -77,8 +79,8 @@
 
                 <router-link
                     class="btn btn_lightgray ml-2 inline-flex items-center  font-semibold ml_2"
-                    :to="{ name: 'status_parameters.index' }">
-                    Cancel
+                    :to="{ name: 'parameters.index' }">
+                    Back
                 </router-link>
         </div>
     </form>
@@ -88,9 +90,9 @@
 
 import { reactive } from 'vue'
 
-import useStatusParameters from '@/composables/parameters/status_parameters'
+import useContractStatuses from '@/composables/parameters/contract_statuses'
 
-const {errors, storeParameter} = useStatusParameters();
+const {errors, storeContractStatus} = useContractStatuses();
 
 const form = reactive({
     'name': '',
@@ -99,8 +101,8 @@ const form = reactive({
     'order_condition': '',
 })
 
-const createStatusParameter = async () => {
-    await storeParameter({...form})
+const createContractStatus = async () => {
+    await storeContractStatus({...form})
 }
 
 

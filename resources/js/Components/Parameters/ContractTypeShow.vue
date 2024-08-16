@@ -22,7 +22,7 @@
 <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="saveContractType">
 
 <div class="page_title text-xl mb-2">Contract type</div>
-<div class="form-input_group">
+<div class="form-input_group_inline pl_1">
 
     <div class="form-item input-inline widget_30">
         <label for="code" class="block text-sm font-medium text-gray-700">Code</label>
@@ -73,7 +73,7 @@
         <router-link
             class="btn btn_lightgray ml-2 inline-flex items-center  font-semibold ml_2"
             :to="{ name: 'parameters.index' }">
-            Cancel
+            Back
         </router-link>
 </div>
 </form>

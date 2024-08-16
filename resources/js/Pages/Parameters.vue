@@ -9,7 +9,7 @@
 </div>
 
     <div class="space-y-6 rounded-md shadow-md mt_2 pl_1 pr_1 pb_1 pt_1">
-    <StatusParametersIndex />
+        <ContractStatusIndex />
     </div>
 
     <div class=" space-y-6 rounded-md shadow-md mt_4 pl_1 pr_1 pb_1 pt_1">
@@ -18,7 +18,7 @@
 </template>
 <script setup>
 
-import StatusParametersIndex from '@/Components/Parameters/StatusParametersIndex.vue'
+import ContractStatusIndex from '@/Components/Parameters/ContractStatusIndex.vue'
 
 import ContractTypeIndex from '@/Components/Parameters/ContractTypeIndex.vue';
 
