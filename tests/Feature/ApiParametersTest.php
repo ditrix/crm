@@ -15,7 +15,7 @@ class ApiParametersTest extends TestCase
      */
     public function test_patameter_status(): void
     {
-        $response = $this->getJson('/api/parameter_status');
+        $response = $this->getJson('/api/contract_status');
         $response->assertStatus(200);
 
 
@@ -28,16 +28,16 @@ class ApiParametersTest extends TestCase
             'order_condition'   => 6
         ];
 
-        $response = $this->postJson('/api/parameter_status',$data);
+        $response = $this->postJson('/api/contract_status',$data);
         $response->assertStatus(201);
         $id = $response->json('data.id');
 
-        $response = $this->getJson('/api/parameter_status');
+        $response = $this->getJson('/api/contract_status');
         $response->assertStatus(200);
 //        $response->dump();
 
 
-        $response = $this->getJson('/api/parameter_status/'.$id);
+        $response = $this->getJson('/api/contract_status/'.$id);
         $response->assertStatus(200)
             ->assertJson(['data' => $data]);
 
@@ -50,10 +50,10 @@ class ApiParametersTest extends TestCase
             'order_condition'   => 6
         ];
 
-        $response = $this->putJson('/api/parameter_status/'.$id,$updated_data);
+        $response = $this->putJson('/api/contract_status/'.$id,$updated_data);
         $response->assertStatus(200);
 
-        $response = $this->getJson('/api/parameter_status/'.$id);
+        $response = $this->getJson('/api/contract_status/'.$id);
         $response->assertStatus(200)
             ->assertJson(['data' => $updated_data]);
 
