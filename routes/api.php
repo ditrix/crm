@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ContractController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ContractStatusController;
@@ -8,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CustomerController;
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -27,4 +29,6 @@ Route::apiResource('contract_status',ContractStatusController::class);
 Route::apiResource('contract_type',ContractTypeController::class);
 
 Route::apiResource('customers', CustomerController::class);
+
+Route::apiResource('contracts', ContractController::class);
 

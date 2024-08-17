@@ -11,6 +11,7 @@ use Database\Seeders\Parameter\ParameterStatusSeeder;
 use Database\Seeders\Parameter\ContractTypeSeeder;
 use Database\Seeders\Customer\InitDevCustomerSeeder;
 use Database\Seeders\Parameter\InitDevContractStatusSeeder;
+use Database\Seeders\Contract\InitDevContractSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,9 +32,9 @@ class DatabaseSeeder extends Seeder
         //     ParameterStatusSeeder::class
         // ]);
 
-        $this->call([
-            InitDevContractStatusSeeder::class
-        ]);
+        // $this->call([
+        //     InitDevContractStatusSeeder::class
+        // ]);
 
         //$this->InitDevContractStatusSeeder
 
@@ -44,6 +45,8 @@ class DatabaseSeeder extends Seeder
         // $this->call([
         //     InitDevCustomerSeeder::class
         // ]);
-
+        $this->call([
+            InitDevContractSeeder::class
+        ]);
     }
 }
