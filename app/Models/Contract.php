@@ -14,6 +14,7 @@ class Contract extends Model
         'contract_type_id',
         'contract_status_id',
         'code',
+        'title',
         'comment',
         'summ',
         'is_active',

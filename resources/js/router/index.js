@@ -7,10 +7,13 @@ import Deals from '@/Pages/Deals.vue'
 import Options from '@/Pages/Options.vue'
 import Parameters from '@/Pages/Parameters.vue'
 import Reports from '@/Pages/Reports.vue'
+import Contracts from '@/Pages/Contracts.vue'
 
 /* provide permissions for admin, top manager, manager */
 import Permissions from '@/Pages/Permissions.vue'
 import PermissionsShow from '@/Components/Permissions/PermissionsShow.vue'
+
+
 
 /* provide users wth permissions */
 import Users from '@/Pages/Users.vue'
@@ -37,6 +40,13 @@ import CustomersIndex from '@/Components/Customers/CustomersIndex.vue'
 import CustomersCreate from '@/Components/Customers/CustomersCreate.vue'
 import CustomersShow from '@/Components/Customers/CustomersShow.vue'
 
+import ContractIndex from '@/Components/Contract/ContractIndex.vue'
+import ContractCreate from '@/Components/Contract/ContractCreate.vue'
+import ContractShow from '@/Components/Contract/ContractShow.vue'
+
+
+
+
 
 const routes = [
     { path: '/', component: Home, name: 'page.home' },
@@ -46,11 +56,15 @@ const routes = [
         name: 'page.dashboard',
         props: route => ({ user: useAuthStore().user }),
     },
+    { path: '/contracts', component: Contracts, name: 'contracts.page' },
     { path: '/customers', component: Customers, name: 'custmomers.page' },
     { path: '/deals', component: Deals },
     { path: '/reports', component: Reports },
 
     { path: '/login', component: Login, name: 'login' },
+
+
+    { path: '/contracts', component: Contracts },
 
 
     {
@@ -119,7 +133,7 @@ const routes = [
     },
 
     {
-        path: '/customers',
+        path: '/customers/index',
         component: CustomersIndex,
         name: 'customers.index'
     },
@@ -136,9 +150,24 @@ const routes = [
         name: 'customers.store',
     },
     { path: '/options', component: Options },
+    {
+        path: '/contracts/index',
+        component: ContractIndex,
+        name: 'contract.index'
+    },
+    {
+        path: '/contract/:id/show',
+        component: ContractShow,
+        name: 'contract.show',
+        props: true,
+    },
+    {
+        path: '/contract/create',
+        component: ContractCreate,
+        name: 'contract.store',
+    },
+
 ];
-
-
 
 const router = createRouter({
     history: createWebHistory(),

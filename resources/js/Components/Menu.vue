@@ -5,6 +5,7 @@
         <li><router-link to="/dashboard">Dashboard</router-link></li>
         <li><router-link to="/customers">Customers</router-link></li>
         <li><router-link to="/deals">Deals</router-link></li>
+        <li><router-link to="/contracts">Contracts</router-link></li>
         <li><router-link to="/reports">Reports</router-link></li>
         <li><router-link to="/parameters">Parameters</router-link></li>
         <li><router-link to="/users">Users</router-link></li>
@@ -43,9 +44,3 @@ const logout = async () => {
 }
 </script>
 
-
-    <style scoped>
-nav {
-
-}
-    </style>

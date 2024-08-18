@@ -26,6 +26,7 @@ class ContractRequest extends FormRequest
             'contract_type_id'      => 'required|integer',
             'contract_status_id'    => 'required|integer',
             'code'                  => 'nullable|string',
+            'title'                 => 'nullable|string',
             'comment'               => 'nullable|string',
             'summ'                  => 'required|numeric|min:100',
             'is_active'             => 'boolean',

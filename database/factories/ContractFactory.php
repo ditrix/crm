@@ -21,6 +21,7 @@ class ContractFactory extends Factory
             'contract_type_id'      => fake()->numberBetween(1,3),
             'contract_status_id'    => fake()->numberBetween(1,5),
             'code'                  => fake()->buildingNumber(),
+            'title'                 => fake()->jobTitle(),
             'comment'               => 'comment for contract ...',
             'summ'                  => fake()->buildingNumber(),
             'is_active'             => fake()->boolean(),

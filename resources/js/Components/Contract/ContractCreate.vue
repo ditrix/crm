@@ -1,0 +1,1 @@
+<template>contract create</template>

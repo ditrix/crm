@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('contract_type_id')->nullable();
             $table->foreignId('contract_status_id')->nullable();
             $table->string('code')->nullable();
+            $table->string('title')->nullable();
             $table->text('comment')->nullable();
             $table->decimal('summ');
             $table->boolean('is_active')->default(false);
