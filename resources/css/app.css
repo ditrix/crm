@@ -6,6 +6,7 @@
 @import "components/blocks.css";
 @import "components/layout.css";
 @import "components/navbar.css";
+@import "components/pagination.css";
 
 @tailwind base;
 @tailwind components;

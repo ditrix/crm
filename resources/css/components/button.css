@@ -4,6 +4,11 @@
     padding: 0.6rem 2rem;
 }
 
+.btn_xs {
+    border-radius: 3rem;
+    padding: 0.3rem 1rem;
+}
+
 .btn_blue {
     background-color: blue;
     color: white;

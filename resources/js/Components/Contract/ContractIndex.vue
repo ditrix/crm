@@ -39,6 +39,26 @@
         </tr>
     </tbody>
     </table>
+    <div class="mt-1">
+
+        <button class="btn_xs btn_lightgray mr-1" @click="prevPage" :disabled="!pagination.prev_url"><<</button>
+        <button class="btn_xs btn_lightgray ml-1" @click="nextPage" :disabled="!pagination.next_url">>></button>
+
+        <!-- <ul class="pagination_list d-flex">
+            <li v-for="link in pagination.links" :key="link.url" :class="{active: link.active, disabled: !link.url, pagination_link}">
+                <a
+                    v-if="link.url"
+                    :href="link.url"
+                    v-html="link.label"
+                     @click="getContractsFromLink(link.url)"
+                >
+                </a>
+            </li>
+         </ul> -->
+
+
+
+    </div>
 </div>
 </template>
 <script setup>
@@ -46,7 +66,11 @@ import { onMounted } from 'vue'
 import useContracts from '@/composables/contracts/contracts.js'
 import { formatBoolean,formatDate } from '@/helpers/functions'
 
-const {contracts, getContracts} = useContracts();
+const {
+    contracts,
+    pagination,
+    prevPage, nextPage, getContracts, getContractsFromLink
+} = useContracts();
 
 onMounted( () => getContracts() );
 </script>

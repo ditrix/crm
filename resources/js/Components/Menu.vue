@@ -4,13 +4,12 @@
         <!-- <li><router-link to="/">Home</router-link></li> -->
         <li><router-link to="/dashboard">Dashboard</router-link></li>
         <li><router-link to="/customers">Customers</router-link></li>
-        <li><router-link to="/deals">Deals</router-link></li>
         <li><router-link to="/contracts">Contracts</router-link></li>
         <li><router-link to="/reports">Reports</router-link></li>
         <li><router-link to="/parameters">Parameters</router-link></li>
         <li><router-link to="/users">Users</router-link></li>
         <li><router-link to="/permissions">Permissions</router-link></li>
-        <li><router-link to="/options">Options</router-link></li>
+        <li><router-link to="/settings">Settings</router-link></li>
         <!-- <li v-if="!isAuthenticated"><router-link to="/login">Login</router-link></li> -->
         <!-- <li v-if="!isAuthenticated"><router-link to="/register">Register</router-link></li>
         <li v-if="isAuthenticated"><router-link to="/dashboard">Dashboard</router-link></li> -->

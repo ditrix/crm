@@ -3,8 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/Pages/Home.vue'
 import Dashboard from '@/Pages/Dashboard.vue'
 import Customers from '@/Pages/Customers.vue'
-import Deals from '@/Pages/Deals.vue'
-import Options from '@/Pages/Options.vue'
+import Settings from '@/Pages/Settings.vue'
 import Parameters from '@/Pages/Parameters.vue'
 import Reports from '@/Pages/Reports.vue'
 import Contracts from '@/Pages/Contracts.vue'
@@ -58,7 +57,7 @@ const routes = [
     },
     { path: '/contracts', component: Contracts, name: 'contracts.page' },
     { path: '/customers', component: Customers, name: 'custmomers.page' },
-    { path: '/deals', component: Deals },
+    // { path: '/deals', component: Deals },
     { path: '/reports', component: Reports },
 
     { path: '/login', component: Login, name: 'login' },
@@ -149,7 +148,10 @@ const routes = [
         component: CustomersCreate,
         name: 'customers.store',
     },
-    { path: '/options', component: Options },
+    {
+        path: '/settings',
+        component: Settings
+    },
     {
         path: '/contracts/index',
         component: ContractIndex,

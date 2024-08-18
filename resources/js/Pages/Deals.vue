@@ -1,3 +1,0 @@
-<template>
-    soon Deals
-</template>

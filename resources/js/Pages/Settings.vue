@@ -1,5 +1,5 @@
 <template>
-    soon Options
+    soon Settings
 </template>
 
 <script setup>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Customer extends Model
@@ -57,6 +58,11 @@ class Customer extends Model
     {
         //return $this->hasOne(User::class);
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
     }
 
 }

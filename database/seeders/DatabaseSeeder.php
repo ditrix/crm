@@ -45,8 +45,8 @@ class DatabaseSeeder extends Seeder
         // $this->call([
         //     InitDevCustomerSeeder::class
         // ]);
-        $this->call([
-            InitDevContractSeeder::class
-        ]);
+        // $this->call([
+        //     InitDevContractSeeder::class
+        // ]);
     }
 }
