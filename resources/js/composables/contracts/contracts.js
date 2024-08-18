@@ -40,7 +40,6 @@ export default function useContracts() {
     const getContractsFromLink = async (url) => {
         if (!url) return;
         console.log(url);
-        return;
         try {
           const response = await axios.get(url);
           contracts.value = response.data.data;
