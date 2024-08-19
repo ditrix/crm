@@ -1,15 +1,15 @@
 <template>
     <div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.dashboard' }">
-        Home
-    </router-link>|
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'customers.index' }">
-        customers
-    </router-link>|
+        <router-link
+            class="items-center px-2 py-2 text-xs font-semibold"
+            :to="{ name: 'page.dashboard' }">
+            Home
+        </router-link>|
+        <router-link
+            class="items-center px-2 py-2 text-xs font-semibold"
+            :to="{ name: 'customers.index' }">
+            customers
+        </router-link>|
         <span class="text-xs px-2 py-2 font-semibold">Customer</span>
     </div>
     <div class="contanier">
@@ -129,14 +129,14 @@
         <div class="form-controll">
             <button
                 type="submit"
-                class="btn btn_blue inline-flex items-center ml-1  font-semiboldtext-sm font-medium mt_2">
+                class="btn btn_blue  inline-flex items-center mr_1  pl_1 pr_1 font-semiboldtext-sm font-medium mt_2">
                 Save
             </button>
 
             <router-link
-                class="btn btn_lightgray ml-2 inline-flex items-center  font-semibold ml_2"
+                class="btn btn_lightgray  inline-flex items-center mr_1  pl_1 pr_1 font-semiboldtext-sm font-medium mt_2"
                 :to="{ name: 'customers.index' }">
-                Cancel
+                Back
             </router-link>
         </div>
     </form>

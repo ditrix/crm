@@ -33,7 +33,7 @@ export default function useCustomers() {
                 const response = await axios.get(`/api/customers/${id}`);
 
                 customer.value = response.data.data;
-                console.log('customer.value ', customer.value.user.email);
+               // console.log('customer.value ', customer.value.user.email);
 
             } catch (error) {
                 console.error('error fetch data: ',error)
@@ -52,7 +52,8 @@ export default function useCustomers() {
 
         try {
 
-            await axios.put(`/api/customers/${id}`, customer.value)
+            await axios.put(`/api/customers/${id}`, customer.value);
+
         }
         catch(error) {
 

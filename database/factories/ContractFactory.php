@@ -17,9 +17,10 @@ class ContractFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fake()->numberBetween(1,5),
+            'user_id'               => fake()->numberBetween(1,5),
             'contract_type_id'      => fake()->numberBetween(1,3),
             'contract_status_id'    => fake()->numberBetween(1,5),
+            'customer_id'           => fake()->numberBetween(1,20),
             'code'                  => fake()->buildingNumber(),
             'title'                 => fake()->jobTitle(),
             'comment'               => 'comment for contract ...',

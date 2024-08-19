@@ -10,6 +10,10 @@ border: 1px red solid;
     display: flex !important;
 }
 
+.d-bock {
+    display: block !important;
+}
+
 .flex-direction_row {
     flex-direction: row !important;
 }

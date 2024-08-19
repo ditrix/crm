@@ -124,14 +124,14 @@
         <div class="form-controll">
             <button
                 type="submit"
-                class="btn btn_blue inline-flex items-center ml-1  font-semiboldtext-sm font-medium mt_2">
+                class="btn btn_blue  inline-flex items-center mr_1  pl_1 pr_1 font-semiboldtext-sm font-medium mt_2">
                 Save
             </button>
 
             <router-link
-                class="btn btn_lightgray ml-2 inline-flex items-center  font-semibold ml_2"
+                class="btn btn_lightgray  inline-flex items-center mr_1  pl_1 pr_1 font-semiboldtext-sm font-medium mt_2"
                 :to="{ name: 'customers.index' }">
-                Cancel
+                Back
             </router-link>
         </div>
     </form>

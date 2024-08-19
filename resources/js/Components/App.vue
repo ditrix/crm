@@ -16,6 +16,7 @@
     </div>
 </template>
 <script setup>
+  //  import axios from 'axios'
     import TopMenu from './TopMenu.vue'
     import Menu from './Menu.vue'
     import Login from './Login.vue'
@@ -24,8 +25,8 @@
 import { useRouter } from 'vue-router'
 import { computed } from 'vue';
 
+//axios.defaults.baseURL = 'http://localhost/api';
 const authStore = useAuthStore()
-// const isAuthenticated = ref(authStore.isAuthenticated)
 
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);

@@ -428,3 +428,93 @@ const getCustomer = async (id) => {
 }
 </script>
 ------------
+
+
+
+Да, передача `baseURL` из сервера во Vue.js возможна. Есть несколько способов сделать это, например, передать `baseURL` на этапе рендеринга страницы с помощью Laravel, или динамически передать его в клиентскую часть Vue.js после загрузки приложения.
+
+### Способы передачи `baseURL`:
+
+#### 1. **Передача через Blade-шаблоны**
+Вы можете передать переменную с `baseURL` из Laravel во Vue через Blade-шаблоны, используя встроенные переменные.
+
+**Пример:**
+В вашем Blade-шаблоне вы можете передать `baseURL` следующим образом:
+
+```php
+<script>
+    window.appConfig = {
+        baseURL: "{{ env('API_BASE_URL') }}"
+    };
+</script>
+```
+
+Затем в Vue можно получить доступ к этой переменной глобально:
+
+```js
+// Внутри вашего компонента или setup функции
+const baseURL = window.appConfig.baseURL;
+
+const axiosInstance = axios.create({
+  baseURL: baseURL
+});
+```
+
+#### 2. **Использование API для передачи конфигурации**
+Вы можете создать API-метод на стороне Laravel, который возвращает конфигурацию, включая `baseURL`, и использовать его при инициализации Vue.js.
+
+**Шаги:**
+1. Создайте маршрут API в Laravel, который возвращает конфигурацию.
+   ```php
+   Route::get('/config', function() {
+       return response()->json([
+           'baseURL' => env('API_BASE_URL')
+       ]);
+   });
+   ```
+
+2. В компоненте Vue сделайте запрос к этому API для получения `baseURL`.
+   ```js
+   const getConfig = async () => {
+       let response = await axios.get('/config');
+       return response.data.baseURL;
+   };
+
+   const initApp = async () => {
+       const baseURL = await getConfig();
+       axios.defaults.baseURL = baseURL;
+
+       // Далее инициализируйте другие компоненты или данные
+   };
+
+   initApp();
+   ```
+
+#### 3. **Использование Middleware для передачи данных**
+Вы также можете создать Middleware на стороне сервера, которое передает глобальные переменные в представление Blade, а затем они будут доступны в Vue.
+
+**Шаги:**
+1. Создайте Middleware в Laravel.
+   ```php
+   public function handle($request, Closure $next)
+   {
+       view()->share('appConfig', [
+           'baseURL' => env('API_BASE_URL')
+       ]);
+
+       return $next($request);
+   }
+   ```
+
+2. Передайте переменную в шаблон Blade.
+   ```php
+   <script>
+       window.appConfig = @json($appConfig);
+   </script>
+   ```
+
+3. Используйте эту переменную в Vue.js, как в первом способе.
+
+### Резюме:
+- Вы можете передать `baseURL` через Blade-шаблоны или с помощью API запроса.
+- Эти методы позволяют динамически использовать конфигурацию сервера в Vue.js, что полезно, если у вас есть разные среды (например, разработка и продакшн).

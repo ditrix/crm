@@ -1,6 +1,9 @@
 .pagination_link {
     display: inline-block;
 }
+.pagination_list a {
+    color: black;
+}
 
 .pagination_list  .active {
     background-color: #e9e9e9;

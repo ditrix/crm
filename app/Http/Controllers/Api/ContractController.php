@@ -15,8 +15,8 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::paginate(20);
-        return ContractResource::collection($contracts);
+        return ContractResource::collection(Contract::paginate(10));
+        //return ContractResource::collection(Contract::get());
     }
 
     /**
@@ -43,6 +43,7 @@ class ContractController extends Controller
     public function update(ContractRequest $request, Contract $contract)
     {
         $contract->update($request->validated());
+
         return new ContractResource($contract);
     }
 

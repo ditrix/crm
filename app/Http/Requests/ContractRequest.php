@@ -23,13 +23,14 @@ class ContractRequest extends FormRequest
     {
         return [
             'user_id'               => 'nullable|integer',
-            'contract_type_id'      => 'required|integer',
-            'contract_status_id'    => 'required|integer',
+            'contract_type_id'      => 'nullable|integer',
+            'contract_status_id'    => 'nullable|integer',
+            'customer_id'           => 'nullable|integer',
             'code'                  => 'nullable|string',
             'title'                 => 'nullable|string',
             'comment'               => 'nullable|string',
-            'summ'                  => 'required|numeric|min:100',
-            'is_active'             => 'boolean',
+            'summ'                  => 'nullable|numeric|min:100',
+            'is_active'             => 'nullable|boolean',
             'active_from'           => 'nullable',
             'active_to'             => 'nullable',
         ];

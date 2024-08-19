@@ -15,10 +15,22 @@
     width: 20% !important;
 }
 
+
+
 .w_10 {
     width: 10rem !important;
 }
 
 .w_20 {
     width: 20rem !important;
+}
+
+.w_30 {
+    width: 30rem !important;
+}
+.w_40 {
+    width: 40rem !important;
+}
+.w_50 {
+    width: 50rem !important;
 }

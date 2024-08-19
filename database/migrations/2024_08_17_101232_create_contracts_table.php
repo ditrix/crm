@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->foreignId('contract_type_id')->nullable();
             $table->foreignId('contract_status_id')->nullable();
+            $table->foreignId('customer_id')->nullable();
             $table->string('code')->nullable();
             $table->string('title')->nullable();
             $table->text('comment')->nullable();

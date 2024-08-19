@@ -18,7 +18,7 @@
             <th class="pl_1">Is active</th>
             <th class="pl_1">Active from</th>
             <th class="pl_1">Active to</th>
-
+            <th class="pl-1">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -45,7 +45,7 @@
         <button class="btn_xs btn_lightgray ml-1" @click="nextPage" :disabled="!pagination.next_url">>></button> -->
 
         <ul class="pagination_list d-flex">
-            <li class="btn_xs  btn_lightgray ml-1 mr-1" v-for="link in pagination.links" :key="link.id" :class="{active: link.active, disabled: !link.url}">
+            <li class="btn_xs  btn_lightgray ml-1 mr-1 text-xs" v-for="link in pagination.links" :key="link.id" :class="{active: link.active, disabled: !link.url}">
                 <a
                     v-html="link.label"
                     @click="getContractsFromLink(link.url)"

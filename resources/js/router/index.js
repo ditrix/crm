@@ -132,7 +132,12 @@ const routes = [
     },
 
     {
-        path: '/customers/index',
+        path: '/settings',
+        component: Settings
+    },
+
+    {
+        path: '/customers',
         component: CustomersIndex,
         name: 'customers.index'
     },
@@ -148,23 +153,20 @@ const routes = [
         component: CustomersCreate,
         name: 'customers.store',
     },
+
     {
-        path: '/settings',
-        component: Settings
-    },
-    {
-        path: '/contracts/index',
+        path: '/contracts',
         component: ContractIndex,
         name: 'contract.index'
     },
     {
-        path: '/contract/:id/show',
+        path: '/contracts/:id/show',
         component: ContractShow,
         name: 'contract.show',
         props: true,
     },
     {
-        path: '/contract/create',
+        path: '/contracts/create',
         component: ContractCreate,
         name: 'contract.store',
     },
