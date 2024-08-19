@@ -41,20 +41,18 @@
     </table>
     <div class="mt-1">
 
-        <button class="btn_xs btn_lightgray mr-1" @click="prevPage" :disabled="!pagination.prev_url"><<</button>
-        <button class="btn_xs btn_lightgray ml-1" @click="nextPage" :disabled="!pagination.next_url">>></button>
+        <!-- <button class="btn_xs btn_lightgray mr-1" @click="prevPage" :disabled="!pagination.prev_url"><<</button>
+        <button class="btn_xs btn_lightgray ml-1" @click="nextPage" :disabled="!pagination.next_url">>></button> -->
 
-        <!-- <ul class="pagination_list d-flex">
-            <li v-for="link in pagination.links" :key="link.url" :class="{active: link.active, disabled: !link.url, pagination_link}">
+        <ul class="pagination_list d-flex">
+            <li class="btn_xs  btn_lightgray ml-1 mr-1" v-for="link in pagination.links" :key="link.id" :class="{active: link.active, disabled: !link.url}">
                 <a
-                    v-if="link.url"
-                    :href="link.url"
                     v-html="link.label"
-                     @click="getContractsFromLink(link.url)"
+                    @click="getContractsFromLink(link.url)"
                 >
                 </a>
             </li>
-         </ul> -->
+         </ul>
 
 
 

@@ -11,7 +11,7 @@ export default function useContracts() {
     const pagination = ref({});
 
     const setPaginationData = (data) => {
-        console.log(data.meta.links)
+
         pagination.value = {
             current_page: data.meta.current_page,
             first_url: data.links.first,
@@ -38,16 +38,18 @@ export default function useContracts() {
 
 
     const getContractsFromLink = async (url) => {
-        if (!url) return;
-        console.log(url);
+        if(!url) {
+            return;
+        }
         try {
-          const response = await axios.get(url);
+          let response = await axios.get(url);
           contracts.value = response.data.data;
           pagination.value = response.data;
+          setPaginationData(response.data)
         } catch (error) {
-          console.error('Ошибка при получении данных:', error);
+          console.error('get data error: ', error);
         }
-      };
+      }
 
 
     const nextPage = () => {
