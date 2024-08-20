@@ -21,35 +21,36 @@
             </div>
         </div>
     </div>
+
     <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="saveContract">
+        <div class="form-item d-flex justify_content_right align-items_center">
+            <label for="user_id" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Manager</label>
+                <select name="user_id" v-model="contract.user_id" class="short_select_widget px-4 rounded-full widget_20">
+                    <option v-for="user in contract.users" :key="contract.id" :value="user.id">
+                    {{ user.name }}
+                </option>
+                </select>
+            </div>
         <div class="form-input_group_inline d-flex justify-between">
-
             <div class="d-flex">
-                <div class="form-item">
-                    <label for="customer" class="block text-sm font-medium text-gray-700">Contract type</label>
-                    <div class="mt-1">
-                        <span id="customer"><b>{{ contract.type }}</b></span>
+                    <div class="form-item">
+                        <label for="customer" class="block text-sm font-medium text-gray-700">Contract type</label>
+                        <div class="mt-1">
+                            <span id="customer"><b>{{ contract.type }}</b></span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-item ml-10">
-                    <label for="customer" class="block text-sm font-medium text-gray-700">Customer</label>
-                    <div class="mt-1">
-                        <span id="customer"><b>{{ contract.customer }}</b></span>
+                    <div class="form-item ml-10">
+                        <label for="customer" class="block text-sm font-medium text-gray-700">Customer</label>
+                        <div class="mt-1">
+                            <span id="customer"><b>{{ contract.customer }}</b></span>
+                        </div>
                     </div>
-                </div>
             </div>
 
 
         </div>
-        <div class="form-item d-flex justify_content_right align-items_center">
-            <!-- <label for="user_id" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Manager</label>
-                <select name="user_id" v-model="customer.user_id" class="short_select_widget px-4 py-3 rounded-full widget_20">
-                    <option v-for="user in customer.users" :key="user.id" :value="user.id">
-                    {{ user.name }}
-                </option>
-                </select> -->
-        </div>
+
         <div class="form-input_group_inline d-flex justify-between">
 
             <!-- code -->

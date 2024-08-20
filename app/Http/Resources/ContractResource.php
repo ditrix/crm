@@ -4,8 +4,10 @@ namespace App\Http\Resources;
 
 use App\Models\ContractStatus;
 use App\Models\ContractType;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+
 
 class ContractResource extends JsonResource
 {
@@ -40,6 +42,8 @@ class ContractResource extends JsonResource
             'type'                  => $contract_type->title,
             'status'                => new ContractStatusResource($this->whenLoaded('contract_status')),
             'statuses'              => ContractStatusResource::collection(ContractStatus::all()),
+            'user'          => new UserResource($this->whenLoaded('user')),
+            'users'         => UserResource::collection(User::all()),
         ];
     }
 }
