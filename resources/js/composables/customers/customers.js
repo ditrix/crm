@@ -15,7 +15,7 @@ export default function useCustomers() {
 
     const getCustomers = async () => {
 
-        let response = await axios.get('/api/customers');
+        let response = await axios.get('customers');
 
         customers.value = response.data.data;
 
@@ -30,7 +30,7 @@ export default function useCustomers() {
             }
 
            try {
-                const response = await axios.get(`/api/customers/${id}`);
+                const response = await axios.get(`customers/${id}`);
 
                 customer.value = response.data.data;
                // console.log('customer.value ', customer.value.user.email);
@@ -52,7 +52,7 @@ export default function useCustomers() {
 
         try {
 
-            await axios.put(`/api/customers/${id}`, customer.value);
+            await axios.put(`customers/${id}`, customer.value);
 
         }
         catch(error) {
@@ -70,7 +70,7 @@ export default function useCustomers() {
         errors.value = ''
 
         try {
-            let response = await axios.post(`/api/customers`, data);
+            let response = await axios.post(`customers`, data);
             await router.push({ name: 'customers.index' });
 
         } catch(error) {
@@ -85,7 +85,8 @@ export default function useCustomers() {
 
     const destroyCustomer = async (id) => {
 
-        let response = await axios.delete(`/api/customer/${id}`);
+        let response = await axios.delete(`customers/${id}`);
+        console.log(response);
 
     }
 

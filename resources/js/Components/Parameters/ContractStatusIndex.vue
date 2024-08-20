@@ -5,7 +5,7 @@
                 <router-link
                     class="btn btn_blue inline-flex items-center px-4 py-2 mr-5 text-xs font-semibold"
                     :to="{ name: 'contract_statuses.create' }" >
-                        Create status
+                        + Create
                 </router-link>
             </div>
 

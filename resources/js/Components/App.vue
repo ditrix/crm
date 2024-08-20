@@ -25,7 +25,8 @@
 import { useRouter } from 'vue-router'
 import { computed } from 'vue';
 
-//axios.defaults.baseURL = 'http://localhost/api';
+axios.defaults.baseURL = 'http://localhost/api';
+
 const authStore = useAuthStore()
 
 

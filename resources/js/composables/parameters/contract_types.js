@@ -14,7 +14,7 @@ export default function useContractTypes() {
 
     const getContractTypes = async () => {
 
-        let response = await axios.get('/api/contract_type');
+        let response = await axios.get('contract_type');
 
         contract_types.value = response.data.data;
 
@@ -29,7 +29,7 @@ export default function useContractTypes() {
             }
 
            try {
-                const response = await axios.get(`/api/contract_type/${id}`);
+                const response = await axios.get(`contract_type/${id}`);
 
                 contract_type.value = response.data.data;
 
@@ -50,7 +50,7 @@ export default function useContractTypes() {
 
         try {
 
-            await axios.put(`/api/contract_type/${id}`,contract_type.value)
+            await axios.put(`contract_type/${id}`,contract_type.value)
         }
         catch(error) {
 
@@ -67,7 +67,7 @@ export default function useContractTypes() {
         errors.value = ''
 
         try {
-            let response = await axios.post(`/api/contract_type`, data);
+            let response = await axios.post(`contract_type`, data);
             await router.push({ name: 'parameters.index' });
 
         } catch(error) {
@@ -82,7 +82,7 @@ export default function useContractTypes() {
 
     const destroyContractType = async (id) => {
 
-        let response = await axios.delete(`/api/contract_type/${id}`);
+        let response = await axios.delete(`contract_type/${id}`);
 
     }
 

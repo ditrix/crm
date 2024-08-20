@@ -17,7 +17,7 @@ export default function useContracts() {
     const pagination = ref({});
 
     // TODO: move to config
-    axios.defaults.baseURL = 'http://localhost/api';
+
 
 
 

@@ -13,7 +13,7 @@ export default function usePermisiions() {
 
         try {
 
-            let response = await axios.get('api/permissions');
+            let response = await axios.get('permissions');
             permissions.value = response.data.data;
 
         } catch(error) {
@@ -30,7 +30,7 @@ export default function usePermisiions() {
         }
 
         try {
-            const response = await axios.get(`/api/permissions/${id}`)
+            const response = await axios.get(`permissions/${id}`)
             permission.value = response.data.data
 
         }
@@ -49,7 +49,7 @@ export default function usePermisiions() {
 
         try {
 
-            await axios.put(`/api/permissions/${id}`,permission.value)
+            await axios.put(`permissions/${id}`,permission.value)
         }
         catch(error) {
             console.log('error put data: ',error)

@@ -14,10 +14,9 @@
             <router-link
                 class="btn btn_blue inline-flex items-center px-4 py-2 mr-5 text-xs font-semibold"
                 :to="{ name: 'users.store' }" >
-                    Create
+                    + Create
             </router-link>
         </div>
-
 </div>
 
 <div class="space-y-6 rounded-md shadow-md mt_2 pl_1 pr_1 pb_1 pt_1">

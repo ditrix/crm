@@ -15,7 +15,7 @@ export default function useContractStatuses() {
     const getContractStatuses = async () => {
 
 
-        let response = await axios.get('/api/contract_status');
+        let response = await axios.get('contract_status');
 
         contract_statuses.value = response.data.data;
 
@@ -29,7 +29,7 @@ export default function useContractStatuses() {
             }
 
            try {
-                const response = await axios.get(`/api/contract_status/${id}`);
+                const response = await axios.get(`contract_status/${id}`);
 
                 contract_status.value = response.data.data;
 
@@ -50,7 +50,7 @@ export default function useContractStatuses() {
 
         try {
 
-            await axios.put(`/api/contract_status/${id}`,contract_status.value)
+            await axios.put(`contract_status/${id}`,contract_status.value)
         }
         catch(error) {
             console.error('error put data: ',error)
@@ -67,7 +67,7 @@ export default function useContractStatuses() {
         errors.value = ''
 
         try {
-            let response = await axios.post(`/api/contract_status`, data);
+            let response = await axios.post(`contract_status`, data);
             await router.push({ name: 'contract_statuses.index' });
 
         } catch(error) {
@@ -82,7 +82,7 @@ export default function useContractStatuses() {
 
     const destroyContractStatus = async (id) => {
 
-        let response = await axios.delete(`/api/contract_status/${id}`);
+        let response = await axios.delete(`contract_status/${id}`);
 
     }
 

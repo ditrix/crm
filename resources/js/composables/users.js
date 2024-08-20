@@ -20,7 +20,7 @@ export default function useUsers() {
 
         try {
 
-            let response = await axios.get('api/users');
+            let response = await axios.get('users');
 
             users.value = response.data.data;
 
@@ -37,7 +37,7 @@ export default function useUsers() {
         }
 
         try {
-            const response = await axios.get(`/api/users/${id}`);
+            const response = await axios.get(`users/${id}`);
             user.value = response.data.data;
 
         } catch (error) {
@@ -56,8 +56,9 @@ export default function useUsers() {
         errors.value = ''
 
         try {
+            console.log('put user: ', user.value);
 
-            await axios.put(`/api/users/${id}`,user.value)
+            await axios.put(`users/${id}`,user.value)
         }
         catch(error) {
             console.error('error put data: ',error)
@@ -76,7 +77,7 @@ export default function useUsers() {
         try {
 
 
-            let response = await axios.post(`/api/users`, data);
+            let response = await axios.post(`users`, data);
             await router.push({ name: 'users.index' });
 
         } catch(error) {
@@ -92,7 +93,7 @@ export default function useUsers() {
     const getPermissions = async () => {
 
         try {
-            const permissionsResponse = await axios.get('/api/permissions');
+            const permissionsResponse = await axios.get('permissions');
             permissions.value = permissionsResponse.data.data;
 
         } catch(error) {

@@ -82,7 +82,7 @@
         </div>
 
 <!-- legal customer data  -->
-        <div v-if="customer.is_legal == 1">
+        <div v-if="form.is_legal == 1">
             <div class="form-item">
                 <label for="code" class="block text-sm font-medium text-gray-700">VAT code</label>
                 <div class="mt-1">
