@@ -34,7 +34,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        $customer = Customer::with('user')->findOrFail($customer->id);
+        $customer = Customer::with(['user','contracts'])->findOrFail($customer->id);
         return new CustomerResource($customer);
     }
 

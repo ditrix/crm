@@ -22,6 +22,7 @@ class ContractResource extends JsonResource
     {
 
         $contract_type = ContractType::where('id',$this->contract_type_id)->first();
+        $contract_status = ContractStatus::where('id',$this->contract_status_id)->first();
 
         return [
             'id'                    => $this->id,
@@ -38,12 +39,13 @@ class ContractResource extends JsonResource
             'active_to'             => $this->active_to,
             'created_at'            => $this->created_at,
             'updated_at'            => $this->updated_at,
-            'customer'              => $this->customer->name,
+            'customer'              => $this->customer ? $this->customer->name : '',
             'type'                  => $contract_type->title,
+            'contract_status'       => $contract_status->name,
             'status'                => new ContractStatusResource($this->whenLoaded('contract_status')),
             'statuses'              => ContractStatusResource::collection(ContractStatus::all()),
-            'user'          => new UserResource($this->whenLoaded('user')),
-            'users'         => UserResource::collection(User::all()),
+            'user'                  => new UserResource($this->whenLoaded('user')),
+            'users'                 => UserResource::collection(User::all()),
         ];
     }
 }

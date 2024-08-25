@@ -170,6 +170,13 @@ const routes = [
         component: ContractCreate,
         name: 'contract.store',
     },
+    {
+        path: '/contracts/new/:customer_id',
+        name: 'contracts.new',
+        props: true,
+        component: ContractCreate
+    },
+
 
 ];
 

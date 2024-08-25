@@ -2,13 +2,12 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
+import useContractTypes from '@/composables/parameters/contract_types.js'
 
 export default function useContracts() {
 
 
     const router = useRouter();
-
-    const errors = '';
 
     const contracts = ref([]);
 
@@ -16,9 +15,10 @@ export default function useContracts() {
 
     const pagination = ref({});
 
+    let errors = ref('');
+
+    const {contract_types} = ref([]);
     // TODO: move to config
-
-
 
 
     const setPaginationData = (data) => {
@@ -53,12 +53,7 @@ export default function useContracts() {
 
     const getContracts = async (page = 1) => {
 
-//        console.log(process.env.VUE_APP_API_BASE_URL);
-
         try {
-
-       //let response = await axios.get('/api/contracts');
-
        let response = await axios.get(`contracts?page=${page}`);
         contracts.value =  response.data.data;
         setPaginationData(response.data)
@@ -76,6 +71,7 @@ export default function useContracts() {
           let response = await axios.get(url);
           contracts.value = response.data.data;
           pagination.value = response.data;
+          console.log(contracts.value);
           setPaginationData(response.data)
         } catch (error) {
           console.error('get data error: ', error);
@@ -83,28 +79,46 @@ export default function useContracts() {
       }
 
     const updateContract = async (id) => {
-
-        //axios.defaults.baseURL = 'http://localhost/api';
-        //axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
-
         try {
-
+            errors.value = '';
             let response = await axios.put(`contracts/${id}`,contract.value);
             console.log(response);
 
         } catch(error) {
-             console.log('get data error: ', error.message)
-            // if (error.response.status === 422) {
-            //     for (const key in error.response.data.errors) {
-            //         errors.value = error.response.data.errors
-            //     }
-            // } else {
-            //     console.log('get data error: ', error.message)
-            // }
+//             console.log('get data error: ', error.message)
+            if (error.response.status === 422) {
+                for (const key in error.response.data.errors) {
+                    errors.value = error.response.data.errors
+                }
+            } else {
+                console.log('get data error: ', error.message)
+            }
         }
 
     }
 
+    const storeContract = async (data) => {
+
+        errors.value = '';
+
+        try {
+
+        let response = await axios.post(`contracts`, data);
+
+        } catch (error) {
+
+            console.error('get data error: ', error);
+
+            if (error.response.status === 422) {
+                for (const key in error.response.data.errors) {
+                    errors.value = error.response.data.errors
+                }
+            } else {
+                console.log('get data error: ', error.message)
+            }
+
+          }
+    }
 
     const nextPage = () => {
 
@@ -120,6 +134,7 @@ export default function useContracts() {
       };
 
     return {
+        errors,
         pagination,
         contracts,
         contract,
@@ -128,6 +143,7 @@ export default function useContracts() {
         getContracts,
         getContract,
         getContractsFromLink,
+        storeContract,
         updateContract,
     }
 

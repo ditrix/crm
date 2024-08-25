@@ -23,32 +23,45 @@
     </div>
 
     <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="saveContract">
-        <div class="form-item d-flex justify_content_right align-items_center">
-            <label for="user_id" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Manager</label>
-                <select name="user_id" v-model="contract.user_id" class="short_select_widget px-4 rounded-full widget_20">
-                    <option v-for="user in contract.users" :key="contract.id" :value="user.id">
-                    {{ user.name }}
-                </option>
-                </select>
-            </div>
+
+
+        <div class="form-item d-flex justify_content_right align-items_right">
+            <div class="form-item widget_20">
+                    <label for="created_at" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Created at</label>
+                    <span>{{ formatDate(contract.created_at) }}</span>
+                </div>
+
+                <div class="form-item widget_20">
+                    <label for="updated_at" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Updated at</label>
+                    <span>{{ formatDate(contract.updated_at) }}</span>
+                </div>
+
+                <div class="form-item  w_100">
+                <label for="user_id" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Manager</label>
+                    <select name="user_id" v-model="contract.user_id" class="short_select_widget px-4 rounded-full widget_20">
+                        <option v-for="user in contract.users" :key="contract.id" :value="user.id">
+                            {{ user.name }}
+                        </option>
+                    </select>
+                </div>
+
+        </div>
         <div class="form-input_group_inline d-flex justify-between">
             <div class="d-flex">
-                    <div class="form-item">
-                        <label for="customer" class="block text-sm font-medium text-gray-700">Contract type</label>
-                        <div class="mt-1">
-                            <span id="customer"><b>{{ contract.type }}</b></span>
-                        </div>
+                <div class="form-item">
+                    <label for="customer" class="block text-sm font-medium text-gray-700">Contract type</label>
+                    <div class="mt-1">
+                        <span id="customer"><b>{{ contract.type }}</b></span>
                     </div>
+                </div>
 
-                    <div class="form-item ml-10">
-                        <label for="customer" class="block text-sm font-medium text-gray-700">Customer</label>
-                        <div class="mt-1">
-                            <span id="customer"><b>{{ contract.customer }}</b></span>
-                        </div>
+                <div class="form-item ml-10">
+                    <label for="customer" class="block text-sm font-medium text-gray-700">Customer</label>
+                    <div class="mt-1">
+                        <span id="customer"><b>{{ contract.customer }}</b></span>
                     </div>
+                </div>
             </div>
-
-
         </div>
 
         <div class="form-input_group_inline d-flex justify-between">
@@ -115,19 +128,31 @@
             <router-link
                 class="btn btn_lightgray  inline-flex items-center mr_1  pl_1 pr_1 font-semiboldtext-sm font-medium mt_2"
                 :to="{ name: 'contract.index' }">
-                Back
+                Contracts
             </router-link>
+
+            <router-link
+                class="btn btn_lightgray  inline-flex items-center mr_1  pl_1 pr_1 font-semiboldtext-sm font-medium mt_2"
+                :to="{ name: 'customers.show', params: {id: contract.customer_id} }">
+                Customer
+            </router-link>
+
+            <!-- <FormButtons :backRouteType="backRouteType" :contract="contract"/> -->
         </div>
     </form>
 
 
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import useContracts from '@/composables/contracts/contracts.js'
 import { formatBoolean,formatDate } from '@/helpers/functions'
+import FormButtons from '@/Components/Controls/FormButtons.vue'
+import  {useRoute} from 'vue-router'
+
 
 const {
+    errors,
     contract,
     getContract,
     updateContract,
@@ -137,12 +162,44 @@ const props = defineProps({
     id: {
         required: true,
         type: String
+    },
+    from: {
+        required: true,
+        type: String
     }
 });
+
+//const backRouteType = computed ( () => { route.params.from === 'customer' ? 'customer' : 'contract'  } );
+
+const backRoute = computed(() => {
+    return { name: 'customers.show', params: {id: contract.customer_id} }
+
+//     if(route.props.from == null) {
+//         return { name: 'contract.index' }
+//     }
+//     if(route.props.from === 'customer') {
+//         return { name: 'customers.show', params: { id: contract.customer_id } }
+//     }
+//     if(props.from === 'contract') {
+//         return { name: 'contract.index' }
+//     }
+
+//   return backRouteType.value === 'customer'
+//     ? { name: 'customers.show', params: { id: contract.customer_id } }
+//     : { name: 'contract.index' };
+});
+
 
 const saveContract = async () => {
     await updateContract(props.id)
 }
 
-onMounted( () => getContract(props.id) );
+onMounted(
+    () => {
+        getContract(props.id);
+        console.log('props.id',props.id);
+        console.log('props.from',props.from);
+    }
+
+);
 </script>

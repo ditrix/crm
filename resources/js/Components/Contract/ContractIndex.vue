@@ -13,6 +13,7 @@
     <thead>
         <tr>
             <th class="pl_1">ID</th>
+            <th class="pl_1">Status</th>
             <th class="pl_1">Code</th>
             <th class="pl_1">Title</th>
             <th class="pl_1">Is active</th>
@@ -24,6 +25,7 @@
     <tbody>
         <tr v-for="contract in contracts" :key="contract.id" class="greed_tr">
             <td class="pl_1">{{contract.id}}</td>
+            <td class="pl_1">{{contract.contract_status}}</td>
             <td class="pl_1">{{contract.code}}</td>
             <td class="pl_1">{{contract.title}}</td>
             <td class="tx_center">{{formatBoolean(contract.is_active)}}</td>
@@ -56,6 +58,7 @@
 
 
 
+
     </div>
 </div>
 </template>
@@ -70,5 +73,8 @@ const {
     prevPage, nextPage, getContracts, getContractsFromLink
 } = useContracts();
 
-onMounted( () => getContracts() );
+onMounted( () =>
+
+    getContracts()
+);
 </script>

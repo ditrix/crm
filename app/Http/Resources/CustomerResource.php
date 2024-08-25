@@ -37,6 +37,7 @@ class CustomerResource extends JsonResource
             'updated_at'    => $this->updated_at,
             'user'          => new UserResource($this->whenLoaded('user')),
             'users'         => UserResource::collection(User::all()),
+            'contracts'     => $this->contracts
         ];
         // 'users' => UserResource::collection(User::all()), данные для select списка
     }

@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="saveCustomer">
+    <form class="show_form rounded-md shadow-md mt_2" v-on:submit.prevent="saveCustomer">
         <div class="form-item d-flex justify_content_right align-items_center">
             <label for="user_id" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Manager</label>
                 <select name="user_id" v-model="customer.user_id" class="short_select_widget px-4  rounded-full widget_20">
@@ -146,11 +146,7 @@
                                 v-model="customer.contact_phone">
                     </div>
                 </div>
-
-
-
             </div>
-
         </div>
 
         <div class="form-controll">
@@ -167,14 +163,90 @@
             </router-link>
         </div>
     </form>
+    <hr>
+
+<div class="content-wrapper" style="width: 100%;">
+    <div class="space-y-6 rounded-md shadow-md mt_2 pl_1 pr_1 pb_1 pt_1">
+        <div class="d-flex flex-direction_row justify_content_left_space_between align-items_center mb_1">
+    <div class="page_title text-xl mb-2 mt-4">Contracts</div>
+    <div class="d-flex justify_content_right">
+        <router-link
+            class="btn btn_blue inline-flex items-center px-4 py-2 mr-5 text-xs font-semibold"
+            :to="{ name: 'contracts.new', params: { customer_id: props.id } }" >
+                +Create
+        </router-link>
+    </div>
+</div>
+
+        <table class="min-w-full  border divide-y divide-gray-300 grid_table">
+        <thead>
+            <tr>
+                <th class="pl_1">ID</th>
+                <th class="pl_1">Status</th>
+                <th class="pl_1">Code</th>
+                <th class="pl_1">Title</th>
+                <th class="pl_1">Is active</th>
+                <th class="pl_1">Active from</th>
+                <th class="pl_1">Active to</th>
+                <th class="pl-1">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="contract in customer.contracts" :key="contract.id" class="greed_tr">
+                <td class="pl_1">{{contract.id}}</td>
+                <td class="pl_1">{{contract.contract_status}}</td>
+                <td class="pl_1">{{contract.code}}</td>
+                <td class="pl_1">{{contract.title}}</td>
+                <td class="tx_center">{{formatBoolean(contract.is_active)}}</td>
+                <td class="pl_1">{{formatDate(contract.updated_at)}}</td>
+                <td class="pl_1">{{formatDate(contract.created_at)}}</td>
+                <td>
+                    <router-link
+                        class="btn btn_lightgray inline-flex items-center px-4 py-2 text-xs font-semibold"
+                        :to="{ name: 'contract.show', params: { id: contract.id } }">
+                        Edit
+                    </router-link>
+<!--                                                                    новый параметр:   vvvvvvvvvvvvvvvvv -->
+                    <!-- <router-link :to="{ name: 'contract.show', params: { id: contract.id, from: 'customer' } }">
+                        Edit 1
+                    </router-link> -->
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        <div class="mt-1">
+
+            <!-- <button class="btn_xs btn_lightgray mr-1" @click="prevPage" :disabled="!pagination.prev_url"><<</button>
+            <button class="btn_xs btn_lightgray ml-1" @click="nextPage" :disabled="!pagination.next_url">>></button> -->
+
+            <!-- <ul class="pagination_list d-flex">
+                <li class="btn_xs  btn_lightgray ml-1 mr-1 text-xs" v-for="link in pagination.links" :key="link.id" :class="{active: link.active, disabled: !link.url}">
+                    <a
+                        v-html="link.label"
+                        @click="getContractsFromLink(link.url)"
+                    >
+                    </a>
+                </li>
+            </ul>
+    -->
+
+
+
+    </div>
+    </div>
+</div>
 
 </template>
 <script setup>
 import { onMounted } from 'vue'
 
 import useCustomers from '@/composables/customers/customers.js'
+import useContracts from '@/composables/contracts/contracts.js'
+import { formatBoolean,formatDate } from '@/helpers/functions'
 
 const {customer, getCustomer, updateCustomer, errors } = useCustomers()
+
+
 
 const props = defineProps({
     id: {
