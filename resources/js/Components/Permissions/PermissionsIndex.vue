@@ -1,15 +1,8 @@
 <template>
- <div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.dashboard' }">
-        Home
-    </router-link>|
-    <span class="text-xs px-2 py-2 font-semibold">Permissions</span>
-</div>
+ <Breadcrumbs title="Permissions" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard' } ] }" />
 
+<hr>
     <div class="page_title text-xl mb-2 mt-4">Permissions</div>
-
 
     <div class="space-y-6 rounded-md shadow-md mt_2 pl_1 pr_1 pb_1 pt_1">
         <table class="min-w-full  border divide-y divide-gray-300 grid_table">
@@ -61,7 +54,12 @@ import { formatBoolean } from '@/helpers/functions'
 
 import usePermissions from '@/composables/permissions'
 
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
+
 const {permissions, getPermissions} = usePermissions()
+
+
+
 
 /*
 Передача ссылки на функцию:
