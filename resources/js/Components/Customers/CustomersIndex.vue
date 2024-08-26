@@ -1,14 +1,6 @@
 <template>
 
-<div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.dashboard' }">
-        Home
-    </router-link>|
-    <span class="text-xs px-2 py-2 font-semibold">Customers</span>
-        <!-- <div>{{ customer.id }}</div> -->
-    </div>
+    <Breadcrumbs title="Customers" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard' } ] }" />
 
 <div class="d-flex flex-direction_row justify_content_left_space_between align-items_center mb_1">
     <div class="page_title text-xl mb-2 mt-4">Customers</div>
@@ -61,7 +53,7 @@
 
 </template>
 <script setup>
-
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import { onMounted } from 'vue'
 
 import useCustomers from '@/composables/customers/customers.js'

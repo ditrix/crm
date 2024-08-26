@@ -1,23 +1,12 @@
 <template>
-    <div class="breadcrump">
-        <router-link
-            class="items-center px-2 py-2 text-xs font-semibold"
-            :to="{ name: 'page.dashboard' }">
-            Home
-        </router-link>|
-        <router-link
-            class="items-center px-2 py-2 text-xs font-semibold"
-            :to="{ name: 'parameters.index' }">
-            parameters and options
-        </router-link>| <span class="text-xs px-2 py-2 font-semibold">Create contract type</span>
-    </div>
+    <Breadcrumbs title="Create contract type" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard' }, {'title': 'parameters and options', 'name': 'parameters.index' }] }" />
 
     <div v-if="errors">
-            <div v-for="(v, k) in errors" :key="k" class="bg-red-400 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
-                <p v-for="error in v" :key="error" class="text-sm">
-                    {{ error }}
-                </p>
-            </div>
+        <div v-for="(v, k) in errors" :key="k" class="bg-red-400 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
+            <p v-for="error in v" :key="error" class="text-sm">
+                {{ error }}
+            </p>
+        </div>
     </div>
 
     <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="createContractType">
@@ -88,7 +77,7 @@
 <script setup>
 
 import { reactive } from 'vue'
-
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import useContractTypes from '@/composables/parameters/contract_types'
 
 const {errors, storeContractType} = useContractTypes();

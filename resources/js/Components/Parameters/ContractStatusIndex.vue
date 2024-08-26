@@ -49,7 +49,7 @@
 <script setup>
 
     import { onMounted } from 'vue'
-
+    import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
     import useContractStatuses from '@/composables/parameters/contract_statuses'
     import { formatBoolean } from '@/helpers/functions'
 

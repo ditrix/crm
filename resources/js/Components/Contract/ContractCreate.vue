@@ -1,5 +1,12 @@
 <template>
 
+<Breadcrumbs title="Create contract" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'contracts', 'name': 'contract.index' } ] }" />
+
+<!-- добавить роут с параметром напр.  :to="{ name: 'customers.show', params: { id: customer.id} } -->
+<!-- <Breadcrumbs title="Create contract" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'customers', 'name': 'customers.index'},
+     {'title': 'customer', 'name': 'customer.show'} ] }" /> -->
+
+
     <div class="contanier">
         <div v-if="errors">
             <div v-for="(v, k) in errors" :key="k" class="bg-red-400 text-white rounded font-bold mb-2 shadow-lg py-2 px-4 pr-0">
@@ -137,6 +144,7 @@
 
 import { onMounted } from 'vue'
 import {reactive} from 'vue';
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import { formatBoolean,formatDate } from '@/helpers/functions'
 import useContracts from '@/composables/contracts/contracts.js'
 import useCustomers from '@/composables/customers/customers.js'

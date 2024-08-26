@@ -1,18 +1,6 @@
 <template>
 
- <div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.home' }">
-        Home
-    </router-link>|
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'permissions.index' }">
-        permissions
-    </router-link>|
-    <span class="text-xs px-2 py-2 font-semibold">Permission</span>
-</div>
+<Breadcrumbs title="Permission" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'permissions', 'name': 'permissions.index' } ] }" />
 
 <div class="contanier">
 
@@ -136,7 +124,7 @@
 </template>
 <script setup>
     import { ref, onMounted } from 'vue';
-
+    import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
     /* TODO deleteme */
     import axios from 'axios'
 

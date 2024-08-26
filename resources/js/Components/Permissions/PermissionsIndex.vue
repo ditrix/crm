@@ -1,5 +1,6 @@
 <template>
- <Breadcrumbs title="Permissions" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard' } ] }" />
+
+    <Breadcrumbs title="Permissions" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard' } ] }" />
 
 <hr>
     <div class="page_title text-xl mb-2 mt-4">Permissions</div>

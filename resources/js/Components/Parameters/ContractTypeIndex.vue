@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex flex-direction_row justify_content_left_space_between align-items_center mb_1">
-        <div class="page_title text-xl mb-2 mt-4">Contract type</div>
+        <div class="page_title text-xl mb-2 mt-4">Contract types</div>
         <div class="d-flex justify_content_right">
                 <router-link
                     class="btn btn_blue inline-flex items-center px-4 py-2 mr-5 text-xs font-semibold"
@@ -49,7 +49,7 @@
 
 
 import { onMounted } from 'vue'
-
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import useContractTypes from '@/composables/parameters/contract_types.js'
 import { formatBoolean } from '@/helpers/functions'
 

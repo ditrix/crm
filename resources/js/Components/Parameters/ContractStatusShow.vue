@@ -1,16 +1,5 @@
 <template>
-<div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.dashboard' }">
-        Home
-    </router-link>|
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'parameters.index' }">
-        parameters and options
-    </router-link>| <span class="text-xs px-2 py-2 font-semibold">Contract status</span>
-</div>
+    <Breadcrumbs title="Contract status" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'parameters and options', 'name': 'parameters.index' } ] }" />
      <!-- show errors block  -->
      <div v-if="errors">
         <div v-for="(v, k) in errors" :key="k" class="bg-red-400 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
@@ -86,6 +75,7 @@
 <script setup>
 
 import { onMounted } from 'vue'
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import useContractStatuses from '@/composables/parameters/contract_statuses'
 
 const {contract_status, getContractStatus, updateContractStatus} =  useContractStatuses();

@@ -1,18 +1,6 @@
 <template>
-    <div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.dashboard' }">
-        Home
-    </router-link>|
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'customers.index' }">
-        customers
-    </router-link>|
-        <span class="text-xs px-2 py-2 font-semibold">Customer</span>
-        <!-- <div>{{ customer.id }}</div> -->
-    </div>
+
+    <Breadcrumbs title="Create customer" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'customers', 'name': 'customers.index' } ] }" />
 
     <div class="contanier">
         <div v-if="errors">
@@ -25,6 +13,8 @@
     </div>
 
     <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="saveCustomer">
+
+        <div class="page_title text-xl mb-2">Create customer</div>
 
         <div class="form-item d-flex justify_content_right align-items_center">
             <label for="user_id" class="block text-sm font-medium text-gray-700 mr-4 pt-1">Manager</label>
@@ -174,7 +164,7 @@
 </template>
 <script setup>
 import useCustomers from '@/composables/customers/customers';
-
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import {reactive} from 'vue';
 
 const { storeCustomer, customer} = useCustomers();

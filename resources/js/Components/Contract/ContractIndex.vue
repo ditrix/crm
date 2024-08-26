@@ -1,12 +1,6 @@
 <template>
-<div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.dashboard' }">
-        Home
-    </router-link>|
-    <span class="text-xs px-2 py-2 font-semibold">Contracts</span>
-</div>
+
+<Breadcrumbs title="Contracts" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard' } ] }" />
 
 <div class="content-wrapper" style="width: 100%;">
     <table class="min-w-full  border divide-y divide-gray-300 grid_table">
@@ -64,6 +58,7 @@
 </template>
 <script setup>
 import { onMounted } from 'vue'
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import useContracts from '@/composables/contracts/contracts.js'
 import { formatBoolean,formatDate } from '@/helpers/functions'
 

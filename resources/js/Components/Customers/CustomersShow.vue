@@ -1,17 +1,7 @@
 <template>
-    <div class="breadcrump">
-        <router-link
-            class="items-center px-2 py-2 text-xs font-semibold"
-            :to="{ name: 'page.dashboard' }">
-            Home
-        </router-link>|
-        <router-link
-            class="items-center px-2 py-2 text-xs font-semibold"
-            :to="{ name: 'customers.index' }">
-            customers
-        </router-link>|
-        <span class="text-xs px-2 py-2 font-semibold">Customer</span>
-    </div>
+
+    <Breadcrumbs title="Customer" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'customers', 'name': 'customers.index' } ] }" />
+
     <div class="contanier">
         <div v-if="errors">
             <div v-for="(v, k) in errors" :key="k" class="bg-red-400 text-white rounded font-bold mb-2 shadow-lg py-2 px-4 pr-0">
@@ -239,7 +229,7 @@
 </template>
 <script setup>
 import { onMounted } from 'vue'
-
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import useCustomers from '@/composables/customers/customers.js'
 import useContracts from '@/composables/contracts/contracts.js'
 import { formatBoolean,formatDate } from '@/helpers/functions'

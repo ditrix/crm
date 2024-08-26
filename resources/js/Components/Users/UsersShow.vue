@@ -1,16 +1,6 @@
 <template>
-<div class="breadcrump">
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'page.dashboard' }">
-        Home
-    </router-link>|
-    <router-link
-        class="items-center px-2 py-2 text-xs font-semibold"
-        :to="{ name: 'users.index' }">
-        users
-    </router-link>| <span class="text-xs px-2 py-2 font-semibold">User</span>
-</div>
+
+<Breadcrumbs title="User" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'users', 'name': 'users.index' } ] }" />
 
 <div class="contanier">
 
@@ -25,7 +15,7 @@
 
     <form class="show_form space-y-6 rounded-md shadow-md mt_2 p" v-on:submit.prevent="saveUser">
 
-        <div class="page_title text-xl mb-2">User {{ user.id }}</div>
+        <div class="page_title text-xl mb-2">User</div>
 
         <div class="form-input_group_inline">
 
@@ -115,6 +105,8 @@
 <script setup>
 
 import { onMounted } from 'vue'
+
+import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 
 import useUsers from '@/composables/users'
 

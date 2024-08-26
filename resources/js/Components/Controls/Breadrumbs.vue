@@ -1,7 +1,7 @@
 <template>
 <div class="breadcrump">
     <ul>
-        <li v-for="route in props.links.routes" :key="route.name">
+        <li class="inline" v-for="route in props.links.routes" :key="route.name">
             <router-link
                 class="items-center px-2 py-2 text-xs font-semibold"
                 :to="{name: route.name }">
@@ -9,7 +9,7 @@
             </router-link>
         </li>
     </ul>
-    <span class="text-xs px-2 py-2 font-semibold">{{ props.title }}</span>
+    <span class="inline text-xs py-1 font-semibold">{{ props.title }}</span>
 </div>
 </template>
 
