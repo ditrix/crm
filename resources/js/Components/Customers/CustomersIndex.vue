@@ -34,15 +34,15 @@
             <td class="border border-gray-300 px-1">{{ customer.name }}</td>
             <td class="border border-gray-300 px-1">{{ customer.email }}</td>
             <td class="border border-gray-300 px-1">{{ customer.phone }}</td>
-            <td class="border border-gray-300 px-1 tx_center">{{ formatBoolean(customer.is_legal) }}</td>
-            <td class="border border-gray-300 px-1 tx_center">{{ formatBoolean(customer.is_active) }}</td>
-            <td class="border border-gray-300 px-1">
+            <td class="border border-gray-300 tx_center">{{ formatBoolean(customer.is_legal) }}</td>
+            <td class="border border-gray-300 tx_center">{{ formatBoolean(customer.is_active) }}</td>
+            <td class="border border-gray-300 tx_center">
                 <router-link
                     class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
                     :to="{ name: 'customers.show', params: { id: customer.id} }"
                     title="edit record"
                     >
-                    V
+                    Edit
                 </router-link>
                 <button
                     class="btn btn_red inline-flex items-center ml-1 px-2 py-1 text-xs font-semiboldtext-sm font-medium"
