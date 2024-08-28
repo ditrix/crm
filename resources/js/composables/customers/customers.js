@@ -10,17 +10,20 @@ export default function useCustomers() {
 
     const customers = ref([]);
 
+    const pagination = ref({});
+
     // для связанных объектов создаем пустышки
     const customer = ref({user:{}, users: {}});
 
-    const getCustomers = async () => {
+    const getCustomers = async (page = 1) => {
 
-        let response = await axios.get('customers');
-
+        let response = await axios.get(`customers?page=${page}`);
+        setPaginationData(response.data)
         customers.value = response.data.data;
 
 
     }
+
 
     const getCustomer = async (id) => {
 
@@ -33,7 +36,6 @@ export default function useCustomers() {
                 const response = await axios.get(`customers/${id}`);
 
                 customer.value = response.data.data;
-               // console.log('customer.value ', customer.value.user.email);
 
             } catch (error) {
                 console.error('error fetch data: ',error)
@@ -86,19 +88,66 @@ export default function useCustomers() {
     const destroyCustomer = async (id) => {
 
         let response = await axios.delete(`customers/${id}`);
-        console.log(response);
 
     }
+
+    const setPaginationData = (data) => {
+
+        pagination.value = {
+
+            first_url: data.links.first,
+            last_url: data.links.last,
+            next_url: data.links.next,
+            prev_url: data.links.prev,
+            last_page: data.meta.last_page,
+            links: data.meta.links,
+            total: data.meta.total
+        }
+        console.log('pagination.value',pagination.value);
+    }
+
+    const getCistomersFromLink = async (url) => {
+        if(!url) {
+            return;
+        }
+        try {
+          let response = await axios.get(url);
+          customers.value = response.data.data;
+          pagination.value = response.data;
+          console.log(customers.value);
+          setPaginationData(response.data)
+        } catch (error) {
+          console.error('get data error: ', error);
+        }
+      }
+
+
+      const nextPage = () => {
+        console.log('nextPage');
+        if (pagination.value.next_url) {
+            getContracts(pagination.value.current_page + 1);
+        }
+      };
+
+      const prevPage = () => {
+        if (pagination.value.prev_url) {
+            getContracts(pagination.value.current_page - 1);
+        }
+      };
 
     return {
         errors,
         customers,
         customer,
+        pagination,
         getCustomers,
         getCustomer,
+        getCistomersFromLink,
         updateCustomer,
         storeCustomer,
         destroyCustomer,
+        nextPage,
+        prevPage
     }
 
 }

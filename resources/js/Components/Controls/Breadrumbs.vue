@@ -22,6 +22,10 @@ const props = defineProps({
     links: {
         required: true,
         type: Object,
+    },
+    route_parameters: {
+        required: false,
+        type: Object,
     }
 });
 </script>

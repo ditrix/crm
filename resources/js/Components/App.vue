@@ -4,7 +4,6 @@
         <Login />
     </div>
     <div v-else>
-    <TopMenu />
     <div class="container">
         <div class="navbar">
             <Menu />
@@ -17,7 +16,6 @@
 </template>
 <script setup>
   //  import axios from 'axios'
-    import TopMenu from './TopMenu.vue'
     import Menu from './Menu.vue'
     import Login from './Login.vue'
 

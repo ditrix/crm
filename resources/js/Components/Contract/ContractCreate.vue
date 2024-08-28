@@ -167,10 +167,9 @@ const props = defineProps({
 
 const {customer, getCustomer} = useCustomers();
 
-const {contract, storeContract} = useContracts();
+const {errors,contract, storeContract} = useContracts();
 
 const {
-    errors,
     users,
     user,
     getUsers,

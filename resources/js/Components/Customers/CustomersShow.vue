@@ -2,15 +2,7 @@
 
     <Breadcrumbs title="Customer" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'customers', 'name': 'customers.index' } ] }" />
 
-    <div class="contanier">
-        <div v-if="errors">
-            <div v-for="(v, k) in errors" :key="k" class="bg-red-400 text-white rounded font-bold mb-2 shadow-lg py-2 px-4 pr-0">
-                <p v-for="error in v" :key="error" class="text-sm">
-                    {{ error }}
-                </p>
-            </div>
-        </div>
-    </div>
+    <ErrorMessage :errors="errors.value" />
 
     <form class="show_form rounded-md shadow-md mt_2" v-on:submit.prevent="saveCustomer">
         <div class="form-item d-flex justify_content_right align-items_center">

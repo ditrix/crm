@@ -1,6 +1,7 @@
 .container {
     width: 100%;
-    display: grid; grid-template-columns: 20% 80%;
+    display: grid; grid-template-columns: 10% 90%;
+    margin: 0 auto;
 }
 
 .content {

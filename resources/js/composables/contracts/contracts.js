@@ -64,6 +64,7 @@ export default function useContracts() {
     }
 
     const getContractsFromLink = async (url) => {
+
         if(!url) {
             return;
         }
@@ -71,7 +72,6 @@ export default function useContracts() {
           let response = await axios.get(url);
           contracts.value = response.data.data;
           pagination.value = response.data;
-          console.log(contracts.value);
           setPaginationData(response.data)
         } catch (error) {
           console.error('get data error: ', error);
@@ -85,7 +85,6 @@ export default function useContracts() {
             console.log(response);
 
         } catch(error) {
-//             console.log('get data error: ', error.message)
             if (error.response.status === 422) {
                 for (const key in error.response.data.errors) {
                     errors.value = error.response.data.errors
@@ -107,11 +106,11 @@ export default function useContracts() {
 
         } catch (error) {
 
-            console.error('get data error: ', error);
+            console.error('get data error: ', error.response);
 
             if (error.response.status === 422) {
                 for (const key in error.response.data.errors) {
-                    errors.value = error.response.data.errors
+                    errors.value = error.response.data.errors;
                 }
             } else {
                 console.log('get data error: ', error.message)
@@ -120,26 +119,24 @@ export default function useContracts() {
           }
     }
 
-    const nextPage = () => {
+    // const nextPage = () => {
 
-        if (pagination.value.next_url) {
-            getContracts(pagination.value.current_page + 1);
-        }
-      };
+    //     if (pagination.value.next_url) {
+    //         getContracts(pagination.value.current_page + 1);
+    //     }
+    //   };
 
-      const prevPage = () => {
-        if (pagination.value.prev_url) {
-            getContracts(pagination.value.current_page - 1);
-        }
-      };
+    //   const prevPage = () => {
+    //     if (pagination.value.prev_url) {
+    //         getContracts(pagination.value.current_page - 1);
+    //     }
+    //   };
 
     return {
         errors,
         pagination,
         contracts,
         contract,
-        nextPage,
-        prevPage,
         getContracts,
         getContract,
         getContractsFromLink,

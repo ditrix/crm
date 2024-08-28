@@ -215,3 +215,6 @@ border: 1px red solid;
     font-weight: bold;
 }
 
+.width-100 {
+    width: 100%;
+}

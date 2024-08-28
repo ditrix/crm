@@ -1,7 +1,11 @@
 <template>
     <nav  v-if="isAuthenticated">
-    <ul>
-        <!-- <li><router-link to="/">Home</router-link></li> -->
+    <ul class="text-sm">
+         <li>
+            <div class="px-6">
+                <div class="page_title text-xl mb-2 mt-4">SPA Crm</div>
+            </div>
+        </li>
         <li><router-link to="/dashboard">Dashboard</router-link></li>
         <li><router-link to="/customers">Customers</router-link></li>
         <li><router-link to="/contracts">Contracts</router-link></li>
@@ -13,7 +17,7 @@
         <!-- <li v-if="!isAuthenticated"><router-link to="/login">Login</router-link></li> -->
         <!-- <li v-if="!isAuthenticated"><router-link to="/register">Register</router-link></li>
         <li v-if="isAuthenticated"><router-link to="/dashboard">Dashboard</router-link></li> -->
-        <!-- <li v-if="isAuthenticated"><a @click.prevent="logout">Logout</a></li> -->
+        <li v-if="isAuthenticated" class="py-2"><a class="btn_red px-2 py-1 border" @click.prevent="logout">Logout</a></li>
         </ul>
     </nav>
     </template>
@@ -25,11 +29,8 @@ import { useRouter } from 'vue-router'
 import { computed } from 'vue';
 
 const authStore = useAuthStore()
-// const isAuthenticated = ref(authStore.isAuthenticated)
-
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
-
 
 const router = useRouter()
 

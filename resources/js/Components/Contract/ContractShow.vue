@@ -2,6 +2,8 @@
 
     <Breadcrumbs title="Contract" :links="{ routes: [{ 'title': 'Home', 'name': 'page.dashboard'},{'title': 'contracts', 'name': 'contract.index' } ] }" />
 
+    <ErrorMessage :errors="{errors: [{'errors': 'errors'}]}" />
+
     <div class="contanier">
         <div v-if="errors">
             <div v-for="(v, k) in errors" :key="k" class="bg-red-400 text-white rounded font-bold mb-2 shadow-lg py-2 px-4 pr-0">

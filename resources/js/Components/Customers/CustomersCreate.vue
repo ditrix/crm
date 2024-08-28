@@ -167,7 +167,7 @@ import useCustomers from '@/composables/customers/customers';
 import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
 import {reactive} from 'vue';
 
-const { storeCustomer, customer} = useCustomers();
+const { storeCustomer, customer, errors} = useCustomers();
 
 const form = reactive({
     'user_id': '',
