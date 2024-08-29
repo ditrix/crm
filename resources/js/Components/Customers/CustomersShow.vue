@@ -160,31 +160,31 @@
     </div>
 </div>
 
-        <table class="min-w-full  border divide-y divide-gray-300 grid_table">
+        <table class="table-auto border-collapse border text-xs width-100">
         <thead>
-            <tr>
-                <th class="pl_1">ID</th>
-                <th class="pl_1">Status</th>
-                <th class="pl_1">Code</th>
-                <th class="pl_1">Title</th>
-                <th class="pl_1">Is active</th>
-                <th class="pl_1">Active from</th>
-                <th class="pl_1">Active to</th>
-                <th class="pl-1">Action</th>
+            <tr  class="backdrop-filter backdrop-grayscale">
+                <th class="border border-gray-300">ID</th>
+                <th class="border border-gray-300">Status</th>
+                <th class="border border-gray-300">Code</th>
+                <th class="border border-gray-300">Title</th>
+                <th class="border border-gray-300">Is active</th>
+                <th class="border border-gray-300">Active from</th>
+                <th class="border border-gray-300">Active to</th>
+                <th class="border border-gray-300">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="contract in customer.contracts" :key="contract.id" class="greed_tr">
-                <td class="pl_1">{{contract.id}}</td>
-                <td class="pl_1">{{contract.contract_status}}</td>
-                <td class="pl_1">{{contract.code}}</td>
-                <td class="pl_1">{{contract.title}}</td>
-                <td class="tx_center">{{formatBoolean(contract.is_active)}}</td>
-                <td class="pl_1">{{formatDate(contract.updated_at)}}</td>
-                <td class="pl_1">{{formatDate(contract.created_at)}}</td>
+                <td class="border border-gray-300 px-1">{{contract.id}}</td>
+                <td class="border border-gray-300 px-1">{{contract.contract_status}}</td>
+                <td class="border border-gray-300 px-1">{{contract.code}}</td>
+                <td class="border border-gray-300 px-1">{{contract.title}}</td>
+                <td class="border border-gray-300 px-1 tx_center">{{formatBoolean(contract.is_active)}}</td>
+                <td class="border border-gray-300 px-1">{{formatDate(contract.updated_at)}}</td>
+                <td class="border border-gray-300 px-1">{{formatDate(contract.created_at)}}</td>
                 <td>
                     <router-link
-                        class="btn btn_lightgray inline-flex items-center px-4 py-2 text-xs font-semibold"
+                        class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
                         :to="{ name: 'contract.show', params: { id: contract.id } }">
                         Edit
                     </router-link>
