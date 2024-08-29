@@ -6,37 +6,37 @@
     <div class="page_title text-xl mb-2 mt-4">Permissions</div>
 
     <div class="space-y-6 rounded-md shadow-md mt_2 pl_1 pr_1 pb_1 pt_1">
-        <table class="min-w-full  border divide-y divide-gray-300 grid_table">
+        <table class="table-auto border-collapse border text-xs width-100">
         <thead>
-            <tr>
-                <th>role</th>
-                <th>r/w own customer</th>
-                <th>r/w own deals</th>
-                <th>r/w own reports</th>
-                <th>r/w customer</th>
-                <th>r/w deals</th>
-                <th>r/w reports</th>
-                <th>r/w options</th>
-                <th>r/w parameters</th>
-                <th>r/w users</th>
-                <th>actions</th>
+            <tr class="backdrop-filter backdrop-grayscale">
+                <th class="border border-gray-300 px-1">role</th>
+                <th class="border border-gray-300 px-1">r/w own customer</th>
+                <th class="border border-gray-300 px-1">r/w own deals</th>
+                <th class="border border-gray-300 px-1">r/w own reports</th>
+                <th class="border border-gray-300 px-1">r/w customer</th>
+                <th class="border border-gray-300 px-1">r/w deals</th>
+                <th class="border border-gray-300 px-1">r/w reports</th>
+                <th class="border border-gray-300 px-1">r/w options</th>
+                <th class="border border-gray-300 px-1">r/w parameters</th>
+                <th class="border border-gray-300 px-1">r/w users</th>
+                <th class="border border-gray-300 px-1">actions</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="permission in permissions" :key="permission.id" class="greed_tr">
-                <td class="pl_1 fbold">{{ permission.role_name }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_own_customer) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_own_deals) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_own_reports) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_customer) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_deals) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_reports) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_options) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_parameters) }}</td>
-                <td class="tx_center">{{ formatBoolean(permission.rw_users) }}</td>
-                <td class="tx_center">
+                <td class="border border-gray-300 px-1">{{ permission.role_name }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_own_customer) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_own_deals) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_own_reports) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_customer) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_deals) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_reports) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_options) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_parameters) }}</td>
+                <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_users) }}</td>
+                <td class="border border-gray-300 text-center">
                     <router-link
-                        class="btn btn_lightgray inline-flex items-center px-4 py-2 text-xs font-semibold"
+                        class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
                         :to="{ name: 'permissions.show', params: { id: permission.id} }">
                         Edit
                     </router-link>

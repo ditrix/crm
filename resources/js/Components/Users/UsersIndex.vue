@@ -13,29 +13,29 @@
 </div>
 
 <div class="space-y-6 rounded-md shadow-md mt_2 pl_1 pr_1 pb_1 pt_1">
-    <table class="min-w-full  border divide-y divide-gray-300 grid_table">
+    <table class="table-auto border-collapse border text-xs width-100">
     <thead>
-        <tr>
-            <th class="pl_1">ID</th>
-            <th class="pl_1">User</th>
-            <th class="pl_1">Email</th>
-            <th class="pl_1">Phone</th>
-            <th class="pl_1">Active</th>
-            <th class="pl_1">Role</th>
-            <th class="pl_1"></th>
+        <tr class="backdrop-filter backdrop-grayscale">
+            <th class="border border-gray-300 px-1">ID</th>
+            <th class="border border-gray-300 px-1">User</th>
+            <th class="border border-gray-300 px-1">Email</th>
+            <th class="border border-gray-300 px-1">Phone</th>
+            <th class="border border-gray-300 px-1">Active</th>
+            <th class="border border-gray-300 px-1">Role</th>
+            <th class="border border-gray-300 px-1">Action</th>
         </tr>
     </thead>
     <tbody>
         <tr v-for="user in users" :key="user.id" class="greed_tr">
-            <td class="pl_1 fbold">{{ user.id }}</td>
-            <td class="pl_4 fbold">{{ user.name }}</td>
-            <td class="pl_4">{{ user.email }}</td>
-            <td class="pl_4">{{ user.phone }}</td>
-            <td class="tx_center">{{ formatBoolean(user.is_active) }}</td>
-            <td class="pl_4">{{ user.permission.role_name }}</td>
-            <td class="tx_center">
+            <td class="border border-gray-300 px-1">{{ user.id }}</td>
+            <td class="border border-gray-300 px-1">{{ user.name }}</td>
+            <td class="border border-gray-300 px-1">{{ user.email }}</td>
+            <td class="border border-gray-300 px-1">{{ user.phone }}</td>
+            <td class="border border-gray-300 text-center">{{ formatBoolean(user.is_active) }}</td>
+            <td class="border border-gray-300 px-1">{{ user.permission.role_name }}</td>
+            <td class="border border-gray-300 text-center">
                 <router-link
-                    class="btn btn_lightgray inline-flex items-center px-4 py-2 text-xs font-semibold"
+                    class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
                     :to="{ name: 'users.show', params: { id: user.id} }">
                     Edit
                 </router-link>

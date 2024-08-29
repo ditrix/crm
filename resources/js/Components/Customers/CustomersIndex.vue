@@ -34,9 +34,9 @@
             <td class="border border-gray-300 px-1">{{ customer.name }}</td>
             <td class="border border-gray-300 px-1">{{ customer.email }}</td>
             <td class="border border-gray-300 px-1">{{ customer.phone }}</td>
-            <td class="border border-gray-300 tx_center">{{ formatBoolean(customer.is_legal) }}</td>
-            <td class="border border-gray-300 tx_center">{{ formatBoolean(customer.is_active) }}</td>
-            <td class="border border-gray-300 tx_center">
+            <td class="border border-gray-300 text-center">{{ formatBoolean(customer.is_legal) }}</td>
+            <td class="border border-gray-300 text-center">{{ formatBoolean(customer.is_active) }}</td>
+            <td class="border border-gray-300 text-center">
                 <router-link
                     class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
                     :to="{ name: 'customers.show', params: { id: customer.id} }"
@@ -78,9 +78,9 @@
             <td class="pl_4">{{ customer.name }}</td>
             <td class="pl_4">{{ customer.email }}</td>
             <td class="pl_4">{{ customer.phone }}</td>
-            <td class="tx_center">{{ formatBoolean(customer.is_legal) }}</td>
-            <td class="tx_center">{{ formatBoolean(customer.is_active) }}</td>
-            <td class="tx_center">
+            <td class="text-center">{{ formatBoolean(customer.is_legal) }}</td>
+            <td class="text-center">{{ formatBoolean(customer.is_active) }}</td>
+            <td class="text-center">
                 <router-link
                     class="btn btn_lightgray inline-flex items-center px-4 py-2 text-xs font-semibold"
                     :to="{ name: 'customers.show', params: { id: customer.id} }">

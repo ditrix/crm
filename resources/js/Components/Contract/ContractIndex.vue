@@ -27,10 +27,10 @@
             <td class="border border-gray-300 px-1">{{contract.contract_status}}</td>
             <td class="border border-gray-300 px-1">{{contract.code}}</td>
             <td class="border border-gray-300 px-1">{{contract.title}}</td>
-            <td class="border border-gray-300 px-1 tx_center">{{formatBoolean(contract.is_active)}}</td>
-            <td class="border border-gray-300 px-1">{{formatDate(contract.active_from)}}</td>
-            <td class="border border-gray-300 px-1">{{formatDate(contract.active_to)}}</td>
-            <td class="border border-gray-300 px-1">
+            <td class="border border-gray-300 text-center">{{formatBoolean(contract.is_active)}}</td>
+            <td class="border border-gray-300 text-center">{{formatDate(contract.active_from)}}</td>
+            <td class="border border-gray-300 text-center">{{formatDate(contract.active_to)}}</td>
+            <td class="border border-gray-300 text-center">
                 <router-link
                     class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
                     :to="{ name: 'contract.show', params: { id: contract.id} }">

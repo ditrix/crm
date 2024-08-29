@@ -12,30 +12,30 @@
     </div>
 
     <div class="content-wrapper" style="width: 100%;">
-        <table class="min-w-full  border divide-y divide-gray-300 grid_table">
+        <table class="table-auto border-collapse border text-xs width-100">
         <thead>
-            <tr>
-                <th class="pl_1">Status</th>
-                <th class="pl_1">Desctiption</th>
-                <th class="pl_1">Is active</th>
-                <th class="pl_1">Order</th>
-                <th class="pl_1"></th>
+            <tr class="backdrop-filter backdrop-grayscale">
+                <th class="border border-gray-300 px-1">Status</th>
+                <th class="border border-gray-300 px-1">Desctiption</th>
+                <th class="border border-gray-300 px-1">Is active</th>
+                <th class="border border-gray-300 px-1">Order</th>
+                <th class="border border-gray-300 px-1"></th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="contract_status in contract_statuses" :key="contract_status.id" class="greed_tr">
-                <td class="pl_4 fbold">{{ contract_status.name }}</td>
-                <td class="pl_4">{{ contract_status.description }}</td>
-                <td class="tx_center">{{ formatBoolean(contract_status.is_active) }}</td>
-                <td class="tx_center">{{ contract_status.order_condition }}</td>
-                <td class="tx_center">
+                <td class="border border-gray-300 px-1">{{ contract_status.name }}</td>
+                <td class="border border-gray-300 px-1">{{ contract_status.description }}</td>
+                <td class="border border-gray-300 tx_center">{{ formatBoolean(contract_status.is_active) }}</td>
+                <td class="border border-gray-300 tx_center">{{ contract_status.order_condition }}</td>
+                <td class="border border-gray-300 tx_center">
                     <router-link
-                        class="btn btn_lightgray inline-flex items-center px-4 py-2 text-xs font-semibold"
+                        class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
                         :to="{ name: 'contract_statuses.show', params: { id: contract_status.id} }">
                         Edit
                     </router-link>
                     <button
-                        class="btn btn_red inline-flex items-center ml-1 px-4 py-2 text-xs font-semiboldtext-sm font-medium"
+                        class="btn btn_red inline-flex items-center ml-1 px-2 py-1 text-xs font-semiboldtext-sm font-medium"
                         @click="deleteContractStatus(contract_status.id)" >
                         X
                     </button>
