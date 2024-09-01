@@ -106,7 +106,7 @@ export default function useCustomers() {
         console.log('pagination.value',pagination.value);
     }
 
-    const getCistomersFromLink = async (url) => {
+    const getPaginateData = async (url) => {
         if(!url) {
             return;
         }
@@ -142,7 +142,7 @@ export default function useCustomers() {
         pagination,
         getCustomers,
         getCustomer,
-        getCistomersFromLink,
+        getPaginateData,
         updateCustomer,
         storeCustomer,
         destroyCustomer,

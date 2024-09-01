@@ -63,7 +63,7 @@ export default function useContracts() {
 
     }
 
-    const getContractsFromLink = async (url) => {
+    const getPaginateData = async (url) => {
 
         if(!url) {
             return;
@@ -119,19 +119,6 @@ export default function useContracts() {
           }
     }
 
-    // const nextPage = () => {
-
-    //     if (pagination.value.next_url) {
-    //         getContracts(pagination.value.current_page + 1);
-    //     }
-    //   };
-
-    //   const prevPage = () => {
-    //     if (pagination.value.prev_url) {
-    //         getContracts(pagination.value.current_page - 1);
-    //     }
-    //   };
-
     return {
         errors,
         pagination,
@@ -139,7 +126,7 @@ export default function useContracts() {
         contract,
         getContracts,
         getContract,
-        getContractsFromLink,
+        getPaginateData,
         storeContract,
         updateContract,
     }

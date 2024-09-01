@@ -22,3 +22,12 @@
     width: 100%;
     border-bottom: 1px lightgray solid;
 }
+
+.logout-menu--item a {
+    color: #f08080;
+    font-weight: 700;
+}
+
+.logout-menu--item :hover {
+    cursor: pointer;
+}

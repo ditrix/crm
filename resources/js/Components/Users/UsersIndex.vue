@@ -35,9 +35,9 @@
             <td class="border border-gray-300 px-1">{{ user.permission.role_name }}</td>
             <td class="border border-gray-300 text-center">
                 <router-link
-                    class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
+                    class="btn rounded-sm bg-blue-400  text-white inline-flex items-center px-2 py-1 text-xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     :to="{ name: 'users.show', params: { id: user.id} }">
-                    Edit
+                    <LabelEdit />
                 </router-link>
             </td>
         </tr>
@@ -51,6 +51,7 @@
 
 import { onMounted } from 'vue'
 import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
+import LabelEdit from '@/Components/Controls/images/LabelEdit.vue';
 
 import useUsers from '@/composables/users'
 import { formatBoolean } from '@/helpers/functions'

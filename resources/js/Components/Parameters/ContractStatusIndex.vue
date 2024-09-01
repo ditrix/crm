@@ -30,14 +30,14 @@
                 <td class="border border-gray-300 tx_center">{{ contract_status.order_condition }}</td>
                 <td class="border border-gray-300 tx_center">
                     <router-link
-                        class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
+                        class="btn rounded-sm bg-blue-400  text-white inline-flex items-center px-2 py-1 text-xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         :to="{ name: 'contract_statuses.show', params: { id: contract_status.id} }">
-                        Edit
+                        <LabelEdit />
                     </router-link>
                     <button
-                        class="btn btn_red inline-flex items-center ml-1 px-2 py-1 text-xs font-semiboldtext-sm font-medium"
+                        class="btn rounded-sm bg-red-400 inline-flex items-center ml-1 px-2 py-1 text-xs font-semiboldtext-sm font-medium"
                         @click="deleteContractStatus(contract_status.id)" >
-                        X
+                        <LabelDelete />
                     </button>
                 </td>
             </tr>
@@ -52,6 +52,10 @@
     import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
     import useContractStatuses from '@/composables/parameters/contract_statuses'
     import { formatBoolean } from '@/helpers/functions'
+
+    import LabelDelete from '@/Components/Controls/images/LabelDelete.vue';
+    import LabelEdit from '@/Components/Controls/images/LabelEdit.vue';
+
 
     const {contract_statuses, getContractStatuses, destroyContractStatus} = useContractStatuses();
 

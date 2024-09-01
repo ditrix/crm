@@ -15,7 +15,7 @@ class ContractController extends Controller
      */
     public function index()
     {
-        return ContractResource::collection(Contract::orderBy('id','desc')->paginate(10));
+        return ContractResource::collection(Contract::orderBy('id','desc')->paginate(30));
     }
 
     /**

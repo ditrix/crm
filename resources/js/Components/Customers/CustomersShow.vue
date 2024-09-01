@@ -49,11 +49,11 @@
             </div>
             <div class="sm:col-span-2"></div>
             <div class="sm:col-span-2">
-            <label for="is_active" class="block text-sm font-medium leading-6 text-gray-900">Active</label>
+                <label for="is_active" class="block text-sm font-medium leading-6 text-gray-900">Active</label>
                 <div class="mt-1">
                     <select name="is_active" id="is_active" v-model="customer.is_active"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                        <option value="1">-- Yes --</option>
-                        <option value="0">-- No --</option>
+                        <option value="1">-- Active --</option>
+                        <option value="0">-- Inactive --</option>
                     </select>
                 </div>
             </div>
@@ -101,7 +101,9 @@
             </div>
         </div>
 
+
         <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
             <div class="sm:col-span-2">
                 <label for="is_legal" class="block text-sm font-medium leading-6 text-gray-900">Personal status</label>
                     <div class="mt-1">
@@ -111,6 +113,7 @@
                         </select>
                     </div>
             </div>
+
             <div class="sm:col-span-2" v-if="customer.is_legal == 1">
                 <label for="code" class="block text-sm font-medium leading-6 text-gray-900">VAT code</label>
                 <div class="mt-2">
@@ -158,7 +161,6 @@
                 <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                <div class="mt-2">
                 <textarea id="description" name="description" rows="4" v-model="customer.description" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-                <!-- <textarea id="comment" name="comment" rows="4" v-model="contract.comment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea> -->
                </div>
             </div>
         </div>
@@ -211,9 +213,9 @@
                 <td class="border border-gray-300 px-1">{{formatDate(contract.created_at)}}</td>
                 <td>
                     <router-link
-                        class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
+                        class="btn rounded-sm bg-blue-400  text-white inline-flex items-center px-2 py-1 text-xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         :to="{ name: 'contract.show', params: { id: contract.id } }">
-                        Edit
+                        <LabelEdit />
                     </router-link>
 <!--                                                                    новый параметр:   vvvvvvvvvvvvvvvvv -->
                     <!-- <router-link :to="{ name: 'contract.show', params: { id: contract.id, from: 'customer' } }">
@@ -249,6 +251,8 @@
 <script setup>
 import { onMounted } from 'vue'
 import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
+import LabelEdit from '@/Components/Controls/images/LabelEdit.vue';
+
 import useCustomers from '@/composables/customers/customers.js'
 import useContracts from '@/composables/contracts/contracts.js'
 import { formatBoolean,formatDate } from '@/helpers/functions'

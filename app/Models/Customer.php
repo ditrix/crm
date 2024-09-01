@@ -30,8 +30,8 @@ class Customer extends Model
         'contact_name',
         'contact_email',
         'contact_phone',
-        'deleted_at',
         'description',
+        'deleted_at',
         'created_at',
         'updated_at'
     ];

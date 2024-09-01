@@ -36,9 +36,9 @@
                 <td class="border border-gray-300 text-center">{{ formatBoolean(permission.rw_users) }}</td>
                 <td class="border border-gray-300 text-center">
                     <router-link
-                        class="btn btn_lightgray inline-flex items-center px-2 py-1 text-xs font-semibold"
+                        class="btn rounded-sm bg-blue-400  text-white inline-flex items-center px-2 py-1 text-xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         :to="{ name: 'permissions.show', params: { id: permission.id} }">
-                        Edit
+                        <LabelEdit />
                     </router-link>
                 </td>
             </tr>
@@ -56,6 +56,7 @@ import { formatBoolean } from '@/helpers/functions'
 import usePermissions from '@/composables/permissions'
 
 import Breadcrumbs from '@/Components/Controls/Breadrumbs.vue';
+import LabelEdit from '@/Components/Controls/images/LabelEdit.vue';
 
 const {permissions, getPermissions} = usePermissions()
 
