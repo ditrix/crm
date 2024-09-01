@@ -35,6 +35,7 @@ class CustomerRequest extends FormRequest
             'contact_email' => 'nullable',
             'contact_phone' => 'nullable',
             'deleted_at'    => 'nullable',
+            'description'   => 'nullable',
         ];
     }
 }

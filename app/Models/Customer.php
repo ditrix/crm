@@ -30,7 +30,10 @@ class Customer extends Model
         'contact_name',
         'contact_email',
         'contact_phone',
-        'deleted_at'
+        'deleted_at',
+        'description',
+        'created_at',
+        'updated_at'
     ];
 
     public function getStatusNameAttribute()

@@ -35,6 +35,7 @@ class CustomerResource extends JsonResource
             'deleted_at'    => $this->deleted_at,
             'created_at'    => $this->created_at,
             'updated_at'    => $this->updated_at,
+            'description'   => $this->description,
             'user'          => new UserResource($this->whenLoaded('user')),
             'users'         => UserResource::collection(User::all()),
             'contracts'     => $this->contracts
