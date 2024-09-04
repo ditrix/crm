@@ -19,7 +19,8 @@ class ContractTypeResource extends JsonResource
             'code'              => $this->code,
             'title'             => $this->title,
             'is_active'         => $this->is_active,
-            'order_condition'   => $this->order_condition
+            'order_condition'   => $this->order_condition,
+            'description'       => $this->description,
         ];
     }
 }

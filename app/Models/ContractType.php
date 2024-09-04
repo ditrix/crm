@@ -14,5 +14,6 @@ class ContractType extends Model
         'title',
         'is_active',
         'order_condition',
+        'description',
     ];
 }

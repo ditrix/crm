@@ -26,6 +26,7 @@ class ContractTypeRequest extends FormRequest
             'title'             => 'nullable',
             'is_active'         => 'nullable',
             'order_condition'   => 'nullable',
+            'description'       => 'nullable',
         ];
     }
 }

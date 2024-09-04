@@ -43,7 +43,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="sm:col-span-1">
+                <div class="sm:col-span-2">
                     <label for="order_condition" class="block text-sm font-medium leading-6 text-gray-900">Order position</label>
                     <div class="mt-2">
                         <input type="number" name="order_condition" id="order_condition" autocomplete="address-level2"
@@ -52,6 +52,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
