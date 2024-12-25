@@ -5,6 +5,41 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $role
+ * @property int $rw_own_customer
+ * @property int $rw_own_deals
+ * @property int $rw_own_reports
+ * @property int $rw_customer
+ * @property int $rw_deals
+ * @property int $rw_reports
+ * @property int $rw_options
+ * @property int $rw_parameters
+ * @property int $rw_users
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $role_name
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwCustomer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwDeals($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwOptions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwOwnCustomer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwOwnDeals($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwOwnReports($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwParameters($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwReports($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereRwUsers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Permission extends Model
 {
     use HasFactory;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ContractResource;
 use App\Http\Requests\ContractRequest;
-use App\Models\Contract;
+use App\Models\Contract\Contract;
 
 
 class ContractController extends Controller

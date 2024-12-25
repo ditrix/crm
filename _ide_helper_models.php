@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Models;
-
-use App\Models\Contract\Contract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-
+// @formatter:off
+// phpcs:ignoreFile
 /**
+ * A helper file for your Eloquent Models
+ * Copy the phpDocs from this file to the correct Model,
+ * And remove them from this file, to prevent double declarations.
  *
+ * @author Barry vd. Heuvel <barryvdh@gmail.com>
+ */
+
+
+namespace App\Models{
+/**
+ * 
  *
  * @property int $id
  * @property int|null $user_id
@@ -53,67 +57,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUserId($value)
- * @mixin \Eloquent
  */
-class Customer extends Model
-{
-    use HasFactory;
-
-    const STATUS_POTENCIAL = 'potencial';
-    const STATUS_CURRENT = 'current';
-    const STATUS_FORMER = 'former';
-
-    protected $appends = ['status_name'];
-
-    protected  $fillable = [
-        'user_id',
-        'status',
-        'name',
-        'email',
-        'phone',
-        'address',
-        'is_legal',
-        'is_active',
-        'code',
-        'contact_name',
-        'contact_email',
-        'contact_phone',
-        'description',
-        'deleted_at',
-        'created_at',
-        'updated_at'
-    ];
-
-    public function getStatusNameAttribute()
-    {
-        switch ($this->status) {
-
-            case self::STATUS_POTENCIAL:
-
-                return 'potencial';
-
-            case self::STATUS_CURRENT:
-
-                return 'current';
-
-            case self::STATUS_FORMER:
-
-                return 'former';
-
-            default:
-                return 'unknown';
-        }
-    }
-
-    public function user(): HasOne
-    {
-        //return $this->hasOne(User::class);
-        return $this->hasOne(User::class, 'id', 'user_id');
-    }
-
-    public function contracts(): HasMany
-    {
-        return $this->hasMany(Contract::class);
-    }
-
+	class Customer extends \Eloquent {}
 }
+

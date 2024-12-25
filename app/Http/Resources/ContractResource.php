@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Models\ContractStatus;
-use App\Models\ContractType;
+use App\Models\Contract\ContractStatus;
+use App\Models\Contract\ContractType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
