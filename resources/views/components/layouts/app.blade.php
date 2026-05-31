@@ -56,19 +56,24 @@
                 </p>
             </div>
 
-            <x-nav-link :href="'#'" :active="false">
+            <x-nav-link :href="route('tools.calendar')" :active="request()->routeIs('tools.calendar')">
                 <x-icon name="calendar" class="w-5 h-5" />
                 {{ __('messages.calendar') }}
             </x-nav-link>
 
-            <x-nav-link :href="'#'" :active="false">
+            <x-nav-link :href="route('tools.note')" :active="request()->routeIs('tools.note')">
                 <x-icon name="pencil-square" class="w-5 h-5" />
                 {{ __('messages.notes') }}
             </x-nav-link>
 
-            <x-nav-link :href="'#'" :active="false">
+            <x-nav-link :href="route('tools.tasks')" :active="request()->routeIs('tools.tasks')">
                 <x-icon name="check-circle" class="w-5 h-5" />
                 {{ __('messages.tasks') }}
+            </x-nav-link>
+
+            <x-nav-link :href="route('tools.reminders')" :active="request()->routeIs('tools.reminders')">
+                <x-icon name="bell" class="w-5 h-5" />
+                {{ __('messages.reminders') }}
             </x-nav-link>
 
             @if(auth()->user()?->isAdmin())
@@ -168,6 +173,77 @@
             'dark',
             localStorage.getItem('darkMode') === 'true'
         );
+    </script>
+
+    {{-- Reminder notify-modal: shows on first page load after login --}}
+    <div x-data="reminderModal('{{ route('tools.reminders.pending') }}', '{{ csrf_token() }}')"
+         x-init="init()"
+         x-show="show && reminders.length > 0"
+         x-transition.opacity
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
+         style="display:none">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-sm p-6">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white">{{ __('messages.reminders_title') }}</h3>
+                    <p x-text="reminders.length + ' {{ __('messages.reminders') }}'" class="text-xs text-gray-400"></p>
+                </div>
+            </div>
+
+            <ul class="space-y-2 mb-5 max-h-48 overflow-y-auto">
+                <template x-for="r in reminders" :key="r.id">
+                    <li class="flex items-start gap-2 text-sm">
+                        <span class="text-amber-500 mt-0.5">•</span>
+                        <div>
+                            <p class="text-gray-800 dark:text-gray-200" x-text="r.message"></p>
+                            <p class="text-xs text-gray-400" x-text="r.remind_at"></p>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+
+            <button @click="dismiss()"
+                    class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-2xl transition">
+                {{ __('messages.reminder_dismiss') }}
+            </button>
+        </div>
+    </div>
+
+    <script>
+    function reminderModal(url, token) {
+        return {
+            show: false,
+            reminders: [],
+
+            async init() {
+                if (! document.cookie.includes('reminders_shown')) {
+                    try {
+                        const r = await fetch(url, { headers: { 'X-CSRF-TOKEN': token } });
+                        this.reminders = await r.json();
+                        if (this.reminders.length) {
+                            this.show = true;
+                            document.cookie = 'reminders_shown=1; path=/; max-age=3600';
+                        }
+                    } catch {}
+                }
+            },
+
+            async dismiss() {
+                for (const r of this.reminders) {
+                    await fetch(`/tools/reminders/${r.id}/dismiss`, {
+                        method: 'POST',
+                        headers: { 'X-CSRF-TOKEN': token },
+                    });
+                }
+                this.show = false;
+            },
+        };
+    }
     </script>
 </body>
 </html>
