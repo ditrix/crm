@@ -75,4 +75,12 @@ return [
     'disable'               => 'Отключить',
     'active'                => 'Активен',
     'inactive'              => 'Неактивен',
+    'deals_total'           => 'Всего сделок',
+    'deals_in_progress'     => 'Оформляются',
+    'deals_active'          => 'Действующие сделки',
+    'deals_closed'          => 'Закрытые сделки',
+    'clients_potential'     => 'Потенциальные клиенты',
+    'clients_active'        => 'Действующие клиенты',
+    'clients_loyal'         => 'Лояльные клиенты',
+    'sales_funnel'          => 'Воронка продаж',
 ];

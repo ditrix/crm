@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Deal\DealController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Middleware\SetLocale;
@@ -29,7 +30,7 @@ Route::middleware(SetLocale::class)->group(function () {
     // Authenticated routes
     Route::middleware('auth')->group(function () {
         Route::get('/', fn () => redirect()->route('dashboard'));
-        Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+        Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
         // Clients
         Route::resource('clients', ClientController::class);

@@ -75,4 +75,12 @@ return [
     'disable'               => 'Disable',
     'active'                => 'Active',
     'inactive'              => 'Inactive',
+    'deals_total'           => 'Total deals',
+    'deals_in_progress'     => 'In progress',
+    'deals_active'          => 'Active deals',
+    'deals_closed'          => 'Closed deals',
+    'clients_potential'     => 'Potential clients',
+    'clients_active'        => 'Active clients',
+    'clients_loyal'         => 'Loyal clients',
+    'sales_funnel'          => 'Sales funnel',
 ];
