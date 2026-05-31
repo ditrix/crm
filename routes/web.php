@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Deal\DealController;
+use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +30,20 @@ Route::middleware(SetLocale::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/', fn () => redirect()->route('dashboard'));
         Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+
+        // Clients
+        Route::resource('clients', ClientController::class);
+        Route::post('clients/{id}/restore', [ClientController::class, 'restore'])->name('clients.restore');
+
+        // Deals
+        Route::resource('deals', DealController::class);
+        Route::post('deals/{id}/restore', [DealController::class, 'restore'])->name('deals.restore');
+
+        // Managers (head/admin only)
+        Route::prefix('managers')->name('managers.')->group(function () {
+            Route::get('/', [ManagerController::class, 'index'])->name('index');
+            Route::post('{user}/toggle', [ManagerController::class, 'toggle'])->name('toggle');
+            Route::post('clients/{client}/assign', [ManagerController::class, 'assignClient'])->name('assign-client');
+        });
     });
 });

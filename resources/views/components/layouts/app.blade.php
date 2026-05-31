@@ -28,18 +28,18 @@
                 {{ __('messages.dashboard') }}
             </x-nav-link>
 
-            <x-nav-link :href="'#'" :active="false">
+            <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
                 <x-icon name="users" class="w-5 h-5" />
                 {{ __('messages.clients') }}
             </x-nav-link>
 
-            <x-nav-link :href="'#'" :active="false">
+            <x-nav-link :href="route('deals.index')" :active="request()->routeIs('deals.*')">
                 <x-icon name="briefcase" class="w-5 h-5" />
                 {{ __('messages.deals') }}
             </x-nav-link>
 
             @if(auth()->user()?->isAdmin() || auth()->user()?->isHead())
-            <x-nav-link :href="'#'" :active="false">
+            <x-nav-link :href="route('managers.index')" :active="request()->routeIs('managers.*')">
                 <x-icon name="user-group" class="w-5 h-5" />
                 {{ __('messages.managers') }}
             </x-nav-link>
