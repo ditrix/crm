@@ -1,0 +1,315 @@
+---
+alwaysApply: true
+---
+## 📄 Формат записи в дневнике
+
+Все времена в этом документе и в дневниковых записях указываются в часовом поясе Europe/Kyiv.
+
+```markdown
+## <HH:MM (Europe/Kyiv)> <type>[<scope1[,scope2...]>] — <краткое описание>
+**Entry ID:** <ULID|timestamp>
+**Agent:** <Agent Name|Model ID>
+**Дата:** <YYYY-MM-DD>
+**Ветка:** <branch-name>
+
+### Файлы
+- `path/to/file.php` (+10 −3)
+
+### Что сделано
+<3–4 предложения>
+
+### Почему
+<1–3 предложения>
+
+### Влияние
+- **БД:** <описание или N/A>
+- **API:** <описание или N/A>
+- **Производительность:** <описание или N/A>
+
+### Проверено
+- Тесты: <новые|обновлены|N/A>
+- Линтер: <ok|todo>
+
+### Follow-up
+- [ ] <задачи или N/A>
+```
+
+### 🏷️ Типы изменений
+- `feat` — новая функциональность
+- `fix` — исправление бага
+- `refactor` — рефакторинг
+- `db` — изменения БД
+- `perf` — производительность
+- `docs` — документация
+- `chore` — рутинные задачи
+- `merge` — слияние веток
+
+### ✅ Когда документировать
+Документируй всегда, если изменён хотя бы один из следующих артефактов:
+- Любой `.php` в `app/*` (модели, контроллеры, сервисы, миддлвары, запросы, джобы, слушатели, провайдеры, компоненты)
+- Любой файл в `routes/*.php`
+- Любая миграция `database/migrations/*`
+- Любые API-контракты (структура ответов/запросов, ресурсы)
+- Любая бизнес-логика
+
+Не документируй только:
+- Чистое форматирование (Pint), комментарии без кода, тесты без изменений кода
+
+---
+
+## 🔒 Строгость правила (чтобы ВСЕГДА выполнялось)
+
+Обязательные проверки на каждом цикле работы:
+1) Gate — если изменяется что-либо в:
+   - `app/` (кроме чистого форматирования)
+   - `routes/`
+   - `database/migrations/`
+   - `resources/views/`
+   - `config/`
+   → Запускается обязательный workflow (Шаг 1 и Шаг 2).
+2) Append-only — все новые записи в `docs/changes/diary/*` и `docs/changes/tags/*` добавляются ТОЛЬКО в конец файлов; порядок старых записей сохраняется.
+3) Полнота скоупов — если затронуты роуты + контроллер + модель/сервис, обнови ВСЕ соответствующие теги (а не один).
+4) Отсутствующие файлы — если `docs/changes/diary/*` или `docs/changes/tags/<scope>.md` отсутствуют, создай их с корректными заголовками и структурой.
+5) Статус-обновления — до запуска чтений/изменений и после завершения публикации записей всегда публикуй короткий статус (что сделал/что делаю/риски).
+6) Check-list перед завершением задачи — убедись, что:
+   - [ ] Дневник обновлён
+   - [ ] ВСЕ релевантные теги обновлены
+   - [ ] Сообщение «✅ Документация обновлена: …» отправлено
+
+Если любой пункт невыполним (блокер) — немедленно запроси уточнение и остановись.
+
+---
+
+## 🧪 Примеры (адаптированы под проект)
+
+### Пример 1: «Добавь поле redirect_code в модель SeoRedirect»
+
+Перед началом (Уровень 2 — теги):
+- `model.seo-redirect`
+- `db.seo_redirects.migration`
+
+Затронутые файлы:
+- `app/Models/SeoRedirect.php`
+- `database/migrations/2026_05_18_120000_add_redirect_code_to_seo_redirects_table.php`
+
+Скоупы: `model.seo-redirect`, `db.seo_redirects.migration`
+
+Короткая запись в дневнике (фрагмент):
+```markdown
+## 12:05 (Europe/Kyiv) feat[model.seo-redirect,db.seo_redirects.migration] — redirect_code для SeoRedirect
+**Entry ID:** 01JAXXXXXXXSEO
+**Agent:** claude-sonnet-4-5
+**Дата:** 2026-05-18
+**Ветка:** feature/seo-redirect-code
+
+### Файлы
+- `app/Models/SeoRedirect.php` (+8 −0)
+- `database/migrations/2026_05_18_120000_add_redirect_code_to_seo_redirects_table.php` (+24 −0)
+
+### Что сделано
+Добавлено поле redirect_code в БД и модель SeoRedirect. Обновлены fillable и касты, добавлен индекс.
+
+### Почему
+Для расширенного управления типами редиректов в AdminPanel.
+
+### Влияние
+- **БД:** новая колонка `redirect_code` в `seo_redirects`
+- **API:** N/A
+- **Производительность:** минимально
+
+### Проверено
+- Тесты: новые
+- Линтер: ok
+```
+
+### Пример 2: «Создай Admin API endpoint для таблицы MainMenuItem»
+
+Перед началом (Уровень 2 — теги):
+- `api.admin.main-menu-items`
+- `controller.admin.api.main-menu-item`
+- `model.main-menu-item` (если затронута модель)
+
+Затронутые файлы:
+- `routes/admin-api.php`
+- `app/Http/Controllers/Admin/Api/MainMenuItemTableDataController.php`
+- `app/Http/Resources/Admin/MainMenuItemResource.php` (при наличии/создать)
+
+Скоупы: `api.admin.main-menu-items`, `controller.admin.api.main-menu-item`
+
+Короткая запись в дневнике (фрагмент):
+```markdown
+## 14:20 (Europe/Kyiv) feat[api.admin.main-menu-items,controller.admin.api.main-menu-item] — Admin API таблица MainMenuItem
+**Entry ID:** 01JAMAINMENU
+**Agent:** claude-sonnet-4-5
+**Дата:** 2026-05-18
+**Ветка:** feature/admin-api-main-menu-table
+
+### Файлы
+- `routes/admin-api.php` (+6 −0)
+- `app/Http/Controllers/Admin/Api/MainMenuItemTableDataController.php` (+55 −0)
+
+### Что сделано
+Добавлен Admin API endpoint GET `/admin/api/main-menu-items/table` для Bootstrap-Table. Доступ ограничен через `AdminPermission`. Ответ формируется через Resource с пагинацией.
+
+### Почему
+Необходимо для отображения пунктов меню в DataTable на странице управления.
+
+### Влияние
+- **БД:** N/A
+- **API:** новый endpoint GET `/admin/api/main-menu-items/table`
+- **Производительность:** N/A
+
+### Проверено
+- Тесты: новые
+- Линтер: ok
+```
+
+### Пример 3: «Создай Admin Web CRUD для Banner»
+
+Перед началом (Уровень 2 — теги):
+- `controller.admin.banner`
+- `request.admin.banner`
+- `view.admin.banner`
+
+Затронутые файлы:
+- `routes/admin-web.php`
+- `app/Http/Controllers/Admin/BannerController.php`
+- `app/Http/Requests/Admin/Banner/StoreBannerRequest.php`
+- `app/Http/Requests/Admin/Banner/UpdateBannerRequest.php`
+- `resources/views/admin/banners/` (index, create, edit, show)
+
+Скоупы: `controller.admin.banner`, `request.admin.banner`, `view.admin.banner`
+
+Короткая запись (фрагмент):
+```markdown
+## 15:10 (Europe/Kyiv) feat[controller.admin.banner,request.admin.banner,view.admin.banner] — Admin Web CRUD Banner
+**Entry ID:** 01JABANNERCRUD
+**Agent:** claude-sonnet-4-5
+**Дата:** 2026-05-18
+**Ветка:** feature/admin-banner-crud
+
+### Файлы
+- `routes/admin-web.php` (+5 −0)
+- `app/Http/Controllers/Admin/BannerController.php` (+80 −0)
+- `app/Http/Requests/Admin/Banner/StoreBannerRequest.php` (+30 −0)
+- `app/Http/Requests/Admin/Banner/UpdateBannerRequest.php` (+28 −0)
+- `resources/views/admin/banners/index.blade.php` (+45 −0)
+
+### Что сделано
+Добавлен CRUD для баннеров в AdminPanel: маршруты `resource` в `admin-web.php`, контроллер с `AdminPermission`, Form Requests для Store/Update, Blade-шаблоны с Bootstrap.
+
+### Почему
+Требуется управление баннерами через интерфейс без деплоя.
+
+### Влияние
+- **БД:** N/A
+- **API:** N/A
+- **UI:** новые страницы `/admin/banners/*`
+- **Производительность:** N/A
+
+### Проверено
+- Тесты: новые
+- Линтер: ok
+```
+
+### Пример 4: «Добавить валидацию в форму логина администратора»
+
+Перед началом (Уровень 2 — теги):
+- `request.admin.auth.login`
+- `auth.admin`
+
+Затронутые файлы:
+- `app/Http/Requests/Admin/Auth/LoginRequest.php`
+- `app/Http/Controllers/Admin/Auth/LoginController.php`
+
+Скоупы: `request.admin.auth.login`, `auth.admin`
+
+---
+
+## 🔀 Специальный случай: MERGE
+
+Формат записи:
+```markdown
+## <HH:MM (Europe/Kyiv)> merge[<главные-скоупы>] — Merge <source-branch> → <target-branch>
+**Entry ID:** <ULID|timestamp>
+**Agent:** <Agent Name|Model ID>
+**Дата:** <YYYY-MM-DD>
+**Merge:** <source-branch> → <target-branch>
+
+### Ветки
+- **Source:** <source-branch>
+- **Target:** <target-branch>
+- **Merge commit:** <hash> (если есть)
+
+### Файлы
+- `path/to/file1.php` (+15 −3)
+- `path/to/file2.php` (+42 −0)
+… (+N файлов)
+
+### Что смерджено
+<3–4 предложения>
+
+### Конфликты
+- **Были конфликты:** <да|нет>
+- **Файлы с конфликтами:** <список или N/A>
+- **Как разрешены:** <кратко или N/A>
+
+### Влияние
+- **БД:** <миграции или N/A>
+- **API:** <breaking changes или N/A>
+- **Производительность:** <N/A или описание>
+
+### Проверено
+- Тесты: <запущены|N/A>
+- Линтер: <ok|todo>
+- Конфликты: <разрешены|N/A>
+
+### Follow-up
+- [ ] <задачи или N/A>
+```
+
+Алгоритм:
+1) Получи: source, target, были ли конфликты, (опц.) merge hash
+2) Составь список файлов из merge (diff/stat)
+3) Определи главные скоупы (1–3)
+4) Создай запись как выше
+5) Обнови ВСЕ теги для затронутых скоупов
+6) Сообщи: «✅ Merge задокументирован: <source> → <target>, скоупы: <…>»
+
+---
+
+## 📝 Формат обновления тегов
+
+Каждый `docs/changes/tags/<scope>.md`:
+
+```markdown
+# Изменения: <scope>
+
+- <YYYY-MM-DD> — <описание> → [../../diary/YYYY/MM/YYYY-MM-DD-<branch>.md#<entry_id>]
+```
+
+Правила:
+- Новые записи добавляй ТОЛЬКО в КОНЕЦ файла
+- Если файл отсутствует — создай с заголовком
+- Обновляй ВСЕ релевантные теги, не только один
+
+---
+
+## ✅ Чеклист самоконтроля
+
+Перед началом:
+- [ ] Пройден Уровень 1 (быстрая оценка)
+- [ ] Если Уровень 1 = ✅: выполнен Уровень 2 (прочитаны теги в параллель)
+- [ ] Учтён найденный контекст
+
+После завершения:
+- [ ] Определены ВСЕ релевантные скоупы
+- [ ] Поле Agent заполнено корректно.
+- [ ] Запись добавлена в diary (в конец)
+- [ ] Обновлены ВСЕ tags/ (в конец)
+- [ ] Отправлено: «✅ Документация обновлена: …»
+
+---
+
+Примечание: В рамках этого правила запрещено публиковать секреты/токены. Соблюдай краткость (≤ 30 строк на запись), следуй архитектурным паттернам проекта и Laravel 10. Для фронтенда (Blade-шаблоны, JS) напоминай про `npm run build`/`npm run dev`, если изменения не видны. Admin Web роуты — `routes/admin-web.php` (префикс `/admin`), Admin API роуты — `routes/admin-api.php` (префикс `/admin/api`).
+
