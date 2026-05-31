@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'app_name'       => 'CRM',
+    'dashboard'      => 'Дашборд',
+    'clients'        => 'Клиенты',
+    'deals'          => 'Сделки',
+    'managers'       => 'Менеджеры',
+    'directories'    => 'Справочники',
+    'tools'          => 'Инструменты',
+    'calendar'       => 'Календарь',
+    'notes'          => 'Заметки',
+    'tasks'          => 'Задачи',
+    'reminders'      => 'Напоминания',
+    'settings'       => 'Настройки',
+    'profile'        => 'Профиль',
+    'system_log'     => 'Системный журнал',
+    'languages'      => 'Языки',
+    'dark_mode'      => 'Тёмная тема',
+    'light_mode'     => 'Светлая тема',
+    'show_archived'  => 'Показать архив',
+    'hide_archived'  => 'Скрыть архив',
+    'save'           => 'Сохранить',
+    'cancel'         => 'Отмена',
+    'delete'         => 'Удалить',
+    'edit'           => 'Редактировать',
+    'view'           => 'Просмотр',
+    'create'         => 'Создать',
+    'search'         => 'Поиск',
+    'no_data'        => 'Нет данных',
+    'today_tasks'    => 'Задачи на сегодня',
+    'call_reminder'  => 'Напоминание о запланированном звонке',
+];

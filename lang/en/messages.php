@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'app_name'       => 'CRM',
+    'dashboard'      => 'Dashboard',
+    'clients'        => 'Clients',
+    'deals'          => 'Deals',
+    'managers'       => 'Managers',
+    'directories'    => 'Directories',
+    'tools'          => 'Tools',
+    'calendar'       => 'Calendar',
+    'notes'          => 'Notes',
+    'tasks'          => 'Tasks',
+    'reminders'      => 'Reminders',
+    'settings'       => 'Settings',
+    'profile'        => 'Profile',
+    'system_log'     => 'System Log',
+    'languages'      => 'Languages',
+    'dark_mode'      => 'Dark mode',
+    'light_mode'     => 'Light mode',
+    'show_archived'  => 'Show archived',
+    'hide_archived'  => 'Hide archived',
+    'save'           => 'Save',
+    'cancel'         => 'Cancel',
+    'delete'         => 'Delete',
+    'edit'           => 'Edit',
+    'view'           => 'View',
+    'create'         => 'Create',
+    'search'         => 'Search',
+    'no_data'        => 'No data',
+    'today_tasks'    => 'Tasks for today',
+    'call_reminder'  => 'Scheduled call reminder',
+];
