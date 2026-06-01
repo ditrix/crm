@@ -16,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
 
     protected $fillable = [
         'name',
@@ -35,8 +35,8 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'is_active'         => 'boolean',
+            'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -60,10 +60,10 @@ class User extends Authenticatable
     public function avatarUrl(): string
     {
         if ($this->avatar) {
-            return asset('storage/' . $this->avatar);
+            return asset('storage/'.$this->avatar);
         }
 
-        return asset('images/noname.svg');
+        return asset('images/no_avatar_icon.svg');
     }
 
     // Relations

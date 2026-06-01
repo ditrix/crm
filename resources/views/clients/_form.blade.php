@@ -1,6 +1,6 @@
 @props(['client' => null, 'statuses', 'managers', 'route', 'method' => 'POST'])
 
-<form method="POST" action="{{ $route }}" class="space-y-5">
+<form method="POST" action="{{ $route }}" enctype="multipart/form-data" class="space-y-5">
     @csrf
     @if($method !== 'POST') @method($method) @endif
 
@@ -61,6 +61,38 @@
             </select>
         </div>
         @endif
+
+        {{-- Avatar --}}
+        <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{{ __('messages.client_avatar') }}</label>
+            <div class="flex items-center gap-4"
+                 x-data="{
+                     preview: '{{ $client?->avatar ? asset('storage/'.$client->avatar) : '' }}',
+                     handleFile(e) {
+                         const file = e.target.files[0];
+                         if (file) { this.preview = URL.createObjectURL(file); }
+                     }
+                 }">
+                <div class="flex-shrink-0">
+                    <img x-show="preview" :src="preview"
+                         class="w-16 h-16 rounded-xl object-cover border border-gray-200 dark:border-gray-600">
+                    <img x-show="!preview" src="{{ asset('images/no_image_icon.svg') }}"
+                         class="w-16 h-16 rounded-xl opacity-40">
+                </div>
+                <label class="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-xl border border-dashed border-gray-300 dark:border-gray-600 hover:border-indigo-400 transition text-sm text-gray-500 dark:text-gray-400">
+                    <x-icon name="arrow-up-tray" class="w-4 h-4" />
+                    <span>{{ __('messages.client_avatar') }}</span>
+                    <input type="file" name="avatar" accept="image/*" class="sr-only" @change="handleFile($event)">
+                </label>
+                @if($client?->avatar)
+                <label class="flex items-center gap-1.5 text-xs text-red-500 cursor-pointer">
+                    <input type="checkbox" name="remove_avatar" value="1" class="rounded">
+                    {{ __('messages.delete') }}
+                </label>
+                @endif
+            </div>
+            @error('avatar') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
+        </div>
 
         {{-- Comment --}}
         <div class="md:col-span-2">

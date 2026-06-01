@@ -17,11 +17,21 @@ class ManagerController extends Controller
     {
         $this->authorizeForHeadOrAdmin();
 
-        $managers = User::with('clients')
+        $managers = User::withCount('clients')
             ->role('manager')
             ->get();
 
         return view('managers.index', compact('managers'));
+    }
+
+    public function show(User $user): View
+    {
+        $this->authorizeForHeadOrAdmin();
+
+        $user->load(['clients.status']);
+        $managers = User::role('manager')->get(['id', 'name']);
+
+        return view('managers.show', compact('user', 'managers'));
     }
 
     public function toggle(User $user): RedirectResponse

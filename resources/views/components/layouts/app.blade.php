@@ -92,7 +92,7 @@
                 <x-icon name="cog-6-tooth" class="w-5 h-5" />
                 {{ __('messages.settings') }}
             </x-nav-link>
-            <x-nav-link :href="route('settings.log')" :active="request()->routeIs('settings.log')">
+            <x-nav-link href="/log-viewer" :active="request()->is('log-viewer*')">
                 <x-icon name="document-text" class="w-5 h-5" />
                 {{ __('messages.system_log') }}
             </x-nav-link>

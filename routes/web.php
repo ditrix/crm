@@ -11,7 +11,6 @@ use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Settings\ClientStatusController;
 use App\Http\Controllers\Settings\DealStatusController;
-use App\Http\Controllers\Settings\SystemLogController;
 use App\Http\Controllers\Settings\SystemSettingsController;
 use App\Http\Controllers\Tools\CalendarController;
 use App\Http\Controllers\Tools\NoteController;
@@ -62,6 +61,7 @@ Route::middleware(SetLocale::class)->group(function () {
         // Managers (head/admin only)
         Route::prefix('managers')->name('managers.')->group(function () {
             Route::get('/', [ManagerController::class, 'index'])->name('index');
+            Route::get('{user}', [ManagerController::class, 'show'])->name('show');
             Route::post('{user}/toggle', [ManagerController::class, 'toggle'])->name('toggle');
             Route::post('clients/{client}/assign', [ManagerController::class, 'assignClient'])->name('assign-client');
         });
@@ -100,8 +100,7 @@ Route::middleware(SetLocale::class)->group(function () {
 
         // Settings (admin only)
         Route::prefix('settings')->name('settings.')->middleware('role:admin')->group(function () {
-            // System log
-            Route::get('log', [SystemLogController::class, 'index'])->name('log');
+            // System log — handled by opcodesio/log-viewer at /log-viewer (gate: viewLogViewer)
 
             // System settings
             Route::get('/', [SystemSettingsController::class, 'index'])->name('index');

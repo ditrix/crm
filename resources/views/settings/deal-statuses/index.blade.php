@@ -79,9 +79,10 @@
                                             class="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400">
                                             <x-icon name="pencil" class="w-3.5 h-3.5" />
                                         </button>
-                                        <form method="POST" action="{{ route('settings.deal-statuses.destroy', $status) }}">
+                                        <form method="POST" action="{{ route('settings.deal-statuses.destroy', $status) }}"
+                                              x-data @submit.prevent="$dispatch('confirm-action', { form: $el })">
                                             @csrf @method('DELETE')
-                                            <button type="submit" onclick="return confirm('{{ __('messages.confirm_delete') }}')"
+                                            <button type="submit"
                                                 class="p-1.5 rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-red-400">
                                                 <x-icon name="trash" class="w-3.5 h-3.5" />
                                             </button>
@@ -108,4 +109,6 @@
             </div>
         </div>
     </div>
+
+    <x-confirm-modal />
 </x-layout>

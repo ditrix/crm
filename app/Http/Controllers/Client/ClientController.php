@@ -12,6 +12,7 @@ use App\Models\ClientStatus;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ClientController extends Controller
@@ -28,15 +29,9 @@ class ClientController extends Controller
             ->when(! $showArchived, fn ($q) => $q->withoutTrashed())
             ->when($request->filled('status'), fn ($q) => $q->where('client_status_id', $request->status))
             ->when($request->filled('manager'), fn ($q) => $q->where('manager_id', $request->manager))
-            ->when($request->filled('search'), fn ($q) => $q->where(function ($q) use ($request) {
-                $q->where('name', 'like', "%{$request->search}%")
-                  ->orWhere('email', 'like', "%{$request->search}%")
-                  ->orWhere('phone', 'like', "%{$request->search}%")
-                  ->orWhere('company', 'like', "%{$request->search}%");
-            }))
             ->latest();
 
-        $clients  = $query->paginate(20)->withQueryString();
+        $clients = $query->get();
         $statuses = ClientStatus::ordered()->get();
         $managers = User::active()->role('manager')->get();
 
@@ -55,8 +50,14 @@ class ClientController extends Controller
 
     public function store(StoreClientRequest $request): RedirectResponse
     {
-        $data             = $request->validated();
+        $data = $request->validated();
         $data['created_by'] = auth()->id();
+
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->store('clients', 'public');
+        } else {
+            unset($data['avatar']);
+        }
 
         Client::create($data);
 
@@ -85,7 +86,19 @@ class ClientController extends Controller
 
     public function update(UpdateClientRequest $request, Client $client): RedirectResponse
     {
-        $client->update($request->validated());
+        $data = $request->safe()->except(['avatar', 'remove_avatar']);
+
+        if ($request->hasFile('avatar')) {
+            if ($client->avatar) {
+                Storage::disk('public')->delete($client->avatar);
+            }
+            $data['avatar'] = $request->file('avatar')->store('clients', 'public');
+        } elseif ($request->boolean('remove_avatar') && $client->avatar) {
+            Storage::disk('public')->delete($client->avatar);
+            $data['avatar'] = null;
+        }
+
+        $client->update($data);
 
         return redirect()->route('clients.show', $client)
             ->with('success', __('messages.client_updated'));

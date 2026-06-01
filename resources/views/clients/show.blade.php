@@ -29,9 +29,7 @@
                 @if($client->avatar)
                     <img src="{{ asset('storage/'.$client->avatar) }}" class="w-16 h-16 rounded-2xl object-cover">
                 @else
-                    <div class="w-16 h-16 rounded-2xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center">
-                        <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ strtoupper(substr($client->name, 0, 1)) }}</span>
-                    </div>
+                    <img src="{{ asset('images/no_image_icon.svg') }}" class="w-16 h-16 rounded-2xl opacity-40">
                 @endif
                 <div>
                     <h2 class="font-semibold text-lg text-gray-900 dark:text-white">{{ $client->name }}</h2>
