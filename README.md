@@ -1,59 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CRM
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Система управления клиентами и сделками на Laravel 12 + Sail.
 
-## About Laravel
+## Требования
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (или Docker Engine + Docker Compose)
+- Git
+- Composer (для первоначальной установки зависимостей на хосте)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+> Все команды `artisan`, `composer`, `npm` и `php` в работе выполняются через Sail: `./vendor/bin/sail …`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Установка из репозитория
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```bash
+git clone <url-репозитория> crm
+cd crm
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Зависимости PHP
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Окружение
 
-### Premium Partners
+```bash
+cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Проверьте переменные БД в `.env` — они должны совпадать с `compose.yaml`:
 
-## Contributing
+| Переменная       | Значение    | Комментарий                                      |
+|------------------|-------------|--------------------------------------------------|
+| `DB_CONNECTION`  | `mysql`     | Не `sqlite`                                      |
+| `DB_HOST`        | `mysql`     | Имя сервиса Docker, **не** `127.0.0.1`           |
+| `DB_PORT`        | `3306`      |                                                  |
+| `DB_DATABASE`    | `crm`       |                                                  |
+| `DB_USERNAME`    | `sail`      | Пользователь, которого создаёт контейнер MySQL     |
+| `DB_PASSWORD`    | `password`  | Должен совпадать с паролем root в контейнере     |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Укажите идентификаторы пользователя для Sail (Linux/macOS):
 
-## Code of Conduct
+```bash
+echo "WWWUSER=$(id -u)" >> .env
+echo "WWWGROUP=$(id -g)" >> .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Запуск контейнеров
 
-## Security Vulnerabilities
+```bash
+./vendor/bin/sail up -d
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Инициализация приложения
 
-## License
+```bash
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Приложение доступно по адресу [http://localhost](http://localhost).
+
+---
+
+## Установка с нуля (без Laravel Installer)
+
+Создание нового проекта выполняется через Composer с указанием версии Laravel. Команда `laravel new` **не используется**.
+
+### 1. Создание проекта
+
+```bash
+composer create-project laravel/laravel:^12.0 crm
+cd crm
+```
+
+### 2. Laravel Sail + MySQL
+
+```bash
+composer require laravel/sail --dev
+php artisan sail:install --with=mysql --no-interaction
+```
+
+> Если `compose.yaml` уже есть в репозитории (как в этом проекте), шаг `sail:install` пропускается.
+
+### 3. Окружение
+
+```bash
+cp .env.example .env
+```
+
+Настройте `.env` по таблице выше (`DB_HOST=mysql`, `DB_USERNAME=sail`, `DB_PASSWORD=password` и т. д.) и добавьте `WWWUSER` / `WWWGROUP`:
+
+```bash
+echo "WWWUSER=$(id -u)" >> .env
+echo "WWWGROUP=$(id -g)" >> .env
+```
+
+### 4. Запуск
+
+```bash
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
+```
+
+---
+
+## Ежедневная работа
+
+```bash
+# Запуск контейнеров
+./vendor/bin/sail up -d
+
+# Остановка
+./vendor/bin/sail stop
+
+# Dev-сервер (Vite + queue + logs)
+./vendor/bin/sail composer run dev
+
+# Тесты
+./vendor/bin/sail artisan test
+```
+
+---
+
+## Типичные ошибки при установке
+
+### Access denied for user 'sail'@'…'
+
+**Причина:** в `.env` указан неверный хост, пользователь или пароль; либо MySQL-том был создан с другими учётными данными.
+
+**Решение:**
+
+1. Убедитесь, что `DB_HOST=mysql` (не `127.0.0.1` — это адрес только для подключения с хост-машины, например из GUI-клиента).
+2. Проверьте, что `DB_USERNAME=sail` и `DB_PASSWORD=password` совпадают с `compose.yaml`.
+3. Убедитесь, что `DB_CONNECTION=mysql` без опечаток.
+4. Если том MySQL уже существовал с другими настройками — пересоздайте его:
+
+```bash
+./vendor/bin/sail down -v
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan migrate
+```
+
+### Переменные WWWUSER / WWWGROUP не заданы
+
+Docker выводит предупреждение `The "WWWUSER" variable is not set`. Добавьте в `.env`:
+
+```bash
+echo "WWWUSER=$(id -u)" >> .env
+echo "WWWGROUP=$(id -g)" >> .env
+```
+
+Затем пересоберите контейнеры:
+
+```bash
+./vendor/bin/sail build --no-cache
+./vendor/bin/sail up -d
+```
+
+### Подключение к БД с хост-машины (TablePlus, DBeaver и т. п.)
+
+| Параметр   | Значение      |
+|------------|---------------|
+| Host       | `127.0.0.1`   |
+| Port       | `3306` (или значение `FORWARD_DB_PORT` из `.env`) |
+| Database   | `crm`         |
+| Username   | `sail`        |
+| Password   | `password`    |
