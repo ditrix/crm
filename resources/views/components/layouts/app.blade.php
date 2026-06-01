@@ -43,10 +43,16 @@
                 <x-icon name="user-group" class="w-5 h-5" />
                 {{ __('messages.managers') }}
             </x-nav-link>
+            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                <x-icon name="users" class="w-5 h-5" />
+                {{ __('messages.users') }}
+            </x-nav-link>
+            @endif
 
-            <x-nav-link :href="'#'" :active="false">
+            @if(auth()->user()?->isAdmin())
+            <x-nav-link :href="route('settings.client-statuses.index')" :active="request()->routeIs('settings.client-statuses.*')">
                 <x-icon name="tag" class="w-5 h-5" />
-                {{ __('messages.directories') }}
+                {{ __('messages.client_statuses') }}
             </x-nav-link>
             @endif
 
@@ -82,9 +88,13 @@
                     {{ __('messages.settings') }}
                 </p>
             </div>
-            <x-nav-link :href="'#'" :active="false">
+            <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index') || request()->routeIs('settings.update')">
                 <x-icon name="cog-6-tooth" class="w-5 h-5" />
                 {{ __('messages.settings') }}
+            </x-nav-link>
+            <x-nav-link :href="route('settings.log')" :active="request()->routeIs('settings.log')">
+                <x-icon name="document-text" class="w-5 h-5" />
+                {{ __('messages.system_log') }}
             </x-nav-link>
             @endif
         </nav>
@@ -151,8 +161,8 @@
                 </div>
 
                 {{-- Profile link --}}
-                <a href="#"
-                   class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                <a href="{{ route('profile') }}"
+                   class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition {{ request()->routeIs('profile*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}"
                    title="{{ __('messages.profile') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />

@@ -18,7 +18,8 @@
         @endcan
     </div>
 
-    <div class="max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 space-y-4">
+    <div class="max-w-2xl space-y-5">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 space-y-4">
         <div class="flex items-start justify-between">
             <div>
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $deal->title }}</h2>
@@ -47,5 +48,15 @@
         <div class="pt-3 border-t border-gray-100 dark:border-gray-700">
             <x-updated-by :user="$deal->updatedBy" :date="$deal->updated_at" />
         </div>
+    </div>
+
+    {{-- Files --}}
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5">
+        <h3 class="font-medium text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <x-icon name="paper-clip" class="w-4 h-4 text-gray-400" />
+            {{ __('messages.files') }}
+        </h3>
+        <x-file-uploader fileable-type="deal" :fileable-id="$deal->id" :files="$deal->files" />
+    </div>
     </div>
 </x-layout>

@@ -68,7 +68,7 @@ class ClientController extends Controller
     {
         $this->authorize('view', $client);
 
-        $client->load(['status', 'manager', 'deals.status', 'updatedBy', 'createdBy']);
+        $client->load(['status', 'manager', 'deals.status', 'updatedBy', 'createdBy', 'files']);
 
         return view('clients.show', compact('client'));
     }

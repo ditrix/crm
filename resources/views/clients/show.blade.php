@@ -76,7 +76,7 @@
         </div>
 
         {{-- Deals --}}
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-2 space-y-5">
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
                 <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
                     <h3 class="font-medium text-gray-900 dark:text-white">{{ __('messages.deals') }}</h3>
@@ -119,6 +119,15 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            {{-- Files --}}
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5">
+                <h3 class="font-medium text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <x-icon name="paper-clip" class="w-4 h-4 text-gray-400" />
+                    {{ __('messages.files') }}
+                </h3>
+                <x-file-uploader fileable-type="client" :fileable-id="$client->id" :files="$client->files" />
             </div>
         </div>
     </div>
