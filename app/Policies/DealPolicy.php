@@ -31,12 +31,12 @@ class DealPolicy
 
     public function delete(User $user, Deal $deal): bool
     {
-        return $user->isAdmin() || $user->isHead();
+        return $this->canAccess($user, $deal);
     }
 
     public function restore(User $user, Deal $deal): bool
     {
-        return $user->isAdmin() || $user->isHead();
+        return $this->canAccess($user, $deal);
     }
 
     private function canAccess(User $user, Deal $deal): bool

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Enums\UserRole;
 use App\Models\Client;
 use App\Models\User;
 
@@ -32,12 +31,12 @@ class ClientPolicy
 
     public function delete(User $user, Client $client): bool
     {
-        return $user->isAdmin() || $user->isHead();
+        return $this->canAccess($user, $client);
     }
 
     public function restore(User $user, Client $client): bool
     {
-        return $user->isAdmin() || $user->isHead();
+        return $this->canAccess($user, $client);
     }
 
     private function canAccess(User $user, Client $client): bool

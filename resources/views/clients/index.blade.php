@@ -82,6 +82,16 @@
                 <thead>
                     <tr class="border-b border-gray-100 dark:border-gray-700 text-left">
                         {{-- Sortable headers --}}
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none w-16"
+                            @click="sort('id')">
+                            <div class="flex items-center gap-1">
+                                ID
+                                <span class="flex flex-col leading-none">
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'asc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 6l5-6 5 6z"/></svg>
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'desc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg>
+                                </span>
+                            </div>
+                        </th>
                         <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none"
                             @click="sort('name')">
                             <div class="flex items-center gap-1">
@@ -93,6 +103,16 @@
                             </div>
                         </th>
                         <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell cursor-pointer select-none"
+                            @click="sort('email')">
+                            <div class="flex items-center gap-1">
+                                {{ __('messages.client_email') }}
+                                <span class="flex flex-col leading-none">
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'email' && sortDir === 'asc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 6l5-6 5 6z"/></svg>
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'email' && sortDir === 'desc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 hidden lg:table-cell cursor-pointer select-none"
                             @click="sort('phone')">
                             <div class="flex items-center gap-1">
                                 {{ __('messages.client_phone') }}
@@ -131,11 +151,14 @@
                 <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50" x-ref="tbody">
                     @forelse($clients as $client)
                     <tr class="{{ $client->trashed() ? 'opacity-50' : '' }} hover:bg-gray-50 dark:hover:bg-gray-700/30 transition"
-                        data-search="{{ strtolower($client->name . ' ' . $client->email . ' ' . $client->phone . ' ' . $client->company . ' ' . ($client->status?->name ?? '') . ' ' . ($client->manager?->name ?? '')) }}"
+                        data-search="{{ strtolower($client->id . ' ' . $client->name . ' ' . $client->email . ' ' . $client->phone . ' ' . $client->company . ' ' . ($client->status?->name ?? '') . ' ' . ($client->manager?->name ?? '')) }}"
+                        data-id="{{ $client->id }}"
                         data-name="{{ $client->name }}"
+                        data-email="{{ strtolower($client->email ?? '') }}"
                         data-phone="{{ $client->phone }}"
                         data-status="{{ $client->status?->name }}"
                         data-manager="{{ $client->manager?->name }}">
+                        <td class="px-4 py-3 text-gray-400 dark:text-gray-500 text-xs font-mono">{{ $client->id }}</td>
                         <td class="px-4 py-3">
                             <div class="flex items-center gap-3">
                                 @if($client->avatar)
@@ -151,7 +174,8 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-gray-500 dark:text-gray-400 hidden md:table-cell">{{ $client->phone ?? '—' }}</td>
+                        <td class="px-4 py-3 text-gray-500 dark:text-gray-400 hidden md:table-cell">{{ $client->email ?? '—' }}</td>
+                        <td class="px-4 py-3 text-gray-500 dark:text-gray-400 hidden lg:table-cell">{{ $client->phone ?? '—' }}</td>
                         <td class="px-4 py-3 hidden lg:table-cell">
                             <x-status-badge :slug="$client->status?->slug" :name="$client->status?->name" />
                         </td>
@@ -201,7 +225,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
+                        <td colspan="9" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
                             {{ __('messages.no_data') }}
                         </td>
                     </tr>
@@ -209,7 +233,7 @@
                     {{-- No results after client-side filtering --}}
                     @if($clients->count())
                     <tr x-show="search !== '' && visibleCount === 0" style="display:none">
-                        <td colspan="6" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
+                        <td colspan="9" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
                             {{ __('messages.no_data') }}
                         </td>
                     </tr>
@@ -217,6 +241,12 @@
                 </tbody>
             </table>
         </div>
+
+        @if($clients->hasPages())
+        <div class="mt-4">
+            {{ $clients->links() }}
+        </div>
+        @endif
     </div>
 
     <x-confirm-modal />

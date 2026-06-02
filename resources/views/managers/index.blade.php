@@ -5,21 +5,45 @@
         <x-alert class="mb-4">{{ session('success') }}</x-alert>
     @endif
 
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
-        <table class="w-full text-sm">
-            <thead>
-                <tr class="border-b border-gray-100 dark:border-gray-700 text-left">
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.client_name') }}</th>
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">Email</th>
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">{{ __('messages.clients') }}</th>
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.active') }}</th>
-                    <th class="px-4 py-3"></th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50">
-                @forelse($managers as $manager)
-                <tr class="{{ ! $manager->is_active ? 'opacity-50' : '' }} hover:bg-gray-50 dark:hover:bg-gray-700/30 transition">
-                    <td class="px-4 py-3">
+    <div x-data="crmTable()">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-gray-100 dark:border-gray-700 text-left">
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none w-16"
+                            @click="sort('id')">
+                            <div class="flex items-center gap-1">
+                                ID
+                                <span class="flex flex-col leading-none">
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'asc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 6l5-6 5 6z"/></svg>
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'desc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none"
+                            @click="sort('name')">
+                            <div class="flex items-center gap-1">
+                                {{ __('messages.client_name') }}
+                                <span class="flex flex-col leading-none">
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'name' && sortDir === 'asc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 6l5-6 5 6z"/></svg>
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'name' && sortDir === 'desc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">Email</th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">{{ __('messages.clients') }}</th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.active') }}</th>
+                        <th class="px-4 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50" x-ref="tbody">
+                    @forelse($managers as $manager)
+                    <tr class="{{ ! $manager->is_active ? 'opacity-50' : '' }} hover:bg-gray-50 dark:hover:bg-gray-700/30 transition"
+                        data-search="{{ strtolower($manager->id . ' ' . $manager->name . ' ' . $manager->email) }}"
+                        data-id="{{ $manager->id }}"
+                        data-name="{{ $manager->name }}">
+                        <td class="px-4 py-3 text-gray-400 dark:text-gray-500 text-xs font-mono">{{ $manager->id }}</td>
+                        <td class="px-4 py-3">
                         <div class="flex items-center gap-3">
                             <img src="{{ $manager->avatarUrl() }}" class="w-8 h-8 rounded-full object-cover">
                             <span class="font-medium text-gray-900 dark:text-white">{{ $manager->name }}</span>
@@ -55,11 +79,18 @@
                     </td>
                 </tr>
                 @empty
-                <tr>
-                    <td colspan="5" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">{{ __('messages.no_data') }}</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                    <tr>
+                        <td colspan="6" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">{{ __('messages.no_data') }}</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($managers->hasPages())
+        <div class="mt-4">
+            {{ $managers->links() }}
+        </div>
+        @endif
     </div>
 </x-layout>

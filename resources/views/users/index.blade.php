@@ -13,21 +13,45 @@
         </a>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
-        <table class="w-full text-sm">
-            <thead>
-                <tr class="border-b border-gray-100 dark:border-gray-700 text-left">
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.name') }}</th>
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">Email</th>
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.role') }}</th>
-                    <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.status') }}</th>
-                    <th class="px-4 py-3 w-20"></th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50">
-                @foreach($users as $user)
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition">
-                    <td class="px-4 py-3">
+    <div x-data="crmTable()">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-gray-100 dark:border-gray-700 text-left">
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none w-16"
+                            @click="sort('id')">
+                            <div class="flex items-center gap-1">
+                                ID
+                                <span class="flex flex-col leading-none">
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'asc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 6l5-6 5 6z"/></svg>
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'desc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none"
+                            @click="sort('name')">
+                            <div class="flex items-center gap-1">
+                                {{ __('messages.name') }}
+                                <span class="flex flex-col leading-none">
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'name' && sortDir === 'asc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 6l5-6 5 6z"/></svg>
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'name' && sortDir === 'desc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg>
+                                </span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">Email</th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.role') }}</th>
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.status') }}</th>
+                        <th class="px-4 py-3 w-20"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50" x-ref="tbody">
+                    @foreach($users as $user)
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition"
+                        data-search="{{ strtolower($user->id . ' ' . $user->name . ' ' . $user->email) }}"
+                        data-id="{{ $user->id }}"
+                        data-name="{{ $user->name }}">
+                        <td class="px-4 py-3 text-gray-400 dark:text-gray-500 text-xs font-mono">{{ $user->id }}</td>
+                        <td class="px-4 py-3">
                         <div class="flex items-center gap-3">
                             <img src="{{ $user->avatarUrl() }}" class="w-8 h-8 rounded-xl object-cover bg-gray-200 dark:bg-gray-700" alt="">
                             <span class="font-medium text-gray-900 dark:text-white">{{ $user->name }}</span>
@@ -62,8 +86,15 @@
                         @endif
                     </td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        @if($users->hasPages())
+        <div class="mt-4">
+            {{ $users->links() }}
+        </div>
+        @endif
     </div>
 </x-layout>

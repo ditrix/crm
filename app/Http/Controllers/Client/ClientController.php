@@ -31,7 +31,7 @@ class ClientController extends Controller
             ->when($request->filled('manager'), fn ($q) => $q->where('manager_id', $request->manager))
             ->latest();
 
-        $clients = $query->get();
+        $clients = $query->paginate(50)->withQueryString();
         $statuses = ClientStatus::ordered()->get();
         $managers = User::active()->role('manager')->get();
 
