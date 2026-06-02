@@ -164,13 +164,13 @@ Per-user, isolated data (no cross-user access):
 
 ### 4.8 Settings (`Settings\*`)
 
-Admin-only (`role:admin` middleware on `/settings/*`):
+Settings routes are split by role:
 
-- **SystemSettingsController:** app name and default locale persisted to `.env`.
-- **ClientStatusController / DealStatusController:** CRUD with soft delete and restore for reference statuses.
-- **Log viewer:** external package at `/log-viewer`, gated by `viewLogViewer`.
+- **System settings** (`role:admin` only): `SystemSettingsController` — app name and default locale persisted to `.env`.
+- **Status directories** (`role:admin|head`): `ClientStatusController` / `DealStatusController` — CRUD with soft delete and restore for client and deal statuses.
+- **Log viewer:** external package at `/log-viewer`, gated by `viewLogViewer` (admin only).
 
-Head and manager users have read-only access to status directories in the UI; CRUD is restricted to admin.
+Managers have no access to settings routes.
 
 ### 4.9 Users & Profile
 
@@ -187,25 +187,28 @@ Defined in `App\Enums\UserRole`:
 
 | Role | Slug | Capabilities |
 |---|---|---|
-| Administrator | `admin` | Full access; system settings; log viewer; status CRUD |
-| Head | `head` | All business data; manager management; user CRUD (managers/heads) |
-| Manager | `manager` | Own clients and their deals only; personal tools |
+| Administrator | `admin` | Full access; system settings; log viewer; status CRUD; user CRUD (all roles) |
+| Head | `head` | All business data; manager management; user CRUD (managers/heads); status CRUD |
+| Manager | `manager` | Own clients and deals; can create clients (auto-assigned as manager); personal tools |
 
 Roles are stored via Spatie Permission (`HasRoles` trait on `User`).
 
 ### 5.2 Policies
 
-**ClientPolicy** — `canAccess()` grants full access to admin/head; managers access only clients where `manager_id === user.id`. Managers cannot create clients.
+**ClientPolicy** — `canAccess()` grants full access to admin/head; managers access only clients where `manager_id === user.id`. `create()` allows any active user; `ClientController::store()` sets `manager_id` to the current user when the creator is a manager.
 
-**DealPolicy** — `canAccess()` grants full access to admin/head; managers access deals whose parent client's `manager_id` matches.
+**DealPolicy** — `canAccess()` grants full access to admin/head; managers access deals whose parent client's `manager_id` matches. `create()` allows any active user.
 
 ### 5.3 Route Protection
 
 ```php
 // routes/web.php (excerpt)
-Route::middleware('auth')->group(function () {
-    Route::prefix('settings')->middleware('role:admin')->group(function () {
-        // admin-only settings
+Route::prefix('settings')->group(function () {
+    Route::middleware('role:admin')->group(function () {
+        // system settings (app name, locale)
+    });
+    Route::middleware('role:admin|head')->group(function () {
+        // client-statuses, deal-statuses CRUD
     });
 });
 ```
