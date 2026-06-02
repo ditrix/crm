@@ -1,61 +1,67 @@
 # CRM
 
-Система управления клиентами и сделками на Laravel 12 + Sail.
+Web-based CRM for client and deal management with role-based access (administrator, head, manager). Built with Laravel 12, Blade, Alpine.js, and Tailwind. Includes personal tools (tasks, notes, calendar, reminders), file attachments, soft-delete archival, and i18n (EN/UA/RU). Local development via Laravel Sail.
 
-## Требования
+## Documentation
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (или Docker Engine + Docker Compose)
+- [Architecture](ARCHITECTURE.md) — system overview, data flow, modules, authorization
+- [Database schema](DB_SCHEMA.md) — ER diagram (Mermaid)
+- [Class diagram](CLASS_DIAGRAM.md) — controllers, policies, models (Mermaid)
+
+## Requirements
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine + Docker Compose)
 - Git
-- Composer (для первоначальной установки зависимостей на хосте)
+- Composer (for initial dependency installation on the host)
 
-> Все команды `artisan`, `composer`, `npm` и `php` в работе выполняются через Sail: `./vendor/bin/sail …`
+> All `artisan`, `composer`, `npm`, and `php` commands in day-to-day work run through Sail: `./vendor/bin/sail …`
 
 ---
 
-## Установка из репозитория
+## Installation from Repository
 
 ```bash
-git clone <url-репозитория> crm
+git clone <repository-url> crm
 cd crm
 ```
 
-### 1. Зависимости PHP
+### 1. PHP Dependencies
 
 ```bash
 composer install
 ```
 
-### 2. Окружение
+### 2. Environment
 
 ```bash
 cp .env.example .env
 ```
 
-Проверьте переменные БД в `.env` — они должны совпадать с `compose.yaml`:
+Verify database variables in `.env` — they must match `compose.yaml`:
 
-| Переменная       | Значение    | Комментарий                                      |
-|------------------|-------------|--------------------------------------------------|
-| `DB_CONNECTION`  | `mysql`     | Не `sqlite`                                      |
-| `DB_HOST`        | `mysql`     | Имя сервиса Docker, **не** `127.0.0.1`           |
-| `DB_PORT`        | `3306`      |                                                  |
-| `DB_DATABASE`    | `crm`       |                                                  |
-| `DB_USERNAME`    | `sail`      | Пользователь, которого создаёт контейнер MySQL     |
-| `DB_PASSWORD`    | `password`  | Должен совпадать с паролем root в контейнере     |
+| Variable        | Value      | Notes                                              |
+|-----------------|------------|----------------------------------------------------|
+| `DB_CONNECTION` | `mysql`    | Not `sqlite`                                       |
+| `DB_HOST`       | `mysql`    | Docker service name, **not** `127.0.0.1`           |
+| `DB_PORT`       | `3306`     |                                                    |
+| `DB_DATABASE`   | `crm`      |                                                    |
+| `DB_USERNAME`   | `sail`     | User created by the MySQL container                |
+| `DB_PASSWORD`   | `password` | Must match the root password in the container      |
 
-Укажите идентификаторы пользователя для Sail (Linux/macOS):
+Set Sail user identifiers (Linux/macOS):
 
 ```bash
 echo "WWWUSER=$(id -u)" >> .env
 echo "WWWGROUP=$(id -g)" >> .env
 ```
 
-### 3. Запуск контейнеров
+### 3. Start Containers
 
 ```bash
 ./vendor/bin/sail up -d
 ```
 
-### 4. Инициализация приложения
+### 4. Initialize Application
 
 ```bash
 ./vendor/bin/sail artisan key:generate
@@ -64,15 +70,15 @@ echo "WWWGROUP=$(id -g)" >> .env
 ./vendor/bin/sail npm run build
 ```
 
-Приложение доступно по адресу [http://localhost](http://localhost).
+The application is available at [http://localhost](http://localhost).
 
 ---
 
-## Установка с нуля (без Laravel Installer)
+## Fresh Install (without `laravel new`)
 
-Создание нового проекта выполняется через Composer с указанием версии Laravel. Команда `laravel new` **не используется**.
+Create a new project via Composer with an explicit Laravel version. The `laravel new` command is **not used**.
 
-### 1. Создание проекта
+### 1. Create Project
 
 ```bash
 composer create-project laravel/laravel:^12.0 crm
@@ -86,22 +92,22 @@ composer require laravel/sail --dev
 php artisan sail:install --with=mysql --no-interaction
 ```
 
-> Если `compose.yaml` уже есть в репозитории (как в этом проекте), шаг `sail:install` пропускается.
+> If `compose.yaml` already exists in the repository (as in this project), skip the `sail:install` step.
 
-### 3. Окружение
+### 3. Environment
 
 ```bash
 cp .env.example .env
 ```
 
-Настройте `.env` по таблице выше (`DB_HOST=mysql`, `DB_USERNAME=sail`, `DB_PASSWORD=password` и т. д.) и добавьте `WWWUSER` / `WWWGROUP`:
+Configure `.env` using the table above (`DB_HOST=mysql`, `DB_USERNAME=sail`, `DB_PASSWORD=password`, etc.) and add `WWWUSER` / `WWWGROUP`:
 
 ```bash
 echo "WWWUSER=$(id -u)" >> .env
 echo "WWWGROUP=$(id -g)" >> .env
 ```
 
-### 4. Запуск
+### 4. Start
 
 ```bash
 ./vendor/bin/sail up -d
@@ -110,68 +116,3 @@ echo "WWWGROUP=$(id -g)" >> .env
 ./vendor/bin/sail npm install
 ./vendor/bin/sail npm run build
 ```
-
----
-
-## Ежедневная работа
-
-```bash
-# Запуск контейнеров
-./vendor/bin/sail up -d
-
-# Остановка
-./vendor/bin/sail stop
-
-# Dev-сервер (Vite + queue + logs)
-./vendor/bin/sail composer run dev
-
-# Тесты
-./vendor/bin/sail artisan test
-```
-
----
-
-## Типичные ошибки при установке
-
-### Access denied for user 'sail'@'…'
-
-**Причина:** в `.env` указан неверный хост, пользователь или пароль; либо MySQL-том был создан с другими учётными данными.
-
-**Решение:**
-
-1. Убедитесь, что `DB_HOST=mysql` (не `127.0.0.1` — это адрес только для подключения с хост-машины, например из GUI-клиента).
-2. Проверьте, что `DB_USERNAME=sail` и `DB_PASSWORD=password` совпадают с `compose.yaml`.
-3. Убедитесь, что `DB_CONNECTION=mysql` без опечаток.
-4. Если том MySQL уже существовал с другими настройками — пересоздайте его:
-
-```bash
-./vendor/bin/sail down -v
-./vendor/bin/sail up -d
-./vendor/bin/sail artisan migrate
-```
-
-### Переменные WWWUSER / WWWGROUP не заданы
-
-Docker выводит предупреждение `The "WWWUSER" variable is not set`. Добавьте в `.env`:
-
-```bash
-echo "WWWUSER=$(id -u)" >> .env
-echo "WWWGROUP=$(id -g)" >> .env
-```
-
-Затем пересоберите контейнеры:
-
-```bash
-./vendor/bin/sail build --no-cache
-./vendor/bin/sail up -d
-```
-
-### Подключение к БД с хост-машины (TablePlus, DBeaver и т. п.)
-
-| Параметр   | Значение      |
-|------------|---------------|
-| Host       | `127.0.0.1`   |
-| Port       | `3306` (или значение `FORWARD_DB_PORT` из `.env`) |
-| Database   | `crm`         |
-| Username   | `sail`        |
-| Password   | `password`    |
