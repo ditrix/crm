@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
         if (User::count() === 0) {
             $admin = User::create([
                 'name'     => 'Administrator',
-                'email'    => 'admin@mail.in',
+                'email'    => 'admin@mail.com',
                 'password' => bcrypt('password'),
                 'is_active' => true,
             ]);

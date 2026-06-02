@@ -42,7 +42,7 @@ class FakeDataSeeder extends Seeder
 
         // -- Users --
         $head = User::firstOrCreate(
-            ['email' => 'master@mail.in'],
+            ['email' => 'master@mail.com'],
             ['name' => 'Master Head', 'password' => Hash::make('password'), 'is_active' => true]
         );
         $head->syncRoles([UserRole::Head->value]);
@@ -50,7 +50,7 @@ class FakeDataSeeder extends Seeder
         $managers = [];
         foreach ([1, 2] as $i) {
             $manager = User::firstOrCreate(
-                ['email' => "manager{$i}@mail.in"],
+                ['email' => "manager{$i}@mail.com"],
                 ['name' => "Manager {$i}", 'password' => Hash::make('password'), 'is_active' => true]
             );
             $manager->syncRoles([UserRole::Manager->value]);
