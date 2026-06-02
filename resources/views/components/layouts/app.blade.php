@@ -49,10 +49,14 @@
             </x-nav-link>
             @endif
 
-            @if(auth()->user()?->isAdmin())
+            @if(auth()->user()?->isAdmin() || auth()->user()?->isHead())
             <x-nav-link :href="route('settings.client-statuses.index')" :active="request()->routeIs('settings.client-statuses.*')">
                 <x-icon name="tag" class="w-5 h-5" />
                 {{ __('messages.client_statuses') }}
+            </x-nav-link>
+            <x-nav-link :href="route('settings.deal-statuses.index')" :active="request()->routeIs('settings.deal-statuses.*')">
+                <x-icon name="tag" class="w-5 h-5" />
+                {{ __('messages.deal_statuses') }}
             </x-nav-link>
             @endif
 

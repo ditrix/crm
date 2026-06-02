@@ -98,27 +98,28 @@ Route::middleware(SetLocale::class)->group(function () {
             Route::get('reminders/pending', [ReminderController::class, 'pending'])->name('reminders.pending');
         });
 
-        // Settings (admin only)
-        Route::prefix('settings')->name('settings.')->middleware('role:admin')->group(function () {
-            // System log — handled by opcodesio/log-viewer at /log-viewer (gate: viewLogViewer)
+        // Settings
+        Route::prefix('settings')->name('settings.')->group(function () {
+            // System settings (admin only)
+            Route::middleware('role:admin')->group(function () {
+                Route::get('/', [SystemSettingsController::class, 'index'])->name('index');
+                Route::patch('/', [SystemSettingsController::class, 'update'])->name('update');
+            });
 
-            // System settings
-            Route::get('/', [SystemSettingsController::class, 'index'])->name('index');
-            Route::patch('/', [SystemSettingsController::class, 'update'])->name('update');
+            // Status directories (admin + head)
+            Route::middleware('role:admin|head')->group(function () {
+                Route::get('client-statuses', [ClientStatusController::class, 'index'])->name('client-statuses.index');
+                Route::post('client-statuses', [ClientStatusController::class, 'store'])->name('client-statuses.store');
+                Route::patch('client-statuses/{clientStatus}', [ClientStatusController::class, 'update'])->name('client-statuses.update');
+                Route::delete('client-statuses/{clientStatus}', [ClientStatusController::class, 'destroy'])->name('client-statuses.destroy');
+                Route::post('client-statuses/{id}/restore', [ClientStatusController::class, 'restore'])->name('client-statuses.restore');
 
-            // Client statuses
-            Route::get('client-statuses', [ClientStatusController::class, 'index'])->name('client-statuses.index');
-            Route::post('client-statuses', [ClientStatusController::class, 'store'])->name('client-statuses.store');
-            Route::patch('client-statuses/{clientStatus}', [ClientStatusController::class, 'update'])->name('client-statuses.update');
-            Route::delete('client-statuses/{clientStatus}', [ClientStatusController::class, 'destroy'])->name('client-statuses.destroy');
-            Route::post('client-statuses/{id}/restore', [ClientStatusController::class, 'restore'])->name('client-statuses.restore');
-
-            // Deal statuses
-            Route::get('deal-statuses', [DealStatusController::class, 'index'])->name('deal-statuses.index');
-            Route::post('deal-statuses', [DealStatusController::class, 'store'])->name('deal-statuses.store');
-            Route::patch('deal-statuses/{dealStatus}', [DealStatusController::class, 'update'])->name('deal-statuses.update');
-            Route::delete('deal-statuses/{dealStatus}', [DealStatusController::class, 'destroy'])->name('deal-statuses.destroy');
-            Route::post('deal-statuses/{id}/restore', [DealStatusController::class, 'restore'])->name('deal-statuses.restore');
+                Route::get('deal-statuses', [DealStatusController::class, 'index'])->name('deal-statuses.index');
+                Route::post('deal-statuses', [DealStatusController::class, 'store'])->name('deal-statuses.store');
+                Route::patch('deal-statuses/{dealStatus}', [DealStatusController::class, 'update'])->name('deal-statuses.update');
+                Route::delete('deal-statuses/{dealStatus}', [DealStatusController::class, 'destroy'])->name('deal-statuses.destroy');
+                Route::post('deal-statuses/{id}/restore', [DealStatusController::class, 'restore'])->name('deal-statuses.restore');
+            });
         });
     });
 });

@@ -21,7 +21,7 @@ class ClientPolicy
 
     public function create(User $user): bool
     {
-        return $user->is_active && ! $user->isManager();
+        return $user->is_active;
     }
 
     public function update(User $user, Client $client): bool

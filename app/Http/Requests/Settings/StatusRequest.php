@@ -10,7 +10,9 @@ class StatusRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->user()?->isAdmin() ?? false;
+        $user = auth()->user();
+
+        return $user !== null && ($user->isAdmin() || $user->isHead());
     }
 
     public function rules(): array

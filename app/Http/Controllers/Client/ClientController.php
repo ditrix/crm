@@ -53,6 +53,10 @@ class ClientController extends Controller
         $data = $request->validated();
         $data['created_by'] = auth()->id();
 
+        if (auth()->user()->isManager()) {
+            $data['manager_id'] = auth()->id();
+        }
+
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->store('clients', 'public');
         } else {
