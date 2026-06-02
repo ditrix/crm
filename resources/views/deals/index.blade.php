@@ -79,6 +79,16 @@
             <table class="w-full text-sm">
                 <thead>
                     <tr class="border-b border-gray-100 dark:border-gray-700 text-left">
+                        <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none w-16"
+                            @click="sort('id')">
+                            <div class="flex items-center gap-1">
+                                ID
+                                <span class="flex flex-col leading-none">
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'asc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 6l5-6 5 6z"/></svg>
+                                    <svg class="w-2.5 h-2.5" :class="sortField === 'id' && sortDir === 'desc' ? 'text-indigo-500' : 'text-gray-300 dark:text-gray-600'" viewBox="0 0 10 6" fill="currentColor"><path d="M0 0l5 6 5-6z"/></svg>
+                                </span>
+                            </div>
+                        </th>
                         <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 cursor-pointer select-none"
                             @click="sort('title')">
                             <div class="flex items-center gap-1">
@@ -126,11 +136,13 @@
                 <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50" x-ref="tbody">
                     @forelse($deals as $deal)
                     <tr class="{{ $deal->trashed() ? 'opacity-50' : '' }} hover:bg-gray-50 dark:hover:bg-gray-700/30 transition"
-                        data-search="{{ strtolower($deal->title . ' ' . ($deal->client?->name ?? '') . ' ' . ($deal->status?->name ?? '')) }}"
+                        data-search="{{ strtolower($deal->id . ' ' . $deal->title . ' ' . ($deal->client?->name ?? '') . ' ' . ($deal->status?->name ?? '')) }}"
+                        data-id="{{ $deal->id }}"
                         data-title="{{ $deal->title }}"
                         data-client="{{ $deal->client?->name }}"
                         data-status="{{ $deal->status?->name }}"
                         data-amount="{{ $deal->amount }}">
+                        <td class="px-4 py-3 text-gray-400 dark:text-gray-500 text-xs font-mono">{{ $deal->id }}</td>
                         <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">{{ $deal->title }}</td>
                         <td class="px-4 py-3 text-gray-500 dark:text-gray-400 hidden md:table-cell">{{ $deal->client?->name ?? '—' }}</td>
                         <td class="px-4 py-3 hidden lg:table-cell">
@@ -182,13 +194,13 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">{{ __('messages.no_data') }}</td>
+                        <td colspan="7" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">{{ __('messages.no_data') }}</td>
                     </tr>
                     @endforelse
                     {{-- No results after client-side filtering --}}
                     @if($deals->count())
                     <tr x-show="search !== '' && visibleCount === 0" style="display:none">
-                        <td colspan="6" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
+                        <td colspan="7" class="px-4 py-12 text-center text-gray-400 dark:text-gray-500">
                             {{ __('messages.no_data') }}
                         </td>
                     </tr>
@@ -196,6 +208,12 @@
                 </tbody>
             </table>
         </div>
+
+        @if($deals->hasPages())
+        <div class="mt-4">
+            {{ $deals->links() }}
+        </div>
+        @endif
     </div>
 
     <x-confirm-modal />
