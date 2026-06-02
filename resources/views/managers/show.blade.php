@@ -56,6 +56,7 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-gray-100 dark:border-gray-700 text-left">
+                            <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 w-14">ID</th>
                             <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.client_name') }}</th>
                             <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">{{ __('messages.client_status') }}</th>
                             <th class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400">{{ __('messages.assign_manager') }}</th>
@@ -65,6 +66,7 @@
                     <tbody class="divide-y divide-gray-50 dark:divide-gray-700/50">
                         @forelse($user->clients as $client)
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition">
+                            <td class="px-4 py-3 text-xs font-mono text-gray-400 dark:text-gray-500">{{ $client->id }}</td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center gap-3">
                                     @if($client->avatar)
@@ -100,7 +102,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-8 text-center text-gray-400 dark:text-gray-500">{{ __('messages.no_data') }}</td>
+                            <td colspan="5" class="px-4 py-8 text-center text-gray-400 dark:text-gray-500">{{ __('messages.no_data') }}</td>
                         </tr>
                         @endforelse
                     </tbody>

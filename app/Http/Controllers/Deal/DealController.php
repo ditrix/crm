@@ -30,7 +30,7 @@ class DealController extends Controller
             ->when($request->filled('client'), fn ($q) => $q->where('client_id', $request->client))
             ->latest();
 
-        $deals = $query->get();
+        $deals = $query->paginate(50)->withQueryString();
         $statuses = DealStatus::ordered()->get();
         $clients = Client::mine()->get(['id', 'name']);
 

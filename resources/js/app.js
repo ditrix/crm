@@ -5,7 +5,7 @@ window.Alpine = Alpine;
 
 Alpine.data('crmTable', () => ({
     search: '',
-    sortField: '',
+    sortField: 'id',
     sortDir: 'asc',
     visibleCount: -1,
 
@@ -14,6 +14,7 @@ Alpine.data('crmTable', () => ({
             ? this.$refs.tbody.querySelectorAll('tr[data-search]').length
             : 0;
         this.$watch('search', () => this.filterRows());
+        this.$nextTick(() => this.applySort());
     },
 
     filterRows() {

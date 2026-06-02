@@ -19,7 +19,8 @@ class ManagerController extends Controller
 
         $managers = User::withCount('clients')
             ->role('manager')
-            ->get();
+            ->paginate(50)
+            ->withQueryString();
 
         return view('managers.index', compact('managers'));
     }

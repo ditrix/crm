@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         abort_unless(auth()->user()?->isAdmin() || auth()->user()?->isHead(), 403);
 
-        $users = User::with('roles')->latest()->get();
+        $users = User::with('roles')->latest()->paginate(50)->withQueryString();
 
         return view('users.index', compact('users'));
     }
@@ -38,9 +38,9 @@ class UserController extends Controller
         $this->guardRoleAccess($request->role);
 
         $user = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'password'  => Hash::make($request->password),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
             'is_active' => true,
         ]);
 
@@ -67,7 +67,7 @@ class UserController extends Controller
         abort_if($user->id === auth()->id() && $request->role !== auth()->user()->getRoleNames()->first(), 403);
 
         $user->update([
-            'name'      => $request->name,
+            'name' => $request->name,
             'is_active' => $request->boolean('is_active', true),
         ]);
 
