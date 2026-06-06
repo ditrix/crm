@@ -27,9 +27,22 @@ We enforce a strictly decoupled, clean-architecture approach using the **Model-R
 
 ## 2. Directory Structure Conventions
 
-Always place generated files in their respective domain-driven directory locations:
-app/ ├── Helpers/ # Global stateless helper functions (registered in composer.json) ├── Http/ │ ├── Controllers/ │ │ ├── Web/ # Standard Blade-based web controllers │ │ └── Api/ # Vue-friendly REST API controllers │ ├── Requests/ # Form Requests (validation & authorization) │ └── Resources/ # Eloquent JsonResources (API data transformers) ├── Models/ # Pure database schemas and Eloquent setups ├── Services/ # Cohesive business logic classes ├── Actions/ # Single-responsibility action classes ├── Traits/ # Reusable horizontal model behaviors (e.g., HasUuid) └── ViewModels/ # Data preparation classes strictly for Blade views resources/ └── js/ # Vue 3 Frontend components, composables, and stores
+## Directory Structure Conventions
 
+Always place generated files in their respective domain-driven directory locations:
+
+**Paths:**
+- `app/Helpers/` - Global stateless helper functions (registered in composer.json)
+- `app/Http/Controllers/Web/` - Standard Blade-based web controllers
+- `app/Http/Controllers/Api/` - Vue-friendly REST API controllers
+- `app/Http/Requests/` - Form Requests (validation & authorization)
+- `app/Http/Resources/` - Eloquent JsonResources (API data transformers)
+- `app/Models/` - Pure database schemas and Eloquent setups
+- `app/Services/` - Cohesive business logic classes
+- `app/Actions/` - Single-responsibility action classes
+- `app/Traits/` - Reusable horizontal model behaviors (e.g., HasUuid)
+- `app/ViewModels/` - Data preparation classes strictly for Blade views
+- `resources/js/` - Vue 3 frontend components, composables, and stores
 
 
 ---

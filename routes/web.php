@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\File\FileController;
-use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Settings\ClientStatusController;
-use App\Http\Controllers\Settings\DealStatusController;
-use App\Http\Controllers\Settings\SystemSettingsController;
-use App\Http\Controllers\Tools\CalendarController;
-use App\Http\Controllers\Tools\NoteController;
-use App\Http\Controllers\Tools\ReminderController;
-use App\Http\Controllers\Tools\TaskController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Web\Client\ClientController;
 use App\Http\Controllers\Web\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Deal\DealController;
+use App\Http\Controllers\Web\Manager\ManagerController;
+use App\Http\Controllers\Web\Settings\ClientStatusController;
+use App\Http\Controllers\Web\Settings\DealStatusController;
+use App\Http\Controllers\Web\Settings\SystemSettingsController;
+use App\Http\Controllers\Web\Tools\CalendarController;
+use App\Http\Controllers\Web\Tools\NoteController;
+use App\Http\Controllers\Web\Tools\ReminderController;
+use App\Http\Controllers\Web\Tools\TaskController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
