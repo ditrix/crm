@@ -19,19 +19,19 @@
                     :value="$dealsInProgress"
                     :label="__('messages.deals_in_progress')"
                     color="blue"
-                    :href="route('deals.index', ['status' => \App\Models\DealStatus::bySlug('in_progress')->value('id')])" />
+                    :href="route('deals.index', ['status' => $dealStatusLinks['in_progress']])" />
 
                 <x-kpi-card
                     :value="$dealsActive"
                     :label="__('messages.deals_active')"
                     color="green"
-                    :href="route('deals.index', ['status' => \App\Models\DealStatus::bySlug('active')->value('id')])" />
+                    :href="route('deals.index', ['status' => $dealStatusLinks['active']])" />
 
                 <x-kpi-card
                     :value="$dealsClosed"
                     :label="__('messages.deals_closed')"
                     color="gray"
-                    :href="route('deals.index', ['status' => \App\Models\DealStatus::bySlug('completed')->value('id')])" />
+                    :href="route('deals.index', ['status' => $dealStatusLinks['completed']])" />
             </div>
         </div>
 
@@ -45,13 +45,13 @@
                     :value="$clientsPotential"
                     :label="__('messages.clients_potential')"
                     color="amber"
-                    :href="route('clients.index', ['status' => \App\Models\ClientStatus::bySlug('potential')->value('id')])" />
+                    :href="route('clients.index', ['status' => $clientStatusLinks['potential']])" />
 
                 <x-kpi-card
                     :value="$clientsActive"
                     :label="__('messages.clients_active')"
                     color="green"
-                    :href="route('clients.index', ['status' => \App\Models\ClientStatus::bySlug('active')->value('id')])" />
+                    :href="route('clients.index', ['status' => $clientStatusLinks['active']])" />
 
                 <x-kpi-card
                     :value="$clientsLoyal"
