@@ -9,12 +9,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
+use App\Services\Cache\CacheInvalidator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class UserController extends Controller
 {
+    public function __construct(
+        private readonly CacheInvalidator $cacheInvalidator,
+    ) {}
+
     public function index(): View
     {
         abort_unless(auth()->user()?->isAdmin() || auth()->user()?->isHead(), 403);
@@ -46,6 +51,10 @@ class UserController extends Controller
 
         $user->syncRoles([$request->role]);
 
+        if ($request->role === UserRole::Manager->value) {
+            $this->cacheInvalidator->forgetManagers();
+        }
+
         return redirect()->route('users.index')
             ->with('success', __('messages.user_created'));
     }
@@ -72,6 +81,9 @@ class UserController extends Controller
         ]);
 
         $user->syncRoles([$request->role]);
+
+        $this->cacheInvalidator->forgetManagers();
+        $this->cacheInvalidator->invalidateUserRoles($user->fresh());
 
         return redirect()->route('users.index')
             ->with('success', __('messages.user_updated'));

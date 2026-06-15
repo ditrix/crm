@@ -5,15 +5,29 @@ declare(strict_types=1);
 namespace App\Services\Dashboard;
 
 use App\Models\Client;
-use App\Models\ClientStatus;
 use App\Models\Deal;
-use App\Models\DealStatus;
 use App\Models\Task;
 use App\Models\User;
+use App\Services\Cache\ReferenceDataCache;
+use App\Support\Cache\CacheKey;
+use Illuminate\Support\Facades\Cache;
 
 final class DashboardService
 {
+    public function __construct(
+        private readonly ReferenceDataCache $referenceDataCache,
+    ) {}
+
     public function getMetrics(User $user): array
+    {
+        return Cache::remember(
+            CacheKey::dashboardMetrics($user->id),
+            CacheKey::ENTITY_TTL,
+            fn () => $this->buildMetrics($user)
+        );
+    }
+
+    private function buildMetrics(User $user): array
     {
         $isManager = $user->isManager();
 
@@ -44,6 +58,9 @@ final class DashboardService
             ['label' => 'Completed', 'count' => $dealsClosed, 'slug' => 'completed'],
         ];
 
+        $dealStatusLinks = $this->referenceDataCache->dealStatusSlugMap();
+        $clientStatusLinks = $this->referenceDataCache->clientStatusSlugMap();
+
         return [
             'dealsTotal' => $dealsTotal,
             'dealsClosed' => $dealsClosed,
@@ -55,13 +72,13 @@ final class DashboardService
             'tasksToday' => $tasksToday,
             'funnelData' => $funnelData,
             'dealStatusLinks' => [
-                'in_progress' => DealStatus::bySlug('in_progress')->value('id'),
-                'active' => DealStatus::bySlug('active')->value('id'),
-                'completed' => DealStatus::bySlug('completed')->value('id'),
+                'in_progress' => $dealStatusLinks['in_progress'] ?? null,
+                'active' => $dealStatusLinks['active'] ?? null,
+                'completed' => $dealStatusLinks['completed'] ?? null,
             ],
             'clientStatusLinks' => [
-                'potential' => ClientStatus::bySlug('potential')->value('id'),
-                'active' => ClientStatus::bySlug('active')->value('id'),
+                'potential' => $clientStatusLinks['potential'] ?? null,
+                'active' => $clientStatusLinks['active'] ?? null,
             ],
         ];
     }
