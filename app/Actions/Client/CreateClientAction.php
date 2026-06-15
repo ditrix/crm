@@ -6,9 +6,14 @@ namespace App\Actions\Client;
 
 use App\Http\Requests\Client\StoreClientRequest;
 use App\Models\Client;
+use App\Services\Cache\CacheInvalidator;
 
 final class CreateClientAction
 {
+    public function __construct(
+        private readonly CacheInvalidator $cacheInvalidator,
+    ) {}
+
     public function execute(StoreClientRequest $request): Client
     {
         $data = $request->validated();
@@ -24,6 +29,10 @@ final class CreateClientAction
             unset($data['avatar']);
         }
 
-        return Client::create($data);
+        $client = Client::create($data);
+
+        $this->cacheInvalidator->forgetClient($client);
+
+        return $client;
     }
 }

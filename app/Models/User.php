@@ -44,17 +44,28 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->hasRole(UserRole::Admin->value);
+        return $this->hasSessionRole(UserRole::Admin->value);
     }
 
     public function isHead(): bool
     {
-        return $this->hasRole(UserRole::Head->value);
+        return $this->hasSessionRole(UserRole::Head->value);
     }
 
     public function isManager(): bool
     {
-        return $this->hasRole(UserRole::Manager->value);
+        return $this->hasSessionRole(UserRole::Manager->value);
+    }
+
+    private function hasSessionRole(string $role): bool
+    {
+        $sessionRoles = session('auth.roles');
+
+        if (is_array($sessionRoles)) {
+            return in_array($role, $sessionRoles, true);
+        }
+
+        return $this->hasRole($role);
     }
 
     public function avatarUrl(): string

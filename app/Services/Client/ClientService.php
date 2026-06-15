@@ -6,12 +6,19 @@ namespace App\Services\Client;
 
 use App\Http\Requests\Client\IndexClientRequest;
 use App\Models\Client;
-use App\Models\ClientStatus;
-use App\Models\User;
+use App\Services\Cache\CacheInvalidator;
+use App\Services\Cache\ReferenceDataCache;
+use App\Support\Cache\CacheKey;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 final class ClientService
 {
+    public function __construct(
+        private readonly ReferenceDataCache $referenceDataCache,
+        private readonly CacheInvalidator $cacheInvalidator,
+    ) {}
+
     public function paginateFiltered(IndexClientRequest $request): LengthAwarePaginator
     {
         $showArchived = $request->boolean('archived');
@@ -30,18 +37,24 @@ final class ClientService
     public function getFormOptions(): array
     {
         return [
-            'statuses' => ClientStatus::ordered()->get(),
-            'managers' => User::active()->role('manager')->get(),
+            'statuses' => $this->referenceDataCache->clientStatusesOrdered(),
+            'managers' => $this->referenceDataCache->activeManagers(),
         ];
     }
 
     public function loadForShow(Client $client): Client
     {
-        return $client->load(['status', 'manager', 'deals.status', 'updatedBy', 'createdBy', 'files']);
+        return Cache::remember(
+            CacheKey::clientShow($client->id),
+            CacheKey::ENTITY_TTL,
+            fn () => $client->load(['status', 'manager', 'deals.status', 'updatedBy', 'createdBy', 'files'])
+        );
     }
 
     public function delete(Client $client): void
     {
         $client->delete();
+
+        $this->cacheInvalidator->forgetClient($client);
     }
 }
