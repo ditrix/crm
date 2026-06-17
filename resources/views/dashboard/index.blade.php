@@ -71,7 +71,7 @@
                     :value="$tasksToday"
                     :label="__('messages.today_tasks')"
                     color="rose"
-                    :href="'#'" />
+                    :href="route('tools.tasks')" />
             </div>
         </div>
 

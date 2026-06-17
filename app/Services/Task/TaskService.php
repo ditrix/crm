@@ -6,10 +6,15 @@ namespace App\Services\Task;
 
 use App\Http\Requests\Task\IndexTaskRequest;
 use App\Models\Task;
+use App\Services\Cache\CacheInvalidator;
 use Illuminate\Database\Eloquent\Collection;
 
 final class TaskService
 {
+    public function __construct(
+        private readonly CacheInvalidator $cacheInvalidator,
+    ) {}
+
     public function listForUser(IndexTaskRequest $request): Collection
     {
         $showAll = $request->boolean('all');
@@ -23,6 +28,10 @@ final class TaskService
 
     public function delete(Task $task): void
     {
+        $userId = $task->user_id;
+
         $task->delete();
+
+        $this->cacheInvalidator->forgetDashboardMetrics($userId);
     }
 }

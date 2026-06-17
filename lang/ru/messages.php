@@ -100,6 +100,7 @@ return [
     'event_add' => 'Добавить событие',
     'event_created' => 'Событие создано',
     'event_deleted' => 'Событие удалено',
+    'calendar_invalid_period' => 'Период выбран некорректно',
     'reminder_message' => 'Напоминание',
     'reminder_at' => 'Напомнить в',
     'reminder_add' => 'Добавить напоминание',

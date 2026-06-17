@@ -4,6 +4,9 @@
     @if(session('success'))
         <x-alert class="mb-4">{{ session('success') }}</x-alert>
     @endif
+    @if($errors->has('ends_at'))
+        <x-alert type="error" class="mb-4">{{ __('messages.calendar_invalid_period') }}</x-alert>
+    @endif
 
     <div class="max-w-2xl space-y-5">
 

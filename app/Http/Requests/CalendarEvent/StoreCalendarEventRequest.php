@@ -23,4 +23,11 @@ class StoreCalendarEventRequest extends FormRequest
             'all_day' => ['boolean'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'ends_at.after_or_equal' => __('messages.calendar_invalid_period'),
+        ];
+    }
 }

@@ -64,6 +64,11 @@ final class CacheInvalidator
         Cache::forget(CacheKey::activeManagers());
     }
 
+    public function forgetDashboardMetrics(int $userId): void
+    {
+        Cache::forget(CacheKey::dashboardMetrics($userId));
+    }
+
     public function forgetClientsByStatusId(int $statusId): void
     {
         Client::query()

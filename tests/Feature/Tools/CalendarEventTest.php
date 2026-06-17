@@ -54,5 +54,8 @@ class CalendarEventTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors('ends_at');
+        $response->assertSessionHasErrors([
+            'ends_at' => __('messages.calendar_invalid_period'),
+        ]);
     }
 }

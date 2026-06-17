@@ -100,6 +100,7 @@ return [
     'event_add' => 'Add event',
     'event_created' => 'Event created',
     'event_deleted' => 'Event deleted',
+    'calendar_invalid_period' => 'Selected period is invalid',
     'reminder_message' => 'Reminder',
     'reminder_at' => 'Remind at',
     'reminder_add' => 'Add reminder',

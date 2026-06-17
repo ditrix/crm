@@ -22,7 +22,7 @@ class CalendarEventFactory extends Factory
             'title' => fake()->sentence(3),
             'description' => fake()->optional()->paragraph(),
             'starts_at' => $startsAt,
-            'ends_at' => fake()->optional()->dateTimeBetween($startsAt, '+2 hours'),
+            'ends_at' => fake()->optional()->passthrough((clone $startsAt)->modify('+2 hours')),
             'all_day' => false,
         ];
     }
