@@ -1,5 +1,7 @@
 # UML Class Diagram
 
+MRSRB layer dependencies for the CRM domain. Controllers depend on Services, Actions, ViewModels, and FormRequests. Services and Actions depend on Models. ViewModels receive pre-loaded data from Services — they do not query the database directly.
+
 ```mermaid
 classDiagram
     direction TB
@@ -18,6 +20,8 @@ classDiagram
         +bootHasTrackedChanges() void
     }
 
+    %% ── Models ──
+
     class User {
         +id: int
         +name: string
@@ -27,29 +31,18 @@ classDiagram
         +isAdmin() bool
         +isHead() bool
         +isManager() bool
-        +avatarUrl() string
         +clients() HasMany
-        +notes() HasMany
         +tasks() HasMany
-        +calendarEvents() HasMany
-        +reminders() HasMany
         +scopeActive() Builder
     }
 
     class Client {
         +id: int
         +name: string
-        +email: string
-        +phone: string
-        +company: string
-        +avatar: string
-        +comment: string
         +client_status_id: int
         +manager_id: int
         +status() BelongsTo
         +manager() BelongsTo
-        +createdBy() BelongsTo
-        +updatedBy() BelongsTo
         +deals() HasMany
         +files() MorphMany
         +scopeMine() Builder
@@ -60,14 +53,11 @@ classDiagram
     class Deal {
         +id: int
         +title: string
-        +comment: string
         +amount: decimal
         +client_id: int
         +deal_status_id: int
         +client() BelongsTo
         +status() BelongsTo
-        +createdBy() BelongsTo
-        +updatedBy() BelongsTo
         +files() MorphMany
         +scopeWithStatus() Builder
         +scopeForManager() Builder
@@ -77,9 +67,6 @@ classDiagram
         +id: int
         +name: string
         +slug: string
-        +sort_order: int
-        +clients() HasMany
-        +scopeBySlug() Builder
         +scopeOrdered() Builder
     }
 
@@ -87,132 +74,35 @@ classDiagram
         +id: int
         +name: string
         +slug: string
-        +sort_order: int
-        +deals() HasMany
-        +scopeBySlug() Builder
         +scopeOrdered() Builder
+    }
+
+    class Task {
+        +id: int
+        +title: string
+        +due_date: date
+        +completed_at: timestamp
+        +user() BelongsTo
+        +scopePending() Builder
+        +scopeForToday() Builder
     }
 
     class File {
         +id: int
         +fileable_type: string
         +fileable_id: int
-        +original_name: string
-        +stored_name: string
-        +path: string
-        +mime_type: string
-        +size: int
         +fileable() MorphTo
-        +uploadedBy() BelongsTo
         +isImage() bool
-        +isPdf() bool
-        +formattedSize() string
-        +icon() string
     }
 
-    class Task {
-        +id: int
-        +title: string
-        +description: string
-        +due_date: date
-        +completed_at: timestamp
-        +user() BelongsTo
-        +scopePending() Builder
-        +scopeForToday() Builder
-        +isCompleted() bool
-    }
-
-    class Note {
-        +id: int
-        +content: text
-        +user() BelongsTo
-    }
-
-    class CalendarEvent {
-        +id: int
-        +title: string
-        +description: text
-        +starts_at: datetime
-        +ends_at: datetime
-        +all_day: bool
-        +user() BelongsTo
-    }
-
-    class Reminder {
-        +id: int
-        +message: string
-        +remind_at: datetime
-        +notified_at: timestamp
-        +user() BelongsTo
-        +scopePending() Builder
-    }
-
-    class ClientController {
-        +index(Request) View
-        +create() View
-        +store(StoreClientRequest) RedirectResponse
-        +show(Client) View
-        +edit(Client) View
-        +update(UpdateClientRequest, Client) RedirectResponse
-        +destroy(Client) RedirectResponse
-        +restore(int) RedirectResponse
-    }
-
-    class DealController {
-        +index(Request) View
-        +create() View
-        +store(StoreDealRequest) RedirectResponse
-        +show(Deal) View
-        +edit(Deal) View
-        +update(UpdateDealRequest, Deal) RedirectResponse
-        +destroy(Deal) RedirectResponse
-        +restore(int) RedirectResponse
-    }
-
-    class FileController {
-        +upload(Request) JsonResponse
-        +download(File) StreamedResponse
-        +view(File) StreamedResponse
-        +destroy(File) RedirectResponse
-    }
-
-    class DashboardController {
-        +__invoke() View
-    }
-
-    class ManagerController {
-        +index() View
-        +show(User) View
-        +toggle(User) RedirectResponse
-        +assignClient(Request, Client) RedirectResponse
-    }
-
-    class ClientPolicy {
-        +viewAny(User) bool
-        +view(User, Client) bool
-        +create(User) bool
-        +update(User, Client) bool
-        +delete(User, Client) bool
-        +restore(User, Client) bool
-        -canAccess(User, Client) bool
-    }
-
-    class DealPolicy {
-        +viewAny(User) bool
-        +view(User, Deal) bool
-        +create(User) bool
-        +update(User, Deal) bool
-        +delete(User, Deal) bool
-        +restore(User, Deal) bool
-        -canAccess(User, Deal) bool
-    }
+    %% ── Requests ──
 
     class StoreClientRequest {
         +authorize() bool
         +rules() array
     }
 
-    class UpdateClientRequest {
+    class IndexClientRequest {
         +authorize() bool
         +rules() array
     }
@@ -222,10 +112,150 @@ classDiagram
         +rules() array
     }
 
-    class UpdateDealRequest {
-        +authorize() bool
-        +rules() array
+    %% ── Services ──
+
+    class ClientService {
+        <<final>>
+        +paginateFiltered(IndexClientRequest) LengthAwarePaginator
+        +getFormOptions() array
+        +loadForShow(Client) Client
+        +delete(Client) void
     }
+
+    class DealService {
+        <<final>>
+        +paginateFiltered(IndexDealRequest) LengthAwarePaginator
+        +loadForShow(Deal) Deal
+        +update(Deal, array) void
+        +delete(Deal) void
+    }
+
+    class DashboardService {
+        <<final>>
+        +getMetrics(User) array
+    }
+
+    class TaskService {
+        <<final>>
+        +paginateForUser(User) Collection
+        +delete(Task) void
+    }
+
+    class ReferenceDataCache {
+        <<final>>
+        +clientStatusesOrdered() Collection
+        +activeManagers() Collection
+        +dealStatusSlugMap() array
+    }
+
+    class CacheInvalidator {
+        <<final>>
+        +forgetClient(Client) void
+        +forgetDeal(Deal) void
+        +forgetManagers() void
+    }
+
+    %% ── Actions ──
+
+    class CreateClientAction {
+        <<final>>
+        +execute(StoreClientRequest) Client
+    }
+
+    class UpdateClientAction {
+        <<final>>
+        +execute(UpdateClientRequest, Client) Client
+    }
+
+    class CreateDealAction {
+        <<final>>
+        +execute(array) Deal
+    }
+
+    class CreateTaskAction {
+        <<final>>
+        +execute(StoreTaskRequest) Task
+    }
+
+    %% ── ViewModels ──
+
+    class ClientIndexViewModel {
+        <<final>>
+        +from(ClientService, IndexClientRequest)$ ClientIndexViewModel
+        +toArray() array
+    }
+
+    class ClientShowViewModel {
+        <<final>>
+        +toArray() array
+    }
+
+    class DealIndexViewModel {
+        <<final>>
+        +from(DealService, IndexDealRequest)$ DealIndexViewModel
+        +toArray() array
+    }
+
+    class DashboardIndexViewModel {
+        <<final>>
+        +from(DashboardService, User)$ DashboardIndexViewModel
+        +toArray() array
+    }
+
+    class TaskIndexViewModel {
+        <<final>>
+        +from(TaskService, IndexTaskRequest)$ TaskIndexViewModel
+        +toArray() array
+    }
+
+    %% ── Controllers ──
+
+    class ClientController {
+        +index(IndexClientRequest, ClientService) View
+        +store(StoreClientRequest, CreateClientAction) RedirectResponse
+        +show(Client, ClientService) View
+        +update(UpdateClientRequest, Client, UpdateClientAction) RedirectResponse
+        +destroy(Client, ClientService) RedirectResponse
+    }
+
+    class DealController {
+        +index(IndexDealRequest, DealService) View
+        +store(StoreDealRequest, CreateDealAction) RedirectResponse
+        +show(Deal, DealService) View
+        +update(UpdateDealRequest, Deal, DealService) RedirectResponse
+    }
+
+    class DashboardController {
+        +__invoke(DashboardService) View
+    }
+
+    class TaskController {
+        +index(IndexTaskRequest, TaskService) View
+        +store(StoreTaskRequest, CreateTaskAction) RedirectResponse
+    }
+
+    class FileController {
+        <<bypass>>
+        +upload(Request) JsonResponse
+        +destroy(File) JsonResponse
+    }
+
+    %% ── Policies ──
+
+    class ClientPolicy {
+        +viewAny(User) bool
+        +view(User, Client) bool
+        +create(User) bool
+        -canAccess(User, Client) bool
+    }
+
+    class DealPolicy {
+        +viewAny(User) bool
+        +view(User, Deal) bool
+        -canAccess(User, Deal) bool
+    }
+
+    %% ── Model relations ──
 
     User --> UserRole : uses
     Client ..|> HasTrackedChanges : uses
@@ -238,36 +268,78 @@ classDiagram
     Deal "0..*" --> "1" DealStatus : belongsTo
     Client "1" --> "0..*" File : morphMany
     Deal "1" --> "0..*" File : morphMany
-    File "0..*" --> "1" User : uploadedBy
     User "1" --> "0..*" Task : hasMany
-    User "1" --> "0..1" Note : hasMany
-    User "1" --> "0..*" CalendarEvent : hasMany
-    User "1" --> "0..*" Reminder : hasMany
 
-    ClientController --> Client : queries
-    ClientController --> ClientPolicy : authorize
+    %% ── MRSRB dependencies ──
+
     ClientController --> StoreClientRequest : validates
-    ClientController --> UpdateClientRequest : validates
+    ClientController --> IndexClientRequest : validates
+    ClientController --> ClientService : reads
+    ClientController --> CreateClientAction : writes
+    ClientController --> UpdateClientAction : writes
+    ClientController --> ClientIndexViewModel : prepares view
+    ClientController --> ClientShowViewModel : prepares view
+    ClientController --> ClientPolicy : authorize
 
-    DealController --> Deal : queries
-    DealController --> DealPolicy : authorize
     DealController --> StoreDealRequest : validates
-    DealController --> UpdateDealRequest : validates
+    DealController --> DealService : reads/writes
+    DealController --> CreateDealAction : writes
+    DealController --> DealIndexViewModel : prepares view
+    DealController --> DealPolicy : authorize
 
-    FileController --> File : queries
-    FileController --> Client : resolves fileable
-    FileController --> Deal : resolves fileable
+    DashboardController --> DashboardService : reads
+    DashboardController --> DashboardIndexViewModel : prepares view
 
-    DashboardController --> Client : aggregates
-    DashboardController --> Deal : aggregates
-    DashboardController --> Task : aggregates
+    TaskController --> TaskService : reads
+    TaskController --> CreateTaskAction : writes
+    TaskController --> TaskIndexViewModel : prepares view
 
-    ManagerController --> User : queries
-    ManagerController --> Client : assigns
+    ClientService --> Client : queries
+    ClientService --> ReferenceDataCache : cache read
+    ClientService --> CacheInvalidator : cache invalidate
+
+    DealService --> Deal : queries
+    DealService --> ReferenceDataCache : cache read
+    DealService --> CacheInvalidator : cache invalidate
+
+    DashboardService --> Client : aggregates
+    DashboardService --> Deal : aggregates
+    DashboardService --> Task : aggregates
+    DashboardService --> ReferenceDataCache : cache read
+
+    CreateClientAction --> Client : creates
+    CreateClientAction --> CacheInvalidator : cache invalidate
+    CreateDealAction --> Deal : creates
+    CreateTaskAction --> Task : creates
+
+    ClientIndexViewModel --> ClientService : from()
+    DashboardIndexViewModel --> DashboardService : from()
+
+    StoreClientRequest --> ClientPolicy : authorize
+    StoreDealRequest --> DealPolicy : authorize
 
     ClientPolicy --> User : checks
     ClientPolicy --> Client : checks
-    DealPolicy --> User : checks
-    DealPolicy --> Deal : checks
     DealPolicy --> Client : checks via client
 ```
+
+## Bypass Modules (not shown in detail)
+
+These controllers intentionally skip Service/Action/ViewModel layers:
+
+| Controller | Pattern |
+|---|---|
+| `Auth\LoginController` | Inline validation, direct Auth facade |
+| `ProfileController` | Inline validation, direct User update |
+| `User\UserController` | FormRequest + inline Eloquent |
+| `File\FileController` | Inline validation, direct Eloquent/Storage |
+
+## Planned API Layer
+
+When Vue 3 REST endpoints are added, the flow extends MRSRB with:
+
+```
+ApiController → FormRequest → Service/Action → Model → JsonResource
+```
+
+`app/Http/Resources/` and `app/Http/Controllers/Api/` directories are reserved for this purpose.
