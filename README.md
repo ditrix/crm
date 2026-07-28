@@ -2,6 +2,18 @@
 
 Web-based CRM for client and deal management with role-based access (administrator, head, manager). Built with Laravel 12 following the **MRSRB** pattern (Model–Request–Service–Resource–Blade), Blade, Alpine.js, and Tailwind. Includes personal tools (tasks, notes, calendar, reminders), file attachments, soft-delete archival, Redis caching, and i18n (EN/UA/RU). Local development via Laravel Sail.
 
+![CRM login screen](docs/images/login-screen.png)
+
+## Screenshots
+
+Light theme dashboard:
+
+![CRM dashboard light theme](docs/images/dashboard-light.png)
+
+Dark theme user management:
+
+![CRM users dark theme](docs/images/users-dark.png)
+
 ## Documentation
 
 - [Architecture](ARCHITECTURE.md) — MRSRB layers, data flow, modules, authorization, caching
